@@ -29,7 +29,7 @@ router.delete('/api/user/:id/', userController.user_delete);
 
 // CASE
 
-/*
+
 // GET Case list
 router.get('/api/cases', caseController.case_list);
 
@@ -44,7 +44,7 @@ router.put('/api/case/:id/', caseController.case_update);
 
 // DELETE request for removing Case.
 router.delete('/api/case/:id/', caseController.case_delete);
-*/
+
 
 // LOCATION
 
