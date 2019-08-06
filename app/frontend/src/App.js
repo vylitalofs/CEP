@@ -1,6 +1,7 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import LoginForm from './LoginForm';
+import Menu from './Menu';
 
 class App extends React.Component {
 
@@ -13,6 +14,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="App" style={{width:600, margin:"auto"}}>
+               <Menu/>
                 <hr/>
                 <Switch>
                     
