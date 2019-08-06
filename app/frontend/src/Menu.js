@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {Icon, Button, Input, Menu, Label } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import {Button, Menu} from 'semantic-ui-react';
 
 export default class MenuExampleSecondary extends Component {
   state = { activeItem: 'home' }
@@ -11,7 +11,7 @@ export default class MenuExampleSecondary extends Component {
 
     return (
       
-      <Menu  secondary>
+      <Menu secondary>
         <Menu.Item header>
         ICON
         </Menu.Item>
