@@ -12,95 +12,95 @@ var caseStatusController = require('../controllers/caseStatusController');
 
 
 // GET User list
-router.get('/api/users', userController.user_list);
+router.get('/users', userController.user_list);
 
 // POST request for creating User.
-router.post('/api/user/create', userController.user_create);
+router.post('/user/create', userController.user_create);
 
 // GET request for one User.
-router.get('/api/user/:id', userController.user_detail);
+router.get('/user/:id', userController.user_detail);
 
 // PUT request for updating User.
-router.put('/api/user/:id/', userController.user_update);
+router.put('/user/:id/', userController.user_update);
 
 // DELETE request for removing User.
-router.delete('/api/user/:id/', userController.user_delete);
+router.delete('/user/:id/', userController.user_delete);
 
 
 // CASE
 
 
 // GET Case list
-router.get('/api/cases', caseController.case_list);
+router.get('/cases', caseController.case_list);
 
 // POST request for creating Case.
-router.post('/api/case/create', caseController.case_create);
+router.post('/case/create', caseController.case_create);
 
 // GET request for one Case.
-router.get('/api/case/:id', caseController.case_detail);
+router.get('/case/:id', caseController.case_detail);
 
 // PUT request for updating Case.
-router.put('/api/case/:id/', caseController.case_update);
+router.put('/case/:id/', caseController.case_update);
 
 // DELETE request for removing Case.
-router.delete('/api/case/:id/', caseController.case_delete);
+router.delete('/case/:id/', caseController.case_delete);
 
 
 // LOCATION
 
 
 // GET Location list
-router.get('/api/locations', locationController.location_list);
+router.get('/locations', locationController.location_list);
 
 // POST request for creating Location.
-router.post('/api/location/create', locationController.location_create);
+router.post('/location/create', locationController.location_create);
 
 // GET request for one Location.
-router.get('/api/location/:id', locationController.location_detail);
+router.get('/location/:id', locationController.location_detail);
 
 // PUT request for updating Location.
-router.put('/api/location/:id/', locationController.location_update);
+router.put('/location/:id/', locationController.location_update);
 
 // DELETE request for removing Location.
-router.delete('/api/location/:id/', locationController.location_delete);
+router.delete('/location/:id/', locationController.location_delete);
 
 
 // CASETYPE
 
 
 // GET Casetype list
-router.get('/api/casetypes', caseTypeController.caseType_list);
+router.get('/casetypes', caseTypeController.caseType_list);
 
 // POST request for creating Casetype.
-router.post('/api/casetype/create', caseTypeController.caseType_create);
+router.post('/casetype/create', caseTypeController.caseType_create);
 
 // GET request for one Casetype.
-router.get('/api/casetype/:id', caseTypeController.caseType_detail);
+router.get('/casetype/:id', caseTypeController.caseType_detail);
 
 // PUT request for updating Casetype.
-router.put('/api/casetype/:id/', caseTypeController.caseType_update);
+router.put('/casetype/:id/', caseTypeController.caseType_update);
 
 // DELETE request for removing Casetype.
-router.delete('/api/casetype/:id/', caseTypeController.caseType_delete);
+router.delete('/casetype/:id/', caseTypeController.caseType_delete);
 
 
 // CASESTATUS
 
 
 // GET Casestatus list
-router.get('/api/casestatuses', caseStatusController.caseStatus_list);
+router.get('/casestatuses', caseStatusController.caseStatus_list);
 
 // POST request for creating Casestatus.
-router.post('/api/casestatus/create', caseStatusController.caseStatus_create);
+router.post('/casestatus/create', caseStatusController.caseStatus_create);
 
 // GET request for one Casestatus.
-router.get('/api/casestatus/:id', caseStatusController.caseStatus_detail);
+router.get('/casestatus/:id', caseStatusController.caseStatus_detail);
 
 // PUT request for updating Casestatus.
-router.put('/api/casestatus/:id/', caseStatusController.caseStatus_update);
+router.put('/casestatus/:id/', caseStatusController.caseStatus_update);
 
 // DELETE request for removing Casestatus.
-router.delete('/api/casestatus/:id/', caseStatusController.caseStatus_delete);
+router.delete('/casestatus/:id/', caseStatusController.caseStatus_delete);
 
 
 

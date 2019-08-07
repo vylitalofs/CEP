@@ -3,8 +3,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/api');
-var usersRouter = require('./routes/login');
+var apiRouter = require('./routes/api');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', apiRouter);
+app.use('/login', loginRouter);
 
 module.exports = app;
