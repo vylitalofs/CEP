@@ -6,7 +6,7 @@ export default class LoginForm extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			username:"",
+			email:"",
 			password:""
 		}
 	}
@@ -21,12 +21,12 @@ export default class LoginForm extends React.Component {
 	login = (event) => {
 		event.preventDefault();
 		let user = {
-			username:this.state.username,
+			email:this.state.email,
 			password:this.state.password,
 		}
 
-		if (user.username.length < 4 || user.password.length < 4) {
-			alert("Username must be atleast four characters and password eight characters long.");
+		if ((user.email.length < 4) || user.password.length < 8) {
+			alert("Email must be atleast four characters and password eight characters long.");
 			return;
 		}
 		this.props.login(user);
@@ -38,12 +38,12 @@ export default class LoginForm extends React.Component {
 			<Form onSubmit={this.onSubmit}>
 
 				<Form.Field>
-					<label htmlFor="username">Username:</label>
+					<label htmlFor="username">Email:</label>
 					<input type="text"
-							name="username"
+							name="email"
 							required="required"
 							onChange={this.onChange}
-							value={this.state.username}/>
+							value={this.state.email}/>
 				</Form.Field>
 
 				<Form.Field>
