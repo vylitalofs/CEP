@@ -6,15 +6,17 @@ var authController = require('../controllers/authController');
 
 router.post("/logout", function(req, res) {
 	let token = req.headers.token;
-	if(token) {
+	if (token) {
 		Session.findOne({"token":token}, function(err, session) {
-			if(err) {
+			if (err) {
 				console.log("Find session failed. Still logging out");
 			}
-			session.remove()
+			if (session) {
+				session.remove()
+			}
 		});
 	}
-	return res.status(200).json({"message":"success"});
+	return res.status(200).json({"message":"session closed"});
 })
 
 router.post("/login", function(req, res) {
