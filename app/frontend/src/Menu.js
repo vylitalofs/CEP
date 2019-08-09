@@ -1,32 +1,42 @@
 import React, { Component } from 'react';
 import {Button, Menu} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
-export default class MenuExampleSecondary extends Component {
-  state = { activeItem: 'home' }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+export default class TopMenu extends Component {
+
 
   render() {
-    const { activeItem } = this.state
-
-    return (
+		//lisää elementit jos logattu sisään
+		//if(this.props.isLogged) {
+      let iconmenu = <Menu></Menu>
       
-      <Menu secondary>
-        <Menu.Item header>
-        ICON
+      iconmenu = <Menu secondary>
+        <Menu.Item header position='left'>
+          CEP ICON
         </Menu.Item>
-
-
-      <Menu.Menu borderless position ='right'>
-        <Menu.Item>Company</Menu.Item>
-        <Menu.Item name='name' active={activeItem === 'name'} onClick={this.handleItemClick} />
+        </Menu>
+      let topmenu = <Menu></Menu>
+      
+      topmenu = <Menu secondary>
+        <Menu.Item position='right'>
+        <Menu.Item >Company</Menu.Item>
+        <Menu.Item><Link to="/user">Name</Link></Menu.Item>
 
         <Menu.Item>
-            <Button primary>Log out</Button>
+          <Button primary>Log out</Button>
         </Menu.Item>
-
+        </Menu.Item>
+    </Menu>
+    return (
+      <Menu>
+        {iconmenu}
+        <Menu.Menu position='right'>
+          {topmenu}
         </Menu.Menu>
       </Menu>
+
+
       
 
 

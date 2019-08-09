@@ -16,15 +16,16 @@ class App extends React.Component {
     render() {
         return (
             <div className="App" style={{width:800, margin:"auto"}}>
-                <Segment>  
+                  
                 <Menu/>
-                </Segment>  
-                <Segment.Group  horizontal>
+                  
 
-                <Segment id="nav" style={{left: "auto"}}>
-                <NavBar/>
-                </Segment>
-                <Segment id="login" style={{right: "150px"}}>    
+                <Segment.Group  horizontal>
+                    <Segment id="nav" style={{left: "auto"}}>
+                        <NavBar/>
+                    </Segment>
+                <Segment id="login" style={{right: "150px"}}>
+
                 <Switch>
                     <Route exact path="/" render={() =>
                         <LoginForm />

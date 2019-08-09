@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button} from 'semantic-ui-react';
+import {Form, Button, Grid} from 'semantic-ui-react';
 
 export default class LoginForm extends React.Component {
 
@@ -38,25 +38,34 @@ export default class LoginForm extends React.Component {
 			<Form onSubmit={this.onSubmit} style={{left: "25%"}}>
 
 				<Form.Field>
-					<label htmlFor="username">Email:</label>
+				<div class="ui left icon input">		
 					<input type="text"
-							name="email"
-							required="required"
-							onChange={this.onChange}
-							value={this.state.email}/>
+						name="email"
+						placeholder="Email"
+						required="required"
+						onChange={this.onChange}
+						value={this.state.email}/>
+					<i class="mail icon"></i>
+				</div>
 				</Form.Field>
 
 				<Form.Field>
-					<label htmlFor="password" >Password:</label>
+				<div class="ui left icon input">	
 					<input type="password"
-							name="password"
-							required="required"
-							onChange={this.onChange}
-							value={this.state.password}/>
+						name="password"
+						placeholder="Password"
+						required="required"
+						onChange={this.onChange}
+						value={this.state.password}/>
+					<i class="lock icon"></i>
+				</div>
 				</Form.Field>
-
-				<Button onClick={this.login}>Login</Button>
-
+				
+				<Grid>
+					<Grid.Column textAlign="center">
+						<Button primary onClick={this.login}>Login</Button>
+					</Grid.Column>
+				</Grid>
 			</Form>
 
 		)
