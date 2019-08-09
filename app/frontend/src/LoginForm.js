@@ -35,7 +35,7 @@ export default class LoginForm extends React.Component {
 	render() {
 		return (
 
-			<Form onSubmit={this.onSubmit}>
+			<Form onSubmit={this.onSubmit} style={{left: "25%"}}>
 
 				<Form.Field>
 					<label htmlFor="username">Email:</label>
@@ -47,7 +47,7 @@ export default class LoginForm extends React.Component {
 				</Form.Field>
 
 				<Form.Field>
-					<label htmlFor="password">Password:</label>
+					<label htmlFor="password" >Password:</label>
 					<input type="password"
 							name="password"
 							required="required"
