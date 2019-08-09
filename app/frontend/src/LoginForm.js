@@ -25,7 +25,7 @@ export default class LoginForm extends React.Component {
 			password:this.state.password,
 		}
 
-		if ((user.email.length < 4) || user.password.length < 8) {
+		if (user.email.length < 4 || user.password.length < 8) {
 			alert("Email must be atleast four characters and password eight characters long.");
 			return;
 		}

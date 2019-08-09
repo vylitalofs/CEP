@@ -10,14 +10,83 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLogged:false,
+            isAdmin:false,
+            token:""
         }
+    }
+
+    saveToStorage = () => {
+        sessionStorage.setItem("state", JSON.stringify(this.state));
+    }
+
+    //LOGIN API
+  
+    handleStatus = (status) => {
+        if(status === 403) {
+            this.setState({
+                token:"",
+                isLogged:false,
+                isAdmin:false,
+            }, () => {this.saveToStorage()});
+        }
+    }
+    
+    login = (user) => {
+        let request = {
+            method:"POST",
+            mode:"cors",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(user)
+        }
+
+        fetch("/login", request).then(response => {
+            if(response.ok) {
+                response.json().then(data => {
+                    this.setState({
+                        isLogged:true,
+                        isAdmin:data.isAdmin,
+                        token:data.token
+                    }, () => {
+                        this.saveToStorage();
+                    })
+                }).catch(error => {
+                    console.log("Error parsing JSON");
+                })
+            } else {
+                console.log("Server responded with status:"+response.status);
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }  
+      
+    logout = () => {
+        let request = {
+            method:"POST",
+            mode:"cors",
+            headers:{"Content-Type":"application/json",
+            "token":this.state.token}
+        }
+
+        fetch("/logout",request).then(response => {
+            if(response.ok) {
+                this.setState({
+                    token:"",
+                    isLogged:false,
+                    isAdmin:false,
+                },() => {this.saveToStorage()});
+            } 
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     render() {
         return (
             <div className="App" style={{width:800, margin:"auto"}}>
                   
-                <Menu/>
+                <Menu logout={this.logout}/>
                   
 
                 <Segment.Group  horizontal>
@@ -28,7 +97,7 @@ class App extends React.Component {
 
                 <Switch>
                     <Route exact path="/" render={() =>
-                        <LoginForm />
+                        <LoginForm login={this.login}/>
                     }/>
                 </Switch>
                 </Segment>   

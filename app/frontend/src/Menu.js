@@ -24,7 +24,7 @@ export default class TopMenu extends Component {
         <Menu.Item><Link to="/user">Name</Link></Menu.Item>
 
         <Menu.Item>
-          <Button primary>Log out</Button>
+          <Button primary onClick={this.props.logout}>Log out</Button>
         </Menu.Item>
         </Menu.Item>
     </Menu>
