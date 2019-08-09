@@ -31,8 +31,12 @@ router.post("/login", function(req, res) {
 
 	User.findOne({"email":req.body.email}, function(err, user) {
 
-		if(err || !user) {
-			return res.status(422).json({"message":"wrong credentials"});			
+		if (err || !user) {
+			return res.status(422).json({"error":"wrong credentials"});			
+		}
+
+		if (user.isDisabled) {
+			return res.status(403).json({"error":"useraccount disabled"});			
 		}
 
 		if (user.validatePassword(req.body.password)) {
@@ -40,7 +44,7 @@ router.post("/login", function(req, res) {
 			let session = authController.generateSession(user);
 
 			session.save(function(err, session) {
-				if(err) {
+				if (err) {
 					return res.status(422).json({"error":"wrong credentials"});						
 				} 
 				return res.status(200).json({
