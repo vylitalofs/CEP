@@ -78,15 +78,16 @@ exports.user_create = [
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     email: req.body.email,
-                    password: req.body.password,
                     isAdmin: req.body.isAdmin,
                     isDisabled: req.body.isDisabled,
                 });
 
+            user.setPassword(req.body.password);
+
             user.save(function (err) {
                 if (err) { return next(err); }
                 res.status(200).json({"message":"success"});
-            });
+            })
         }
     }
 ];
