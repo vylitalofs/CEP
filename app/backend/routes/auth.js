@@ -2,18 +2,7 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 const User = mongoose.model('User');
 const Session = require("../models/session");
-
-let ttl_diff = 1000*60*60;
-
-generateToken = function() {
-  let token = ""
-  let letters = '^_!#$%&*+-0123456789<=>?@ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz'
-  for(let i=0;i<1024;i++) {
-    let temp = Math.floor(Math.random()*75);
-    token = token + letters[temp]
-  }
-  return token;
-}
+var authController = require('../controllers/authController'); 
 
 router.post("/logout", function(req, res) {
 	let token = req.headers.token;
@@ -46,19 +35,13 @@ router.post("/login", function(req, res) {
 
 		if (user.validatePassword(req.body.password)) {
 
-			let token = generateToken();
-			let ttl = new Date().getTime()+ttl_diff;
-			let session = new Session({
-				"username":user.username,
-				"ttl":ttl,
-				"token":token
-			})
+			let session = authController.generateSession(user);
 
 			session.save(function(err, session) {
 				if(err) {
 					return res.status(422).json({"error":"wrong credentials"});						
 				} 
-				return res.status(200).json({"token":token});
+				return res.status(200).json({"token":session.token});
 			});
 
 		} else {
@@ -66,20 +49,6 @@ router.post("/login", function(req, res) {
 		}
 		
 	});
-});
-
-//GET current route (required, only authenticated users have access)
-router.get('/current', (req, res, next) => {
-  const { payload: { id } } = req;
-
-  return User.findById(id)
-    .then((user) => {
-      if(!user) {
-        return res.sendStatus(400);
-      }
-
-      return res.json({ user: user.toAuthJSON() });
-    });
 });
 
 module.exports = router;
