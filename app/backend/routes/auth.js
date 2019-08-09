@@ -41,7 +41,10 @@ router.post("/login", function(req, res) {
 				if(err) {
 					return res.status(422).json({"error":"wrong credentials"});						
 				} 
-				return res.status(200).json({"token":session.token});
+				return res.status(200).json({
+					"token":session.token,
+					"isAdmin":user.isAdmin
+				});
 			});
 
 		} else {
