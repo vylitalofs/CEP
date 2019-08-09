@@ -14,10 +14,13 @@ export default class UserList extends React.Component {
 	
 
 	render() {
+		let listitems = {}
+		/*
 		let listitems = this.props.list.map((item,index) => {
 			return <NormalRow key={item.id}
 					   item={item}/>		
 		})	
+		*/
 	
 	return(
 		<Table celled>
@@ -29,7 +32,6 @@ export default class UserList extends React.Component {
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{listitems}
 			</Table.Body>
 		</Table>
 	)

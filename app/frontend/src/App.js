@@ -1,9 +1,10 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
+import { Segment } from 'semantic-ui-react';
 import LoginForm from './LoginForm';
 import Menu from './Menu';
 import NavBar from './NavBar';
-import { Segment } from 'semantic-ui-react';
+import UserList from './UserList';
 
 class App extends React.Component {
 
@@ -97,7 +98,10 @@ class App extends React.Component {
 
                 <Switch>
                     <Route exact path="/" render={() =>
-                        <LoginForm login={this.login}/>
+                        this.state.isLogged ?
+                            <UserList/> : // Placeholder, show caselist when implemented
+                            <LoginForm login={this.login}/> 
+
                     }/>
                 </Switch>
                 </Segment>   
