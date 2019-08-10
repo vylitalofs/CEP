@@ -66,6 +66,7 @@ export default class UserForm extends React.Component {
 	render() {
 		return (
 			<Form onSubmit={this.onSubmit}>
+				<Header textAlign='center'>CREATE A NEW USER</Header>
 				<Form.Group widths='equal'>
 				<Form.Field>
 					<label htmlFor="firstname">Firstname:</label>
@@ -146,7 +147,6 @@ export default class UserForm extends React.Component {
 				</Form.Group>
 				<br/>
 				<Button type="submit">Add</Button>
-
 			</Form>
 
 		)		
