@@ -35,7 +35,7 @@ export default class LoginForm extends React.Component {
 	render() {
 		return (
 
-			<Form onSubmit={this.onSubmit} style={{maxWidth:350}}>
+			<Form onSubmit={this.onSubmit} style={{maxWidth:350, margin:'auto'}}>
 
 				<Form.Field>
 				<div class="ui left icon input">		
@@ -43,6 +43,7 @@ export default class LoginForm extends React.Component {
 						name="email"
 						placeholder="Email"
 						required="required"
+						maxLength="40"
 						onChange={this.onChange}
 						value={this.state.email}/>
 					<i class="mail icon"></i>
@@ -55,12 +56,13 @@ export default class LoginForm extends React.Component {
 						name="password"
 						placeholder="Password"
 						required="required"
+						maxLength="40"
 						onChange={this.onChange}
 						value={this.state.password}/>
 					<i class="lock icon"></i>
 				</div>
 				</Form.Field>
-				
+
 				<Grid>
 					<Grid.Column textAlign="center">
 						<Button primary onClick={this.login}>Login</Button>

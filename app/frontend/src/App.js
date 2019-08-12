@@ -94,7 +94,7 @@ class App extends React.Component {
     render() {
 
         return (
-            <div className="App" style={{width:800, margin:"auto"}}>
+            <div className="App" style={{width:900, margin:"auto"}}>
                   
                 <Menu isLogged={this.state.isLogged} logout={this.logout}/>
 
@@ -112,7 +112,8 @@ class App extends React.Component {
                 </Switch>
                 </Segment>   
 
-                </Segment.Group>     
+                </Segment.Group>
+                
           </div>
         );
     }

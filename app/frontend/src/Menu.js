@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Button, Menu} from 'semantic-ui-react';
+import {Button, Menu, Grid} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import logo from './CEPlogo.png';
 
 
 export default class TopMenu extends Component {
@@ -14,7 +15,7 @@ export default class TopMenu extends Component {
       
           iconmenu = <Menu secondary>
           <Menu.Item header position='left'>
-            CEP ICON
+            <img src={logo} alt="Logo" style={{width: 50, height: 50}}/>
           </Menu.Item>
           </Menu>
 
@@ -24,8 +25,12 @@ export default class TopMenu extends Component {
       topmenu = <Menu secondary>
             <Menu.Item position='right'>
             <Menu.Item >Company</Menu.Item>
+            <Grid horizontal>
+            <Grid.Column>
+            <Menu.Item >Hello! </Menu.Item>
             <Menu.Item><Link to="/user">Name</Link></Menu.Item>
-
+            </Grid.Column>
+            </Grid>
             <Menu.Item>
               <Button primary onClick={this.props.logout}>Log out</Button>
             </Menu.Item>
@@ -39,10 +44,6 @@ export default class TopMenu extends Component {
           {topmenu}
         </Menu.Menu>
       </Menu>
-
-
-      
-
 
     )
   }
