@@ -35,7 +35,7 @@ export default class LoginForm extends React.Component {
 	render() {
 		return (
 
-			<Form onSubmit={this.onSubmit} style={{left: "25%"}}>
+			<Form onSubmit={this.onSubmit} style={{maxWidth:350}}>
 
 				<Form.Field>
 				<div class="ui left icon input">		

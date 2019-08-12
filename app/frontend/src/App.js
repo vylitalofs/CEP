@@ -5,6 +5,7 @@ import LoginForm from './LoginForm';
 import Menu from './Menu';
 import NavBar from './NavBar';
 import UserList from './UserList';
+import CaseList from './CaseList';
 
 class App extends React.Component {
 
@@ -91,22 +92,20 @@ class App extends React.Component {
     }
 
     render() {
+
         return (
             <div className="App" style={{width:800, margin:"auto"}}>
                   
-                <Menu logout={this.logout}/>
-                  
+                <Menu isLogged={this.state.isLogged} logout={this.logout}/>
 
-                <Segment.Group  horizontal>
-                    <Segment id="nav" style={{left: "auto"}}>
-                        <NavBar/>
-                    </Segment>
-                <Segment id="login" style={{right: "150px"}}>
+                <Segment.Group horizontal>
+                    <NavBar isLogged={this.state.isLogged} isAdmin={this.state.isAdmin}/>
+                <Segment id="login" style={{right: "0px"}}>
 
                 <Switch>
                     <Route exact path="/" render={() =>
                         this.state.isLogged ?
-                            <UserList/> : // Placeholder, show caselist when implemented
+                            <CaseList/> :
                             <LoginForm login={this.login}/> 
 
                     }/>

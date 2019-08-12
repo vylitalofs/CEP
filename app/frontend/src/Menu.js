@@ -11,23 +11,27 @@ export default class TopMenu extends Component {
 		//if(this.props.isLogged) {
       let iconmenu = <Menu></Menu>
       
-      iconmenu = <Menu secondary>
-        <Menu.Item header position='left'>
-          CEP ICON
-        </Menu.Item>
-        </Menu>
+      
+          iconmenu = <Menu secondary>
+          <Menu.Item header position='left'>
+            CEP ICON
+          </Menu.Item>
+          </Menu>
+
       let topmenu = <Menu></Menu>
       
+      if (this.props.isLogged) {
       topmenu = <Menu secondary>
-        <Menu.Item position='right'>
-        <Menu.Item >Company</Menu.Item>
-        <Menu.Item><Link to="/user">Name</Link></Menu.Item>
+            <Menu.Item position='right'>
+            <Menu.Item >Company</Menu.Item>
+            <Menu.Item><Link to="/user">Name</Link></Menu.Item>
 
-        <Menu.Item>
-          <Button primary onClick={this.props.logout}>Log out</Button>
-        </Menu.Item>
-        </Menu.Item>
-    </Menu>
+            <Menu.Item>
+              <Button primary onClick={this.props.logout}>Log out</Button>
+            </Menu.Item>
+            </Menu.Item>
+        </Menu>
+      }
     return (
       <Menu>
         {iconmenu}
