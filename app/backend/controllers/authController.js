@@ -18,12 +18,31 @@ exports.generateSession = function(user) {
 	let session = new Session({
 		"username":user.username,
 		"ttl":ttl,
-		"token":token
+		"token":token,
+		"isAdmin":user.isAdmin,
 	})
 	return session
 }
 
-exports.isUserLogged = (req,res,next) => {
+exports.isUserAdmin = (req, res, next) => {
+	let token = req.headers.token;
+
+	if (!token) {
+		return res.status(403).json({"message":"forbidden"});
+	}
+
+	Session.findOne({"token":token}, function(err, session) {
+
+		if (err || !session || !session.isAdmin) {
+			return res.status(403).json({"message":"forbidden"});
+		}
+	})
+	
+	return next();
+}
+
+
+exports.isUserLogged = (req, res, next) => {
 	let token = req.headers.token;
 
 	if (!token) {
