@@ -32,13 +32,12 @@ exports.isUserAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
-
 		if (err || !session || !session.isAdmin) {
 			return res.status(403).json({"message":"forbidden"});
 		}
+		
+		return next();
 	})
-	
-	return next();
 }
 
 
