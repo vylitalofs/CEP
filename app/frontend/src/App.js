@@ -17,6 +17,13 @@ class App extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if (sessionStorage.getItem("state")) {
+            let tempState = JSON.parse(sessionStorage.getItem("state"));
+            this.setState(tempState)
+        }
+    }
+
     saveToStorage = () => {
         sessionStorage.setItem("state", JSON.stringify(this.state));
     }
