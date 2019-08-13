@@ -1,11 +1,11 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
-import LoginForm from './LoginForm';
-import Menu from './Menu';
-import NavBar from './NavBar';
-import UserList from './UserList';
-import CaseList from './CaseList';
+import LoginForm from './components//LoginForm';
+import Menu from './components//Menu';
+import NavBar from './components//NavBar';
+import UserList from './components/UserList';
+import CaseList from './components//CaseList';
 
 class App extends React.Component {
 

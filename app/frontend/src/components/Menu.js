@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Menu, Grid} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
-import logo from './CEPlogo.png';
+import logo from '../CEPlogo.png';
 
 
 export default class TopMenu extends Component {
