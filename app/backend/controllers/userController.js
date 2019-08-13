@@ -5,7 +5,7 @@ const { sanitizeBody } = require('express-validator');
 
 // GET User
 exports.user_detail = function(req, res, next) {
-    User.findById(req.params.id, function (err, user) {
+    User.findById(req.params.id, '_id firstName lastName email isAdmin', function (err, user) {
         if (err) { return next(err); }
         if (user == null) {
             var err = new Error('User not found');
@@ -18,7 +18,7 @@ exports.user_detail = function(req, res, next) {
 
 // GET User List
 exports.user_list = function(req, res, next) {
-  User.find()
+  User.find({}, '_id firstName lastName email isAdmin')
     .sort([['lastName', 'ascending']])
     .exec(function (err, list_users) {
       if (err) { return next(err); }
