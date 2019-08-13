@@ -16,7 +16,7 @@ exports.generateSession = function(user) {
 	let token = generateToken();
 	let ttl = new Date().getTime()+ttl_diff;
 	let session = new Session({
-		"username":user.username,
+		"email":user.email,
 		"ttl":ttl,
 		"token":token,
 		"isAdmin":user.isAdmin,
@@ -35,7 +35,6 @@ exports.isUserAdmin = (req, res, next) => {
 		if (err || !session || !session.isAdmin) {
 			return res.status(403).json({"message":"forbidden"});
 		}
-		
 		return next();
 	})
 }
