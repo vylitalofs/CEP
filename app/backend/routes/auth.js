@@ -50,6 +50,9 @@ router.post("/login", function(req, res) {
 				return res.status(200).json({
 					"token":session.token,
 					"isAdmin":user.isAdmin
+					"email":user.email,
+					"firstName":user.firstName,
+					"lastName":user.lastName,
 				});
 			});
 
