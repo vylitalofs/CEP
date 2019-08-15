@@ -105,18 +105,26 @@ class App extends React.Component {
                 <Switch>
 
                     <Route exact path="/" render={() =>
-                        this.state.isLogged ?
-                            <CaseList/> :
-                            <LoginForm login={this.login}/> 
+                        !this.state.isLogged ?
+                            <LoginForm login={this.login}/> :
+                            <Redirect to="/cases"/>
 
                     }/>
 
                     <Route path="/users" render={() =>
                         (this.state.isLogged && this.state.user.isAdmin) ?
-                        <UserList token={this.state.token}/> :
-                        <Redirect to="/"/>
+                            <UserList token={this.state.token}/> :
+                            <Redirect to="/"/>
 
                     }/>
+
+                    <Route path="/cases" render={() =>
+                        this.state.isLogged ?
+                            <CaseList token={this.state.token}/> :
+                            <Redirect to="/"/>
+
+                    }/>
+
 
                 </Switch>
                 </Segment>   
