@@ -8,7 +8,7 @@ export default class SideNavbar extends React.Component {
 		let navbar = null
 
 		if (this.props.isLogged) {
-			if (this.props.isAdmin) {
+			if (this.props.user.isAdmin) {
 				navbar = 
 					<Segment id="nav" style={{left: "auto"}}>
 						<Menu text vertical>
@@ -16,7 +16,7 @@ export default class SideNavbar extends React.Component {
 								<List.Item><Link to="/caseList">Cases</Link></List.Item>
 								<List.Item><Link to="/caseForm">Create a new Case</Link></List.Item>
 								<hr/>
-								<List.Item><Link to="/userList">Users</Link></List.Item>
+								<List.Item><Link to="/users">Users</Link></List.Item>
 								<List.Item><Link to="/userForm">Create a new user</Link></List.Item>
 							</List>
 						</Menu>

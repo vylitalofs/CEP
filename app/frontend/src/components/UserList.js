@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
-import NormalRow from './NormalRow';
+import UserRow from './UserRow';
 
 export default class UserList extends React.Component {
 
@@ -8,19 +8,46 @@ export default class UserList extends React.Component {
 		super(props);
 		this.state = {
 			removeIndex:-1,
-			editIndex:-1
+			editIndex:-1,
+			list:[],
 		}
+	}
+
+	componentDidMount() {
+    	this.getUserList();
+    }
+
+	getUserList = () => {
+		let request = {
+			method:"GET",
+			mode:"cors",
+			headers:{"Content-Type":"application/json", "token":this.props.token}
+		}
+
+		fetch("/api/users", request).then(response => {
+			if (response.ok) {
+				response.json().then(data => {
+					console.log(data)
+					this.setState({
+						list:data
+					})
+				}).catch(error => {
+					console.log("Error in parsing response json")
+				});
+			}
+			else {
+				console.log("Server responded with status: " + response.statusText);
+			}
+		}).catch(error => {
+			console.log(error);
+		})
 	}
 	
 
 	render() {
-		let listitems = {}
-		/*
-		let listitems = this.props.list.map((item,index) => {
-			return <NormalRow key={item.id}
-					   item={item}/>		
+		let listitems = this.state.list.map((user, index) => {
+			return <UserRow key={user._id} user={user}/>		
 		})	
-		*/
 	
 	return(
 		<Table celled>
@@ -32,6 +59,7 @@ export default class UserList extends React.Component {
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
+				{listitems}
 			</Table.Body>
 		</Table>
 	)
