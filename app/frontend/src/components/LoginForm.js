@@ -38,7 +38,7 @@ export default class LoginForm extends React.Component {
 			<Form onSubmit={this.onSubmit} style={{maxWidth:350, margin:'auto'}}>
 
 				<Form.Field>
-				<div class="ui left icon input">		
+				<div className="ui left icon input">		
 					<input type="text"
 						name="email"
 						placeholder="Email"
@@ -46,12 +46,12 @@ export default class LoginForm extends React.Component {
 						maxLength="40"
 						onChange={this.onChange}
 						value={this.state.email}/>
-					<i class="mail icon"></i>
+					<i className="mail icon"></i>
 				</div>
 				</Form.Field>
 
 				<Form.Field>
-				<div class="ui left icon input">	
+				<div className="ui left icon input">	
 					<input type="password"
 						name="password"
 						placeholder="Password"
@@ -59,7 +59,7 @@ export default class LoginForm extends React.Component {
 						maxLength="40"
 						onChange={this.onChange}
 						value={this.state.password}/>
-					<i class="lock icon"></i>
+					<i className="lock icon"></i>
 				</div>
 				</Form.Field>
 
