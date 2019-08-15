@@ -11,14 +11,15 @@ var authController = require('./controllers/authController');
 
 var app = express();
 
+const config = require('./config.json')
+
 
 // MongoDB with Mongoose
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/cep';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
+mongoose.connect(config.mongo).then(
+	() => {console.log("Success in connecting Mongodb")},
+	error => {console.log("Error in connecting Mongodb:"+error)}
+);
 
 
 app.use(logger('dev'));
