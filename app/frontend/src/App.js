@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import LoginForm from './components//LoginForm';
 import Menu from './components//Menu';
@@ -13,7 +13,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             isLogged:false,
-            isAdmin:false,
+            user:[],
             token:""
         }
     }
@@ -36,7 +36,7 @@ class App extends React.Component {
             this.setState({
                 token:"",
                 isLogged:false,
-                isAdmin:false,
+                user:[],
             }, () => {this.saveToStorage()});
         }
     }
@@ -54,8 +54,8 @@ class App extends React.Component {
                 response.json().then(data => {
                     this.setState({
                         isLogged:true,
-                        isAdmin:data.isAdmin,
-                        token:data.token
+                        token:data.token,
+                        user:data.user
                     }, () => {
                         this.saveToStorage();
                     })
@@ -83,7 +83,7 @@ class App extends React.Component {
                 this.setState({
                     token:"",
                     isLogged:false,
-                    isAdmin:false,
+                    user:[],
                 },() => {this.saveToStorage()});
             } 
         }).catch(error => {
@@ -99,16 +99,25 @@ class App extends React.Component {
                 <Menu isLogged={this.state.isLogged} logout={this.logout}/>
 
                 <Segment.Group horizontal>
-                    <NavBar isLogged={this.state.isLogged} isAdmin={this.state.isAdmin}/>
+                    <NavBar isLogged={this.state.isLogged} user={this.state.user}/>
                 <Segment id="login" style={{right: "0px"}}>
 
                 <Switch>
+
                     <Route exact path="/" render={() =>
                         this.state.isLogged ?
                             <CaseList/> :
                             <LoginForm login={this.login}/> 
 
                     }/>
+
+                    <Route path="/users" render={() =>
+                        (this.state.isLogged && this.state.user.isAdmin) ?
+                        <UserList token={this.state.token}/> :
+                        <Redirect to="/"/>
+
+                    }/>
+
                 </Switch>
                 </Segment>   
 
