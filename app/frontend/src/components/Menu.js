@@ -6,10 +6,11 @@ import logo from '../CEPlogo.png';
 
 export default class TopMenu extends Component {
 
-
   render() {
 		//lisää elementit jos logattu sisään
 		//if(this.props.isLogged) {
+      let userlink = "/user/"+this.props.user._id
+
       let iconmenu = <Menu></Menu>
       
       
@@ -26,7 +27,7 @@ export default class TopMenu extends Component {
             <Menu.Item position='right'>
             <Menu.Item >Company</Menu.Item>
 
-            <Menu.Item>Hello &nbsp; <Link to="/user"> Name</Link>!</Menu.Item>
+            <Menu.Item>Hello &nbsp; <Link to={userlink}> {this.props.user.firstName} {this.props.user.lastName}</Link>!</Menu.Item>
 
             <Menu.Item>
               <Button primary onClick={this.props.logout}>Log out</Button>

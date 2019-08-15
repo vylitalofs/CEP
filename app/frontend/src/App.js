@@ -6,6 +6,8 @@ import Menu from './components//Menu';
 import NavBar from './components//NavBar';
 import UserList from './components/UserList';
 import CaseList from './components//CaseList';
+import UserForm from './components/UserForm';
+import CaseForm from './components/CaseForm';
 
 class App extends React.Component {
 
@@ -96,7 +98,7 @@ class App extends React.Component {
         return (
             <div className="App" style={{width:900, margin:"auto"}}>
                   
-                <Menu isLogged={this.state.isLogged} logout={this.logout}/>
+                <Menu isLogged={this.state.isLogged} logout={this.logout} user={this.state.user}/>
 
                 <Segment.Group horizontal>
                     <NavBar isLogged={this.state.isLogged} user={this.state.user}/>
@@ -114,6 +116,13 @@ class App extends React.Component {
                     <Route path="/users" render={() =>
                         (this.state.isLogged && this.state.user.isAdmin) ?
                             <UserList token={this.state.token}/> :
+                            <Redirect to="/"/>
+
+                    }/>
+
+                    <Route path="/newuser" render={() =>
+                        (this.state.isLogged && this.state.user.isAdmin) ?
+                            <UserForm token={this.state.token}/> :
                             <Redirect to="/"/>
 
                     }/>
