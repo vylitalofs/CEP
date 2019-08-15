@@ -1,6 +1,5 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
-import UserRow from './UserRow';
 
 export default class UserList extends React.Component {
 
@@ -48,9 +47,9 @@ export default class UserList extends React.Component {
 		let listitems = this.state.list.map((user, index) => {
 			return (
 				<Table.Row>
-					<Table.Cell>{this.props.user.firstName} {this.props.user.lastName}</Table.Cell>
-					<Table.Cell>{this.props.user.email}</Table.Cell>
-					<Table.Cell>{this.props.user.isAdmin}</Table.Cell>
+					<Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
+					<Table.Cell>{user.email}</Table.Cell>
+					<Table.Cell>{user.isAdmin}</Table.Cell>
 				</Table.Row>		
 			)	
 		})	
