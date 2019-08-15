@@ -14,10 +14,10 @@ export default class SideNavbar extends React.Component {
 						<Menu text vertical>
 							<List>
 								<List.Item><Link to="/cases">Cases</Link></List.Item>
-								<List.Item><Link to="/caseForm">Create a new Case</Link></List.Item>
+								<List.Item><Link to="/newcase">Create a new Case</Link></List.Item>
 								<hr/>
 								<List.Item><Link to="/users">Users</Link></List.Item>
-								<List.Item><Link to="/userForm">Create a new user</Link></List.Item>
+								<List.Item><Link to="/newuser">Create a new user</Link></List.Item>
 							</List>
 						</Menu>
 					</Segment>

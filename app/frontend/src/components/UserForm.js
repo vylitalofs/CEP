@@ -1,15 +1,15 @@
 import React from 'react';
-import {Form,Button, Popup, Icon, Grid, GridRow} from 'semantic-ui-react';
+import {Form, Header, Button, Popup, Icon, Grid, GridRow} from 'semantic-ui-react';
 
 export default class UserForm extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstname:"",
-			surname:"",
+			firstName:"",
+			lastName:"",
 			email:"",
-			isAdmin:'0',
+			isAdmin:"false",
             password:"",
             confirmPassword:""
 		}
@@ -23,45 +23,66 @@ export default class UserForm extends React.Component {
 	
 	onSubmit = (event) => {
 		event.preventDefault();
-		let item = {
-			firstname:this.state.firstname,
-			surname:this.state.surname,
-			email:this.state.email,
-			isAdmin:this.state.isAdmin,
-            password:this.state.password,
-            confirmPassword:this.state.confirmPassword,
-			id:0
-		}
 
 		//vikatapaukset
-		if (item.firstname === "") {
-			alert("Add Firstname");
+		if (this.state.firstName === "") {
+			alert("Add firstName");
 			return;
 		}
-		if (item.Surname === "") {
-			alert("Add Surname");
+		if (this.state.lastName === "") {
+			alert("Add lastName");
 			return;
 		}
-		if (item.email.length < 4 || item.password.length < 8) {
+		if (this.state.email.length < 4 || this.state.password.length < 8) {
 			alert("Email must be atleast four characters and password eight characters long.");
 			return;
 		}
-		if (item.confirmPassword !== item.password) {
+		if (this.state.confirmPassword !== this.state.password) {
 			alert("Passwords don't match");
 			return;
 		}
 
+		let isAdmin = this.state.isAdmin === "true"
 
-		this.props.addToList(item);
+		let user = {
+			firstName:this.state.firstName,
+			lastName:this.state.lastName,
+			email:this.state.email,
+			isAdmin:isAdmin,
+            password:this.state.password,
+		}
+
+		console.log(user)
+		this.register(user)
+
 		this.setState({
-			firstname:"",
-			surname:"",
+			firstName:"",
+			lastName:"",
 			email:"",
-			isAdmin:'0',
+			isAdmin:"false",
             password:"",
             confirmPassword:""
 		})
 	}
+
+	register = (user) => {
+        let request = {
+            method:"POST",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", token:this.props.token},
+            body:JSON.stringify(user)
+        }
+
+        fetch("/api/user/create", request).then(response => {
+            if (response.ok) {
+                alert("Register successful!")
+            } else {
+                console.log("Server responded with status: " + response.status);
+            }
+        }).catch(error => {
+
+        })
+    }
 	
 	render() {
 		return (
@@ -69,21 +90,21 @@ export default class UserForm extends React.Component {
 				<Header textAlign='center'>CREATE A NEW USER</Header>
 				<Form.Group widths='equal'>
 				<Form.Field>
-					<label htmlFor="firstname">Firstname:</label>
+					<label htmlFor="firstName">First name:</label>
 					<input type="text"
-						   name="firstname"
+						   name="firstName"
 						   onChange={this.onChange}
-						   value={this.state.firstname}/>
+						   value={this.state.firstName}/>
 				</Form.Field>
 				<Form.Field>
-					<label htmlFor="surname">Surname:</label>
+					<label htmlFor="lastName">Last name:</label>
 					<input type="text"
-						   name="surname"
+						   name="lastName"
 						   onChange={this.onChange}
-						   value={this.state.surname}/>
+						   value={this.state.lastName}/>
 
 				</Form.Field>
-				<Popup content='Insert firstname and surname into the text field' 
+				<Popup content='Insert firstName and lastName into the text field' 
 							trigger={<Icon circular name='info' />} 
 							position='bottom'/>
 				</Form.Group>
@@ -108,10 +129,11 @@ export default class UserForm extends React.Component {
 						class="ui dropdown"
 						input type="hidden" 
 						onChange={this.onChange}
-						   value={this.state.isAdmin}>
-						<i class="dropdown icon"></i>
-						<option value='0'>Basic user</option>				 		
-  				 		<option value='1'>Admin</option>
+						value={this.state.isAdmin}
+						>
+						
+						<option value="false">Basic user</option>				 		
+  				 		<option value="true">Admin</option>
  				</select>
 				</Form.Field>
 				<Popup content='Select users access rights' 
