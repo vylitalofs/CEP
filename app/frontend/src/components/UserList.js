@@ -14,8 +14,8 @@ export default class UserList extends React.Component {
 	}
 
 	componentDidMount() {
-    	this.getUserList();
-    }
+		this.getUserList();
+	}
 
 	getUserList = () => {
 		let request = {
@@ -46,7 +46,13 @@ export default class UserList extends React.Component {
 
 	render() {
 		let listitems = this.state.list.map((user, index) => {
-			return <UserRow key={user._id} user={user}/>		
+			return (
+				<Table.Row>
+					<Table.Cell>{this.props.user.firstName} {this.props.user.lastName}</Table.Cell>
+					<Table.Cell>{this.props.user.email}</Table.Cell>
+					<Table.Cell>{this.props.user.isAdmin}</Table.Cell>
+				</Table.Row>		
+			)	
 		})	
 	
 	return(
