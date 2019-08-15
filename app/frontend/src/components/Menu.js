@@ -25,12 +25,9 @@ export default class TopMenu extends Component {
       topmenu = <Menu secondary>
             <Menu.Item position='right'>
             <Menu.Item >Company</Menu.Item>
-            <Grid horizontal="true">
-            <Grid.Column>
-            <Menu.Item >Hello! </Menu.Item>
-            <Menu.Item><Link to="/user">Name</Link></Menu.Item>
-            </Grid.Column>
-            </Grid>
+
+            <Menu.Item>Hello &nbsp; <Link to="/user"> Name</Link>!</Menu.Item>
+
             <Menu.Item>
               <Button primary onClick={this.props.logout}>Log out</Button>
             </Menu.Item>
