@@ -16,12 +16,45 @@ exports.generateSession = function(user) {
 	let token = generateToken();
 	let ttl = new Date().getTime()+ttl_diff;
 	let session = new Session({
-		"email":user.email,
+		"userId":user._id,
 		"ttl":ttl,
 		"token":token,
 		"isAdmin":user.isAdmin,
 	})
 	return session
+}
+
+// Allow access if accessing own info, or user is admin
+exports.isOwnDataOrAdmin = (req, res, next) => {
+	let token = req.headers.token;
+
+	if (!token) {
+		return res.status(403).json({"message":"forbidden"});
+	}
+
+	Session.findOne({"token":token}, function(err, session) {
+		if (err || !session) {
+			return res.status(403).json({"message":"forbidden"});
+		}
+
+		if (session.isAdmin) {
+			return next();
+		}
+
+		if (req.params.id === session.userId && req.method == "GET") {
+			return next();
+		}
+
+		// In case of user info update on non-admin account
+		// always make sure user does not attempt to change admin status
+		if (req.params.id === session.userId && req.method == "PUT") {
+			req.body.isAdmin = false
+
+			return next();
+		}
+
+		return res.status(403).json({"message":"forbidden"});
+	})
 }
 
 exports.isUserAdmin = (req, res, next) => {
@@ -32,10 +65,15 @@ exports.isUserAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
-		if (err || !session || !session.isAdmin) {
+		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
-		return next();
+
+		if (session.isAdmin) {
+			return next();
+		}
+
+		return res.status(403).json({"message":"forbidden"});
 	})
 }
 

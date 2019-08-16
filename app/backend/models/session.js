@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema({
-	email:String,
+	ttl:Number,
 	token:String,
+	userId:String,
 	isAdmin:Boolean,
-	ttl:Number
 });
 
 module.exports = mongoose.model("Session", Schema);

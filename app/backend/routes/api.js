@@ -19,13 +19,13 @@ router.get('/users', authController.isUserAdmin, userController.user_list);
 router.post('/user/create', authController.isUserAdmin, userController.user_create);
 
 // GET request for one User.
-router.get('/user/:id', userController.user_detail);
+router.get('/user/:id', authController.isOwnDataOrAdmin, userController.user_detail);
 
 // PUT request for updating User.
-router.put('/user/:id/', authController.isUserAdmin, userController.user_update);
+router.put('/user/:id', authController.isOwnDataOrAdmin, userController.user_update);
 
 // DELETE request for removing User.
-router.delete('/user/:id/', authController.isUserAdmin, userController.user_delete);
+router.delete('/user/:id', authController.isUserAdmin, userController.user_delete);
 
 
 // CASE
@@ -40,8 +40,8 @@ router.post('/case/create', caseController.case_create);
 // GET request for one Case.
 router.get('/case/:id', caseController.case_detail);
 
-// PUT request for updating Case.
-router.put('/case/:id/', authController.isUserAdmin, caseController.case_update);
+// PUT request for updating Case. TODO: Check if admin or own case
+router.put('/case/:id/', caseController.case_update);
 
 // DELETE request for removing Case.
 router.delete('/case/:id/', authController.isUserAdmin, caseController.case_delete);
