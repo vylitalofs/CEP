@@ -94,11 +94,10 @@ export default class CaseForm extends React.Component {
 				<Form.Field>
 				<label htmlFor="type">Case type:</label>
 				<select name="type"
-						class="ui dropdown"
-						input type="hidden" 
+						className="ui dropdown"
+						inputtype="hidden" 
 						onChange={this.onChange}
 						   value={this.state.type}>
-						<i class="dropdown icon"></i>
 						<option value='0'>Other</option>				 		
   				 		<option value='1'>Service advice</option>
 						<option value='2'>Development plan</option>
@@ -108,11 +107,10 @@ export default class CaseForm extends React.Component {
 				<Form.Field>
 				<label htmlFor="location">Location:</label>
 				<select name="location"
-						class="ui dropdown"
-						input type="hidden" 
+						className="ui dropdown"
+						inputtype="hidden" 
 						onChange={this.onChange}
 						   value={this.state.location}>
-						<i class="dropdown icon"></i>
 						<option value='0'>Other</option>				 		
   				 		<option value='1'>Office</option>
 						<option value='2'>Storage</option>
@@ -121,14 +119,14 @@ export default class CaseForm extends React.Component {
 				</Form.Field>
 				<Popup content='Select the type and location of the case' 
 							trigger={<Icon circular name='info' />} 
-							position='bottom'/>
+							position='bottom center'/>
 				</Form.Group>
 
 				<Form.Field 
 					control={TextArea}
 					label= 'Description:'
 					placeholder='What is this case about?'
-					input type="text"
+					inputtype="text"
 						   name="caseInfo"
 						   onChange={this.onChange}
 						   value={this.state.caseInfo}
