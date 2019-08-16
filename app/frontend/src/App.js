@@ -5,10 +5,10 @@ import LoginForm from './components//LoginForm';
 import Menu from './components//Menu';
 import NavBar from './components//NavBar';
 import UserList from './components/UserList';
-import CaseList from './components//CaseList';
-import UserForm from './components/UserForm';
-import CaseForm from './components/CaseForm';
 import UserView from './components/UserView';
+import UserForm from './components/UserForm';
+import CaseList from './components//CaseList';
+import CaseForm from './components/CaseForm';
 
 class App extends React.Component {
 
@@ -94,31 +94,6 @@ class App extends React.Component {
         })
     }
 
-    /*
-    //EDIT USER
-    editUser = (user) => {
-        let request = {
-            method:"PUT",
-            mode:"cors",
-            headers:{"Content-Type":"application/json",
-                      "token":this.state.token},
-            body:JSON.stringify(user)
-        }
-        fetch("/api/shopping/"+user._id,request).then(response => {
-              if(response.ok) {
-                  console.log("editUser success");
-                  this.getShoppingList();
-              } else {
-                  console.log("Server responded with status:"+response.statusText);
-                  this.handleStatus(response.status);
-              }
-        }).catch(error => {
-              console.log(error);
-        })
-  
-    }
-    */
-
     render() {
 
         return (
@@ -130,45 +105,57 @@ class App extends React.Component {
                     <NavBar 
                         isLogged={this.state.isLogged} 
                         user={this.state.user}/>
-                <Segment id="login" style={{right: "0px"}}>
 
-                <Switch>
+                    <Segment id="login" style={{right: "0px"}}>
 
-                    <Route exact path="/" render={() =>
-                        !this.state.isLogged ?
-                            <LoginForm login={this.login}/> :
-                            <Redirect to="/cases"/>
+                        <Switch>
 
-                    }/>
+                            <Route exact path="/" render={() =>
+                                !this.state.isLogged ?
+                                    <LoginForm login={this.login}/> :
+                                    <Redirect to="/cases"/>
+                            }/>
 
-                    <Route path="/users" render={() =>
-                        (this.state.isLogged && this.state.user.isAdmin) ?
-                            <UserList token={this.state.token}/> :
-                            <Redirect to="/"/>
+                            <Route path="/users" render={() =>
+                                (this.state.isLogged && this.state.user.isAdmin) ?
+                                    <UserList token={this.state.token}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    }/>
+                            <Route path="/newuser" render={() =>
+                                (this.state.isLogged && this.state.user.isAdmin) ?
+                                    <UserForm token={this.state.token}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    <Route path="/newuser" render={() =>
-                        (this.state.isLogged && this.state.user.isAdmin) ?
-                            <UserForm token={this.state.token}/> :
-                            <Redirect to="/"/>
+                            <Route path="/user/:id" render={({match}) =>
+                                this.state.isLogged ?
+                                    <UserView token={this.state.token} id={match.params.id}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    }/>
+                            <Route path="/cases" render={() =>
+                                this.state.isLogged ?
+                                    <CaseList token={this.state.token}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    <Route path="/cases" render={() =>
-                        this.state.isLogged ?
-                            <CaseList token={this.state.token}/> :
-                            <Redirect to="/"/>
+                            <Route path="/newcase" render={() =>
+                                this.state.isLogged ?
+                                    <CaseForm token={this.state.token}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    }/>
-                    <Route path="/newcase" render={() =>
-                        this.state.isLogged ?
-                            <CaseForm token={this.state.token}/> :
-                            <Redirect to="/"/>
+                            <Route path="/case/:id" render={({match}) =>
+                                this.state.isLogged ?
+                                    <UserForm token={this.state.token} id={match.params.id}/> :
+                                    <Redirect to="/"/>
+                            }/>
 
-                    }/>                
-                </Switch>
-                </Segment>
+                        </Switch>
+
+                    </Segment>
+
                 </Segment.Group>
 
           </div>

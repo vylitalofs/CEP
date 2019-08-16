@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Button, Grid, Header, Table} from 'semantic-ui-react';
+import {Form, Button, Header} from 'semantic-ui-react';
 
 export default class UserView extends React.Component {
 		
@@ -11,160 +11,203 @@ export default class UserView extends React.Component {
 			email:"",
 			isAdmin:"false",
             password:"",
-            confirmPassword:""
+            confirmPassword:"",
+            edit:false
 		}
 	}
+
+	componentDidMount() {
+		this.getUser();
+	}
+
+	getUser = () => {
+		let request = {
+			method:"GET",
+			mode:"cors",
+			headers:{"Content-Type":"application/json", "token":this.props.token}
+		}
+
+		fetch("/api/user/" + this.props.id, request).then(response => {
+			if (response.ok) {
+				response.json().then(data => {
+					// convert to string for easier handling in form
+					data.isAdmin = data.isAdmin ? "true" : "false"
+					this.setState(data)
+				}).catch(error => {
+					console.log("Error in parsing response json")
+				});
+			}
+			else {
+				console.log("Server responded with status: " + response.statusText);
+			}
+		}).catch(error => {
+			console.log(error);
+		})
+	}
+
+	putUser = (user) => {
+        let request = {
+            method:"PUT",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", token:this.props.token},
+            body:JSON.stringify(user)
+        }
+
+        fetch("/api/user/" + this.props.id, request).then(response => {
+            if (response.ok) {
+                alert("Update successful!")
+                this.getUser();
+            }
+            else {
+                console.log("Server responded with status: " + response.status);
+            }
+        }).catch(error => {
+        	console.log(error);
+        })
+    }
 	
 	onChange = (event) => {
 		let state = {};
 		state[event.target.name] = event.target.value;
 		this.setState(state);
 	}
-	
+
+	onEdit = () => {
+		let state = {};
+		state.edit = true
+		this.setState(state);
+	}
+
+	onCancel = () => {
+		let state = {};
+		state.edit = false
+		this.setState(state);
+	}
 	
 	onSubmit = (event) => {
 		event.preventDefault();
 
-		//vikatapaukset
 		if (this.state.firstName === "") {
-			alert("Add firstName");
+			alert("First name required.");
 			return;
 		}
+
 		if (this.state.lastName === "") {
-			alert("Add lastName");
+			alert("Last name required.");
 			return;
 		}
+
 		if (this.state.email.length < 4 || this.state.password.length < 8) {
 			alert("Email must be atleast four characters and password eight characters long.");
 			return;
 		}
+
 		if (this.state.confirmPassword !== this.state.password) {
-			alert("Passwords don't match");
+			alert("Passwords don't match.");
 			return;
 		}
-		/*
-		editUser = () => {
-			let user = {
-				firstName:this.state.firstName,
-				lastName:this.state.lastName,
-				email:this.state.email,
-				isAdmin:isAdmin,
-				password:this.state.password,
-			}
-			this.props.editUser(user);
-		}
-			
-		cancel = () => {
-			this.props.cancel();
+
+		// Convert back to boolean
+		let isAdmin = this.state.isAdmin === "true"
+
+		let user = {
+			firstName:this.state.firstName,
+			lastName:this.state.lastName,
+			email:this.state.email,
+			isAdmin:isAdmin,
+            password:this.state.password,
 		}
 
-		console.log(user)
-
-		this.setState({
-			firstName:"",
-			lastName:"",
-			email:"",
-			isAdmin:"false",
-            password:"",
-            confirmPassword:""
-		})
-			*/
+		this.putUser(user)
 	}
 
-
-
 	render() {
+		let edit = !this.state.edit ? {display:'none'} : {};
 		return (
-			<Form onSubmit={this.onSubmit}>
+			<Form>
+
 				<Header textAlign='center'>USER OVERVIEW</Header>
+
 				<Form.Group widths='equal'>
-				<Form.Field>
-					<label htmlFor="firstName">First name:</label>
-					<input type="text"
-                           name="firstName"
-                           disabled='true'
-						   onChange={this.onChange}
-						   value={this.state.firstName}/>
-				</Form.Field>
-				<Form.Field>
-					<label htmlFor="lastName">Last name:</label>
-					<input type="text"
-                           name="lastName"
-                           disabled='true'
-						   onChange={this.onChange}
-						   value={this.state.lastName}/>
+					<Form.Field>
+						<label htmlFor="firstName">First name:</label>
+						<input type="text"
+	                           name="firstName"
+	                           disabled={!this.state.edit}
+							   onChange={this.onChange}
+							   value={this.state.firstName}/>
+					</Form.Field>
 
-				</Form.Field>
-
+					<Form.Field>
+						<label htmlFor="lastName">Last name:</label>
+						<input type="text"
+	                           name="lastName"
+	                           disabled={!this.state.edit}
+	                           onChange={this.onChange}
+							   value={this.state.lastName}/>
+					</Form.Field>
 				</Form.Group>
 
 				<Form.Group widths='equal'>
-				<Form.Field>
-					<label htmlFor="email">Email:</label>
-					<input type="text"
-                           name="email"
-                           disabled='true'
-						   onChange={this.onChange}
-						   value={this.state.email}/>
-				</Form.Field>
-
+					<Form.Field>
+						<label htmlFor="email">Email:</label>
+						<input type="text"
+	                           name="email"
+	                           disabled={!this.state.edit}
+							   onChange={this.onChange}
+							   value={this.state.email}/>
+					</Form.Field>
 				</Form.Group>
 
 				<Form.Group>
-				<Form.Field>
-				<label htmlFor="isAdmin">Access Rights:</label>
-				<select name="isAdmin"
-						class="ui dropdown"
-						input type="hidden" 
-                        onChange={this.onChange}
-                        disabled='true'
-						value={this.state.isAdmin}
-						>
-						
-						<option value="false">Basic user</option>				 		
-  				 		<option value="true">Admin</option>
- 				</select>
-				</Form.Field>
-
+					<Form.Field>
+					<label htmlFor="isAdmin">Access Rights:</label>
+					<select name="isAdmin"
+							className="ui dropdown"
+	                        onChange={this.onChange}
+	                        disabled={!this.state.edit}
+	                        inputtype="hidden" 
+							value={this.state.isAdmin}
+							>
+							
+							<option value="false">Basic user</option>				 		
+	  				 		<option value="true">Admin</option>
+	 				</select>
+					</Form.Field>
 				</Form.Group>
-				<Grid>
-					<Grid.Column floated= 'right' textAlign='right'>
-				
-					</Grid.Column>
-				</Grid>
+
 				<Form.Group grouped>
-                <Form.Field>
-					<label htmlFor="password">Password:</label>
-					<input type="text"
-                           name="password"
-                           disabled='true'
-                           inputtype= "password"
-						   onChange={this.onChange}
-						   value={this.state.password}/>
-						   
-				</Form.Field>
-				
-                <Form.Field>
-					<label htmlFor="confirmPassword">Confirm password:</label>
-					<input type="text"
-                           name="confirmPassword"
-                           disabled='true'
-                           inputtype="password"
-						   onChange={this.onChange}
-						   value={this.state.confirmPassword}/>
-				</Form.Field>
+	                <Form.Field>
+						<label htmlFor="password">Password:</label>
+						<input type="password"
+	                           name="password"
+	                           disabled={!this.state.edit}
+							   onChange={this.onChange}
+							   value={this.state.password}/>
+							   
+					</Form.Field>
+					
+	                <Form.Field>
+						<label htmlFor="confirmPassword">Confirm password:</label>
+						<input type="password"
+	                           name="confirmPassword"
+	                           disabled={!this.state.edit}
+							   onChange={this.onChange}
+							   value={this.state.confirmPassword}/>
+					</Form.Field>
 
 				</Form.Group>
+
 				<br/>
-				<Table.row>
-					<Table.Cell> 
-					<Button 
-							onClick={this.edit}>Edit</Button>
-        			</Table.Cell>
-				</Table.row>
+
+				<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
+				<Button onClick={this.onCancel} style={edit}>Cancel</Button>
+				<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+
 			</Form>
 
 		);		
 	}
+
 
 }
