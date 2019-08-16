@@ -9,6 +9,7 @@ import UserView from './components/UserView';
 import UserForm from './components/UserForm';
 import CaseList from './components//CaseList';
 import CaseForm from './components/CaseForm';
+import CaseView from './components/CaseView';
 
 class App extends React.Component {
 
@@ -131,6 +132,12 @@ class App extends React.Component {
                             <Route path="/user/:id" render={({match}) =>
                                 this.state.isLogged ?
                                     <UserView token={this.state.token} id={match.params.id}/> :
+                                    <Redirect to="/"/>
+                            }/>
+
+                            <Route path="/case/:id" render={({match}) =>
+                                this.state.isLogged ?
+                                    <CaseView token={this.state.token} id={match.params.id}/> :
                                     <Redirect to="/"/>
                             }/>
 
