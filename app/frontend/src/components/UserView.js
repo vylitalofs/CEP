@@ -56,7 +56,6 @@ export default class UserView extends React.Component {
         fetch("/api/user/" + this.props.id, request).then(response => {
             if (response.ok) {
                 alert("Update successful!")
-                this.getUser();
             }
             else {
                 console.log("Server responded with status: " + response.status);
@@ -119,6 +118,18 @@ export default class UserView extends React.Component {
 		}
 
 		this.putUser(user)
+
+		this.setState({
+			firstName:"",
+			lastName:"",
+			email:"",
+			isAdmin:"false",
+            password:"",
+            confirmPassword:"",
+            edit:false
+		})
+
+		this.getUser();
 	}
 
 	render() {
