@@ -8,6 +8,7 @@ import UserList from './components/UserList';
 import CaseList from './components//CaseList';
 import UserForm from './components/UserForm';
 import CaseForm from './components/CaseForm';
+import UserView from './components/UserView';
 
 class App extends React.Component {
 
@@ -93,6 +94,31 @@ class App extends React.Component {
         })
     }
 
+    /*
+    //EDIT USER
+    editUser = (user) => {
+        let request = {
+            method:"PUT",
+            mode:"cors",
+            headers:{"Content-Type":"application/json",
+                      "token":this.state.token},
+            body:JSON.stringify(user)
+        }
+        fetch("/api/shopping/"+user._id,request).then(response => {
+              if(response.ok) {
+                  console.log("editUser success");
+                  this.getShoppingList();
+              } else {
+                  console.log("Server responded with status:"+response.statusText);
+                  this.handleStatus(response.status);
+              }
+        }).catch(error => {
+              console.log(error);
+        })
+  
+    }
+    */
+
     render() {
 
         return (
@@ -132,14 +158,11 @@ class App extends React.Component {
                             <CaseList token={this.state.token}/> :
                             <Redirect to="/"/>
 
-                    }/>
-
-
+                    }/>                
                 </Switch>
-                </Segment>   
-
+                </Segment>
                 </Segment.Group>
-                
+
           </div>
         );
     }
