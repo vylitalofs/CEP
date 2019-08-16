@@ -15,7 +15,7 @@ export default class SideNavbar extends React.Component {
 							<List>
 								<List.Item><Link to="/cases">Cases</Link></List.Item>
 								<List.Item><Link to="/newcase">Create a new Case</Link></List.Item>
-								<hr/>
+								<hr style={{width:170, margin: "0px"}}/>
 								<List.Item><Link to="/users">Users</Link></List.Item>
 								<List.Item><Link to="/newuser">Create a new user</Link></List.Item>
 							</List>

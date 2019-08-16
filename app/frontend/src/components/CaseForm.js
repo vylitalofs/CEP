@@ -39,12 +39,13 @@ export default class CaseForm extends React.Component {
 			alert("Add a title");
 			return;
 		}
-		if (item.Surname === "") {
+		if (item.caseInfo === "") {
 			alert("Add a description about the case");
 			return;
 		}
 
-		this.props.addToList(item);
+		this.addToList(item);
+
 		this.setState({
 			title:"",
 			type:"",
@@ -54,10 +55,30 @@ export default class CaseForm extends React.Component {
 		})
 	}
 	
+	addToList = (item) => {
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-Type":"application/json", "token":this.props.token},
+			body:JSON.stringify(item)
+		}
+		fetch("/api/case/create",request).then(response => {
+			  if(response.ok) {
+                alert("Case Created!")
+			  } else {
+				  console.log("Server responded with status:"
+				  +response.statusText);
+			  }
+		}).catch(error => {
+			  console.log(error);
+		})
+  
+	}
+
 	render() {
 		return (
 			
-			<Form onSubmit={this.onSubmit}>
+			<Form onSubmit={this.onSubmit}  style={{width:600}}>
 				<Header textAlign='center'>CREATE A CASE</Header>
 
 				<Form.Field>

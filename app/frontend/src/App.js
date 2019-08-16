@@ -127,7 +127,9 @@ class App extends React.Component {
                 <Menu isLogged={this.state.isLogged} logout={this.logout} user={this.state.user}/>
 
                 <Segment.Group horizontal>
-                    <NavBar isLogged={this.state.isLogged} user={this.state.user}/>
+                    <NavBar 
+                        isLogged={this.state.isLogged} 
+                        user={this.state.user}/>
                 <Segment id="login" style={{right: "0px"}}>
 
                 <Switch>
@@ -156,6 +158,12 @@ class App extends React.Component {
                     <Route path="/cases" render={() =>
                         this.state.isLogged ?
                             <CaseList token={this.state.token}/> :
+                            <Redirect to="/"/>
+
+                    }/>
+                    <Route path="/newcase" render={() =>
+                        this.state.isLogged ?
+                            <CaseForm token={this.state.token}/> :
                             <Redirect to="/"/>
 
                     }/>                
