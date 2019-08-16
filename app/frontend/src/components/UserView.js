@@ -85,27 +85,28 @@ export default class UserView extends React.Component {
 	
 	onSubmit = (event) => {
 		event.preventDefault();
+		//Errors after accepting editing
+		if(this.state.edit === true){
+			if (this.state.firstName === "") {
+				alert("First name required.");
+				return;
+			}
 
-		if (this.state.firstName === "") {
-			alert("First name required.");
-			return;
+			if (this.state.lastName === "") {
+				alert("Last name required.");
+				return;
+			}
+
+			if ((this.state.email.length < 4 || this.state.password.length < 8)) {
+				alert("Email must be atleast four characters and password eight characters long.");
+				return;
+			}
+
+			if (this.state.confirmPassword !== this.state.password) {
+				alert("Passwords don't match.");
+				return;
+			}
 		}
-
-		if (this.state.lastName === "") {
-			alert("Last name required.");
-			return;
-		}
-
-		if (this.state.email.length < 4 || this.state.password.length < 8) {
-			alert("Email must be atleast four characters and password eight characters long.");
-			return;
-		}
-
-		if (this.state.confirmPassword !== this.state.password) {
-			alert("Passwords don't match.");
-			return;
-		}
-
 		// Convert back to boolean
 		let isAdmin = this.state.isAdmin === "true"
 

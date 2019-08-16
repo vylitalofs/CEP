@@ -168,7 +168,7 @@ export default class UserForm extends React.Component {
 
 				</Form.Group>
 				<br/>
-				<Button type="submit">Add</Button>
+				<Button type="submit">Create</Button>
 			</Form>
 
 		)		

@@ -170,14 +170,16 @@ export default class CaseForm extends React.Component {
 					inputtype="text"
 						   name="superInfo"
 						   onChange={this.onChange}
-						   value={this.state.caseInfo}
+						   disabled= 'true'
+						   value={this.state.superInfo}
 				/>
 
 				<Form.Field>
 				<label htmlFor="status">Case status:</label>
 				<select name="status"
 						className="ui dropdown"
-						inputtype="hidden" 
+						inputtype="hidden"
+						disabled= 'true'
 						onChange={this.onChange}
 						   value={this.state.status}>
 						<option value='0'>New</option>				 		
@@ -185,7 +187,7 @@ export default class CaseForm extends React.Component {
  				</select>
 				</Form.Field>
 
-				<Button type="submit">Submit</Button>
+				<Button type="submit">Create</Button>
 			</Form>
 		
 		)		
