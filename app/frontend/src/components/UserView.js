@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button, Header} from 'semantic-ui-react';
+import {Form, Button, Header, Grid} from 'semantic-ui-react';
 
 export default class UserView extends React.Component {
 		
@@ -211,11 +211,13 @@ export default class UserView extends React.Component {
 				</Form.Group>
 
 				<br/>
-
-				<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
-				<Button onClick={this.onCancel} style={edit}>Cancel</Button>
-				<Button onClick={this.onSubmit} style={edit}>Submit</Button>
-
+				<Grid>
+					<Grid.Column textAlign="center">
+						<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
+						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
+						<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+					</Grid.Column>
+				</Grid>
 			</Form>
 
 		);		

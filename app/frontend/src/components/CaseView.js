@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Button, Popup, Icon, Header, TextArea} from 'semantic-ui-react';
+import {Form,Button, Popup, Icon, Header, TextArea, Grid} from 'semantic-ui-react';
 
 export default class CaseView extends React.Component {
 	
@@ -227,10 +227,13 @@ export default class CaseView extends React.Component {
 				</Form.Field>
 
 				<br/>
-
-				<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
-				<Button onClick={this.onCancel} style={edit}>Cancel</Button>
-				<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+				<Grid>
+					<Grid.Column textAlign="center">
+						<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
+						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
+						<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+					</Grid.Column>
+				</Grid>
 			</Form>
 		
 		)		

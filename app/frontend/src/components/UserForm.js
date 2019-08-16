@@ -139,6 +139,7 @@ export default class UserForm extends React.Component {
 				<Popup content='Select users access rights' 
 							trigger={<Icon circular name='info' />} 
 							position='bottom'/>
+
 				</Form.Group>
 				<Grid>
 					<Grid.Column floated= 'right' textAlign='right'>
@@ -165,10 +166,13 @@ export default class UserForm extends React.Component {
 						   value={this.state.confirmPassword}/>
 
 				</Form.Field>
-
 				</Form.Group>
-				<br/>
-				<Button type="submit">Create</Button>
+
+				<Grid>
+					<Grid.Column textAlign="center">
+						<Button type="submit">Create</Button>
+					</Grid.Column>
+				</Grid>
 			</Form>
 
 		)		

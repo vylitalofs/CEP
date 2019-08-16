@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Button, Popup, Icon, Header, TextArea} from 'semantic-ui-react';
+import {Form,Button, Popup, Icon, Header, TextArea, Grid} from 'semantic-ui-react';
 
 //täältä puuttuu locationeiden hakeminen tietokannasta ja niiden asettaminen
 //4 default locationia: Other, Office, Storage, Common space
@@ -162,32 +162,45 @@ export default class CaseForm extends React.Component {
 						   onChange={this.onChange}
 						   value={this.state.caseInfo}
 				/>
+				<br/>
+				<Form.Group grouped>
+				<Grid>
+					<Grid.Column floated= 'right' textAlign='right'>
+				<Popup content='Handler comment and case status will be added later by the handler.'
+							trigger={<Icon circular name='info' 
+							/>} position='bottom'  />
+					</Grid.Column>
+				</Grid>
+					<Form.Field>
+					<label htmlFor="status">Handler Comment:</label>
+					<input	control={TextArea}
+						placeholder='What is this case about?'
+						inputtype="text"
+							name="superInfo"
+							onChange={this.onChange}
+							disabled= 'true'
+							value={this.state.superInfo}/>
+					</Form.Field>
 
-				<Form.Field 
-					control={TextArea}
-					label= 'Handler Comment:'
-					placeholder='What is this case about?'
-					inputtype="text"
-						   name="superInfo"
-						   onChange={this.onChange}
-						   disabled= 'true'
-						   value={this.state.superInfo}
-				/>
+					<Form.Field  style={{width:90}}>
+					<label htmlFor="status">Case status:</label>
+					<select name="status"
+							className="ui dropdown"
+							inputtype="hidden"
+							disabled= 'true'
+							onChange={this.onChange}
+							value={this.state.status}>
+							<option value='0'>New</option>				 		
+							<option value='1'>Closed</option>
+					</select>
+					</Form.Field>
+				</Form.Group >
 
-				<Form.Field>
-				<label htmlFor="status">Case status:</label>
-				<select name="status"
-						className="ui dropdown"
-						inputtype="hidden"
-						disabled= 'true'
-						onChange={this.onChange}
-						   value={this.state.status}>
-						<option value='0'>New</option>				 		
-  				 		<option value='1'>Closed</option>
- 				</select>
-				</Form.Field>
-
+				<Grid>
+					<Grid.Column textAlign="center">
 				<Button type="submit">Create</Button>
+				</Grid.Column>
+				</Grid>
 			</Form>
 		
 		)		
