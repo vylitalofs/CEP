@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class UserList extends React.Component {
 
@@ -46,10 +47,11 @@ export default class UserList extends React.Component {
 	render() {
 		
 		let listitems = this.state.list.map((user, index) => {
+			let link = "/user/"+user._id
 			let usertype = user.isAdmin ? "Admin" : "User"
 			return (
 				<Table.Row key={user._id}>
-					<Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
+					<Table.Cell><Link to={link}>{user.firstName} {user.lastName}</Link></Table.Cell>
 					<Table.Cell>{user.email}</Table.Cell>
 					<Table.Cell>{usertype}</Table.Cell>
 				</Table.Row>		

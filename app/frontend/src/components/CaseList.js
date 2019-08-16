@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class CaseList extends React.Component {
 
@@ -44,9 +45,10 @@ export default class CaseList extends React.Component {
 
 	render() {
 		let listitems = this.state.list.map((thiscase, index) => {
+			let link = "/case/"+thiscase._id
 			return (
 				<Table.Row key={thiscase._id}>
-					<Table.Cell>{thiscase.title}</Table.Cell>
+					<Table.Cell><Link to={link}>{thiscase.title}</Link></Table.Cell>
 					<Table.Cell>{thiscase.type.name}</Table.Cell>
 					<Table.Cell>{thiscase.location.name}</Table.Cell>
 					<Table.Cell>{thiscase.status.name}</Table.Cell>

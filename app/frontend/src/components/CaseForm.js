@@ -10,12 +10,43 @@ export default class CaseForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			types:[],
+			statuses:[],
+			locations:[],
 			title:"",
             type:"",
             location:"",
 			caseInfo:"",
 			superInfo:""
 		}
+	}
+
+	componentDidMount() {
+		//let tempState = {};
+		//this.setState(tempState)
+	}
+
+	getLocation = () => {
+		let request = {
+			method:"GET",
+			mode:"cors",
+			headers:{"Content-Type":"application/json", "token":this.props.token}
+		}
+
+		fetch("/api/locations/" + this.props.id, request).then(response => {
+			if (response.ok) {
+				response.json().then(data => {
+					this.setState(data)
+				}).catch(error => {
+					console.log("Error in parsing response json")
+				});
+			}
+			else {
+				console.log("Server responded with status: " + response.statusText);
+			}
+		}).catch(error => {
+			console.log(error);
+		})
 	}
 	
 	onChange = (event) => {
@@ -26,25 +57,25 @@ export default class CaseForm extends React.Component {
 	
 	onSubmit = (event) => {
 		event.preventDefault();
-		let item = {
+		
+		if (this.state.title === "") {
+			alert("Add a title");
+			return;
+		}
+		if (this.state.caseInfo === "") {
+			alert("Add a description about the case");
+			return;
+		}
+
+		let thisCase = {
 			title:this.state.title,
 			type:this.state.type,
             location:this.state.location,
 			caseInfo:this.state.caseInfo,
 			superInfo:this.state.superInfo,
-			id:0
-		}
-				//vikatapaukset
-		if (item.title === "") {
-			alert("Add a title");
-			return;
-		}
-		if (item.caseInfo === "") {
-			alert("Add a description about the case");
-			return;
 		}
 
-		this.addToList(item);
+		this.createCase(thisCase);
 
 		this.setState({
 			title:"",
@@ -54,8 +85,8 @@ export default class CaseForm extends React.Component {
 			superInfo:""
 		})
 	}
-	
-	addToList = (item) => {
+
+	createCase = (item) => {
 		let request = {
 			method:"POST",
 			mode:"cors",
@@ -131,6 +162,28 @@ export default class CaseForm extends React.Component {
 						   onChange={this.onChange}
 						   value={this.state.caseInfo}
 				/>
+
+				<Form.Field 
+					control={TextArea}
+					label= 'Handler Comment:'
+					placeholder='What is this case about?'
+					inputtype="text"
+						   name="superInfo"
+						   onChange={this.onChange}
+						   value={this.state.caseInfo}
+				/>
+
+				<Form.Field>
+				<label htmlFor="status">Case status:</label>
+				<select name="status"
+						className="ui dropdown"
+						inputtype="hidden" 
+						onChange={this.onChange}
+						   value={this.state.status}>
+						<option value='0'>New</option>				 		
+  				 		<option value='1'>Closed</option>
+ 				</select>
+				</Form.Field>
 
 				<Button type="submit">Submit</Button>
 			</Form>

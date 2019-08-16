@@ -176,7 +176,7 @@ export default class UserView extends React.Component {
 					<select name="isAdmin"
 							className="ui dropdown"
 	                        onChange={this.onChange}
-	                        disabled={!this.state.edit}
+	                        disabled={!(this.state.edit || this.props.isAdmin)}
 	                        inputtype="hidden" 
 							value={this.state.isAdmin}
 							>
