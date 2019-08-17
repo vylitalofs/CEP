@@ -173,9 +173,9 @@ export default class CaseForm extends React.Component {
 				</Grid>
 					<Form.Field>
 					<label htmlFor="status">Handler Comment:</label>
-					<input	control={TextArea}
-						placeholder='What is this case about?'
-						inputtype="text"
+					<input control={TextArea}
+							placeholder='What is this case about?'
+							inputtype="text"
 							name="superInfo"
 							onChange={this.onChange}
 							disabled= 'true'

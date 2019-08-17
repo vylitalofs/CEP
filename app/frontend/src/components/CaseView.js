@@ -9,12 +9,48 @@ export default class CaseView extends React.Component {
 			types:[],
 			statuses:[],
 			locations:[],
+			thisCase:[],
+
 			title:"",
-            type:"",
-            location:"",
-			caseInfo:"",
-            superInfo:"",
-            edit:false
+			type:"",
+			location:"",
+			description:"",
+			adminComment:"",
+			dateCreated:"",
+			dateUpdated:"",
+			creator:"",
+			edit:false
+            /*
+              {
+			    "_id": "5d498b14f8ec341c2c9f2ab3",
+			    "title": "Fire Hazard",
+			    "description": "Safety hazard due to possible fire",
+			    "adminComment": "asd",
+			    "dateCreated": "1932-11-07T22:00:00.000Z",
+			    "dateUpdated": "2019-11-07T22:00:00.000Z",
+			    "creator": {
+			      "_id": "5d495cb0cb4ac80db8d58d32",
+			      "firstName": "Ismo",
+			      "lastName": "Alanko"
+			    },
+			    "location": {
+			      "_id": "5d496aec68ef870a34eafe0d",
+			      "name": "Halli A",
+			      "__v": 0
+			    },
+			    "status": {
+			      "_id": "5d496f1ab0b5cf07c8789ba7",
+			      "name": "Confirmed",
+			      "__v": 0
+			    },
+			    "type": {
+			      "_id": "5d4973e07378d4168c0e9219",
+			      "name": "Safety Hazard",
+			      "__v": 0
+			    },
+			    "__v": 0
+			  }
+			 */
 		}
 	}
 
@@ -22,7 +58,7 @@ export default class CaseView extends React.Component {
         this.getCase();
 	}
 
-	getCase= () => {
+	getCase = () => {
 		let request = {
 			method:"GET",
 			mode:"cors",
@@ -32,9 +68,21 @@ export default class CaseView extends React.Component {
 		fetch("/api/case/" + this.props.id, request).then(response => {
 			if (response.ok) {
 				response.json().then(data => {
-					// convert to string for easier handling in form
-					
-					this.setState(data)
+
+					let tempState = {
+						title:data.title,
+						type:data.type.name,
+						status:data.status.name,
+						location:data.location.name,
+						description:data.description,
+						adminComment:data.adminComment,
+						dateCreated:data.dateCreated,
+						dateUpdated:data.dateUpdated,
+						creator:data.creator.firstName + " " + data.creator.lastName,
+						thisCase:data
+					}
+
+					this.setState(tempState)
 				}).catch(error => {
 					console.log("Error in parsing response json")
 				});
@@ -46,32 +94,6 @@ export default class CaseView extends React.Component {
 			console.log(error);
 		})
     }
-    /*
-	getLocation= () => {
-		let request = {
-			method:"GET",
-			mode:"cors",
-			headers:{"Content-Type":"application/json", "token":this.props.token}
-		}
-
-		fetch("/api/locations/" + this.props.id, request).then(response => {
-			if (response.ok) {
-				response.json().then(data => {
-					// convert to string for easier handling in form
-					
-					this.setState(data)
-				}).catch(error => {
-					console.log("Error in parsing response json")
-				});
-			}
-			else {
-				console.log("Server responded with status: " + response.statusText);
-			}
-		}).catch(error => {
-			console.log(error);
-		})
-    }   
-    */
 
 	putCase = (thiscase) => {
         let request = {
@@ -92,6 +114,7 @@ export default class CaseView extends React.Component {
         	console.log(error);
         })
     }
+
 	onChange = (event) => {
 		let state = {};
 		state[event.target.name] = event.target.value;
@@ -115,10 +138,10 @@ export default class CaseView extends React.Component {
         //Errors after accepting editing
         if(this.state.edit === true){
             if (this.state.title === "") {
-                alert("Add a title");
+                alert("Case Title required");
                 return;
             }
-            if (this.state.superInfo === "") {
+            if (this.state.adminComment === "") {
                 alert("Add handler comments");
                 return;
             }
@@ -127,9 +150,9 @@ export default class CaseView extends React.Component {
 		let thisCase = {
 			title:this.state.title,
 			type:this.state.type,
-            location:this.state.location,
-			caseInfo:this.state.caseInfo,
-			superInfo:this.state.superInfo,
+			location:this.state.location,
+			description:this.state.description,
+			adminComment:this.state.adminComment,
 		}
 
 		this.putCase(thisCase);
@@ -138,22 +161,25 @@ export default class CaseView extends React.Component {
 			title:"",
 			type:"",
             location:"",
-			caseInfo:"",
-            superInfo:"",
+			description:"",
+            adminComment:"",
             edit:false
         })
         this.getCase();
 	}
 
 	render() {
+
         let edit = !this.state.edit ? {display:'none'} : {};
+        let noedit = this.state.edit ? {display:'none'} : {};
+        let data = {0: this.state.status}
+
 		return (
-			
-			<Form onSubmit={this.onSubmit}  style={{width:600}}>
+			<Form style={{width:600}}>
 				<Header textAlign='center'>CASE OVERVIEW</Header>
 
 				<Form.Field>
-					<label htmlFor="title">Title:</label>
+					<label htmlFor="title">Case Title:</label>
 					<input type="text"
                            name="title"
                            disabled={!this.state.edit}
@@ -162,74 +188,103 @@ export default class CaseView extends React.Component {
 				</Form.Field>
 
 				<Form.Group widths='equal'>
-				<Form.Field>
-				<label htmlFor="type">Case type:</label>
-				<select name="type"
-						className="ui dropdown"
-                        inputtype="hidden"
-                        disabled={!this.state.edit}
-						onChange={this.onChange}
-						   value={this.state.type}>
-						<option value='0'>Other</option>				 		
-  				 		<option value='1'>Service advice</option>
-						<option value='2'>Development plan</option>
- 				</select>
-				</Form.Field>
-				
-				<Form.Field>
-				<label htmlFor="location">Location:</label>
-				<select name="location"
-						className="ui dropdown"
-                        inputtype="hidden"
-                        disabled={!this.state.edit} 
-						onChange={this.onChange}
-						   value={this.state.location}>
-						<option value='0'>Other</option>				 		
-  				 		<option value='1'>Office</option>
-						<option value='2'>Storage</option>
-						<option value='3'>Common space</option>				 		
- 				</select>
-				</Form.Field>
+
+					<Form.Field>
+						<label htmlFor="creator">Case creator:</label>
+						<input type="text"
+								name="creator"
+								disabled={true}
+								value={this.state.creator}/>
+					</Form.Field>
+
+					<Form.Field>
+					<label htmlFor="status">Case status:</label>
+					<select name="status"
+							className="ui dropdown"
+							inputtype="hidden"
+							disabled={!(this.state.edit || this.props.isAdmin)}
+							onChange={this.onChange}
+							value={0}
+							data={data}>
+	 				</select>
+					</Form.Field>
 
 				</Form.Group>
 
+				<Form.Group widths='equal'>
+
+					<Form.Field>
+					<label htmlFor="type">Case type:</label>
+					<select name="type"
+							className="ui dropdown"
+	                        inputtype="hidden"
+	                        disabled={!this.state.edit}
+							onChange={this.onChange}
+							value={this.state.type}
+							options={this.state.types}
+							>
+	 				</select>
+					</Form.Field>
+					
+					<Form.Field>
+					<label htmlFor="location">Location:</label>
+					<select name="location"
+							className="ui dropdown"
+	                        inputtype="hidden"
+	                        disabled={!this.state.edit} 
+							onChange={this.onChange}
+							value={this.state.location}
+							options={this.state.location}
+							>			 		
+	 				</select>
+					</Form.Field>
+
+				</Form.Group>
+
+				<Form.Group widths='equal'>
+
+					<Form.Field>
+						<label htmlFor="dateCreated">Date Created:</label>
+						<input type="text"
+								name="dateCreated"
+								disabled={true}
+								value={this.state.dateCreated}/>
+					</Form.Field>
+
+					<Form.Field>
+						<label htmlFor="dateUpdated">Date Updated:</label>
+						<input type="text"
+								name="dateUpdated"
+								disabled={true}
+								value={this.state.dateUpdated || ''}/>
+					</Form.Field>
+
+				</Form.Group>
+
+				<label style={{fontWeight: "bold"}}>Case Description:</label>
 				<Form.Field 
 					control={TextArea}
-					label= 'Description:'
                     disabled={!this.state.edit}
 					inputtype="text"
-						   name="caseInfo"
-						   onChange={this.onChange}
-						   value={this.state.caseInfo}
+					name="description"
+					onChange={this.onChange}
+					value={this.state.description}
 				/>
 
-				<Form.Field 
+				<label style={{fontWeight: "bold"}}>Handler Comment:</label>
+				<Form.Field
 					control={TextArea}
-					label= 'Handler Comment:'
                     disabled={!this.state.edit}
 					inputtype="text"
-						   name="superInfo"
-						   onChange={this.onChange}
-						   value={this.state.caseInfo}
+					name="adminComment"
+					onChange={this.onChange}
+					value={this.state.adminComment}
 				/>
-
-				<Form.Field>
-				<label htmlFor="status">Case status:</label>
-				<select name="status"
-						className="ui dropdown"
-                        inputtype="hidden"
-                        disabled={!this.state.edit}
-						onChange={this.onChange}
-						   value={this.state.status}>
-						<option value='0'>New</option>				 		
-  				 		<option value='1'>Closed</option>
- 				</select>
-				</Form.Field>
 
 				<br/>
 				<Grid>
 					<Grid.Column textAlign="center">
-						<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
+						<Button onClick={this.onEdit} style={noedit}>Edit</Button>
 						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
 						<Button onClick={this.onSubmit} style={edit}>Submit</Button>
 					</Grid.Column>

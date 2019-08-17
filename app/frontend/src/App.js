@@ -135,12 +135,6 @@ class App extends React.Component {
                                     <Redirect to="/"/>
                             }/>
 
-                            <Route path="/case/:id" render={({match}) =>
-                                this.state.isLogged ?
-                                    <CaseView token={this.state.token} id={match.params.id}/> :
-                                    <Redirect to="/"/>
-                            }/>
-
                             <Route path="/cases" render={() =>
                                 this.state.isLogged ?
                                     <CaseList token={this.state.token}/> :
@@ -155,7 +149,7 @@ class App extends React.Component {
 
                             <Route path="/case/:id" render={({match}) =>
                                 this.state.isLogged ?
-                                    <UserForm token={this.state.token} id={match.params.id}/> :
+                                    <CaseView token={this.state.token} id={match.params.id}/> :
                                     <Redirect to="/"/>
                             }/>
 
