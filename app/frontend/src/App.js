@@ -131,16 +131,7 @@ class App extends React.Component {
 
                             <Route path="/user/:id" render={({match}) =>
                                 this.state.isLogged ?
-                                    <UserView token={this.state.token} id={match.params.id}
-                                    onSubmitRemove={this.onSubmitRemove}
-                                    editUser={this.editUser}/> :
-                                    <Redirect to="/"/>
-                            }/>
-                            <Route path="/case/:id" render={({match}) =>
-                                this.state.isLogged ?
-                                    <CaseView token={this.state.token} id={match.params.id}
-                                    onSubmitRemove={this.onSubmitRemove}
-                                    editCase={this.editCase}/> :
+                                    <UserView token={this.state.token} id={match.params.id}/> :
                                     <Redirect to="/"/>
                             }/>
 
