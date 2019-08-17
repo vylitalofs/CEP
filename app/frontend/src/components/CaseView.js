@@ -167,11 +167,49 @@ export default class CaseView extends React.Component {
         })
         this.getCase();
 	}
+	
+	//REMOVE
+	onRemove = () => {
+		let state = {};
+		state.remove = true
+		this.setState(state);
+	}
+	onCancelRemove = () => {
+		let state = {};
+		state.remove = false
+		this.setState(state);
+	}
+
+
+
+	onSubmitRemove = (event) => {
+		this.props.onRemove(event.target.name);
+		let request = {
+			method:"DELETE",
+			mode:"cors",
+			headers:{"Content-Type":"application/json",
+					  "token":this.state.token}
+		}
+		fetch("/api/case/"+this.props.id,request).then(response => {
+			  if(response.ok) {
+				  console.log("User removed successfully");
+				  this.getCase();
+			  } else {
+				  console.log("Server responded with status:"+response.statusText);
+				  this.handleStatus(response.status);
+			  }
+		}).catch(error => {
+			  console.log(error);
+		})
+
+	}
 
 	render() {
 
-        let edit = !this.state.edit ? {display:'none'} : {};
-        let noedit = this.state.edit ? {display:'none'} : {};
+		let edit = !this.state.edit ? {display:'none'} : {};
+		let noedit = this.state.edit ? {display:'none'} : {};
+		let remove = !this.state.remove ? {display:'none'} : {};
+		let noremove = this.state.remove ? {display:'none'} : {};
         let data = {0: this.state.status}
 
 		return (
@@ -283,11 +321,16 @@ export default class CaseView extends React.Component {
 
 				<br/>
 				<Grid>
-					<Grid.Column textAlign="center">
-						<Button onClick={this.onEdit} style={noedit}>Edit</Button>
-						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
-						<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+					<Grid.Column >
+						<Button onClick={this.onEdit} floated='left' style={noedit}>Edit</Button>
+						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
+						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>		
+						<Button onClick={this.onRemove}  floated= 'right' style={noremove}>Remove</Button>
+						<Button onClick={this.onCancelRemove} floated= 'right' style={remove}>Cancel</Button>
+						<Button onClick={this.onSubmitRemove} floated= 'right' style={remove}>Submit</Button>
+
 					</Grid.Column>
+
 				</Grid>
 			</Form>
 		

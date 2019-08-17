@@ -145,8 +145,28 @@ export default class UserView extends React.Component {
 		this.setState(state);
 	}
 
+
+
 	onSubmitRemove = (event) => {
-		event.preventDefault();
+		this.props.onRemove(event.target.name);
+		let request = {
+			method:"DELETE",
+			mode:"cors",
+			headers:{"Content-Type":"application/json",
+					  "token":this.state.token}
+		}
+		fetch("/api/user/"+this.props.id,request).then(response => {
+			  if(response.ok) {
+				  console.log("User removed successfully");
+				  this.getUser();
+			  } else {
+				  console.log("Server responded with status:"+response.statusText);
+				  this.handleStatus(response.status);
+			  }
+		}).catch(error => {
+			  console.log(error);
+		})
+
 	}
 	render() {
 		let edit = !this.state.edit ? {display:'none'} : {};
