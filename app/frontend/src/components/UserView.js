@@ -150,7 +150,9 @@ export default class UserView extends React.Component {
 	}
 	render() {
 		let edit = !this.state.edit ? {display:'none'} : {};
+		let noedit = this.state.edit ? {display:'none'} : {};
 		let remove = !this.state.remove ? {display:'none'} : {};
+		let noremove = this.state.remove ? {display:'none'} : {};
 		return (
 			<Form>
 
@@ -204,7 +206,7 @@ export default class UserView extends React.Component {
 					</Form.Field>
 				</Form.Group>
 
-				<Form.Group grouped>
+				<Form.Group grouped style={edit}>
 	                <Form.Field>
 						<label htmlFor="password">Password:</label>
 						<input type="password"
@@ -215,7 +217,7 @@ export default class UserView extends React.Component {
 							   
 					</Form.Field>
 					
-	                <Form.Field>
+	                <Form.Field style={edit}>
 						<label htmlFor="confirmPassword">Confirm password:</label>
 						<input type="password"
 	                           name="confirmPassword"
@@ -229,12 +231,12 @@ export default class UserView extends React.Component {
 				<br/>
 				<Grid>
 					<Grid.Column >
-						<Button onClick={this.onEdit} floated='left' disabled={this.state.edit}>Edit</Button>
-						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
-						<Button onClick={this.onSubmit} style={edit}>Submit</Button>		
-						<Button onClick={this.onRemove} floated= 'right' disabled={this.state.remove}>Remove</Button>
-						<Button onClick={this.onCancelRemove} style={remove}>Cancel</Button>
-						<Button onClick={this.onSubmitRemove} style={remove}>Submit</Button>
+						<Button onClick={this.onEdit} floated='left' style={noedit}>Edit</Button>
+						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
+						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>		
+						<Button onClick={this.onRemove} floated= 'right' style={noremove}>Remove</Button>
+						<Button onClick={this.onCancelRemove} floated= 'right' style={remove}>Cancel</Button>
+						<Button onClick={this.onSubmitRemove} floated= 'right' style={remove}>Submit</Button>
 
 					</Grid.Column>
 
