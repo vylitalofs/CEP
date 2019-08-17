@@ -12,7 +12,8 @@ export default class UserView extends React.Component {
 			isAdmin:"false",
             password:"",
             confirmPassword:"",
-            edit:false
+			edit:false,
+			remove:false
 		}
 	}
 
@@ -70,7 +71,7 @@ export default class UserView extends React.Component {
 		state[event.target.name] = event.target.value;
 		this.setState(state);
 	}
-
+	//EDIT
 	onEdit = () => {
 		let state = {};
 		state.edit = true
@@ -129,12 +130,27 @@ export default class UserView extends React.Component {
             confirmPassword:"",
             edit:false
 		})
-
 		this.getUser();
 	}
 
+	//REMOVE
+	onRemove = () => {
+		let state = {};
+		state.remove = true
+		this.setState(state);
+	}
+	onCancelRemove = () => {
+		let state = {};
+		state.remove = false
+		this.setState(state);
+	}
+
+	onSubmitRemove = (event) => {
+		event.preventDefault();
+	}
 	render() {
 		let edit = !this.state.edit ? {display:'none'} : {};
+		let remove = !this.state.remove ? {display:'none'} : {};
 		return (
 			<Form>
 
@@ -212,11 +228,16 @@ export default class UserView extends React.Component {
 
 				<br/>
 				<Grid>
-					<Grid.Column textAlign="center">
-						<Button onClick={this.onEdit} disabled={this.state.edit}>Edit</Button>
+					<Grid.Column >
+						<Button onClick={this.onEdit} floated='left' disabled={this.state.edit}>Edit</Button>
 						<Button onClick={this.onCancel} style={edit}>Cancel</Button>
-						<Button onClick={this.onSubmit} style={edit}>Submit</Button>
+						<Button onClick={this.onSubmit} style={edit}>Submit</Button>		
+						<Button onClick={this.onRemove} floated= 'right' disabled={this.state.remove}>Remove</Button>
+						<Button onClick={this.onCancelRemove} style={remove}>Cancel</Button>
+						<Button onClick={this.onSubmitRemove} style={remove}>Submit</Button>
+
 					</Grid.Column>
+
 				</Grid>
 			</Form>
 
