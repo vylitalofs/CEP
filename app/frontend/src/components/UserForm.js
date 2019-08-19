@@ -151,7 +151,7 @@ export default class UserForm extends React.Component {
 				<Form.Group grouped>
                 <Form.Field>
 					<label htmlFor="password">Password:</label>
-					<input type="text"
+					<input type="password"
 						   name="password"
 						   onChange={this.onChange}
 						   value={this.state.password}/>
@@ -160,7 +160,7 @@ export default class UserForm extends React.Component {
 				
                 <Form.Field>
 					<label htmlFor="confirmPassword">Confirm password:</label>
-					<input type="text"
+					<input type="password"
 						   name="confirmPassword"
 						   onChange={this.onChange}
 						   value={this.state.confirmPassword}/>
