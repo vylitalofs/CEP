@@ -16,7 +16,7 @@ export default class TopMenu extends Component {
       
           iconmenu = <Menu secondary>
           <Menu.Item header position='left'>
-            <img src={logo} alt="Logo" style={{width: 50, height: 50}}/>
+            <img src={logo} alt="Logo" style={{width: 60, height: 60}}/>
           </Menu.Item>
           </Menu>
 

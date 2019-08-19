@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
-import {List, Menu, Segment} from 'semantic-ui-react';
+import {List, Menu, Segment, Icon} from 'semantic-ui-react';
 
 export default class SideNavbar extends React.Component {
     
@@ -11,13 +11,16 @@ export default class SideNavbar extends React.Component {
 			if (this.props.user.isAdmin) {
 				navbar = 
 					<Segment id="nav" style={{left: "auto"}}>
+						<br/>
 						<Menu text vertical>
 							<List>
-								<List.Item><Link to="/cases">Cases</Link></List.Item>
-								<List.Item><Link to="/newcase">Create a new Case</Link></List.Item>
+								<List.Item><Link to="/cases"> <Icon name="folder outline"  size='large'/> &nbsp;Cases</Link></List.Item>
+								<List.Item><Link to="/newcase"><Icon name="file alternate outline"  size='large'/> &nbsp;Create a new Case</Link></List.Item>
+								<br/>
 								<hr style={{width:170, margin: "0px"}}/>
-								<List.Item><Link to="/users">Users</Link></List.Item>
-								<List.Item><Link to="/newuser">Create a new user</Link></List.Item>
+								<br/>
+								<List.Item><Link to="/users"><Icon name="users"  size='large'/> &nbsp; Users</Link></List.Item>
+								<List.Item><Link to="/newuser"><Icon name="add user"  size='large'/> &nbsp;Create a new user</Link></List.Item>
 							</List>
 						</Menu>
 					</Segment>

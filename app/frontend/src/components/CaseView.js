@@ -190,9 +190,9 @@ export default class CaseView extends React.Component {
 						   value={this.state.title}/>
 				</Form.Field>
 
-				<Form.Group widths='equal'>
+				<Form.Group >
 
-					<Form.Field>
+					<Form.Field width={10}>
 						<label htmlFor="creator">Case creator:</label>
 						<input type="text"
 								name="creator"
@@ -200,16 +200,21 @@ export default class CaseView extends React.Component {
 								value={this.state.creator}/>
 					</Form.Field>
 
-					<Form.Field>
-						<label htmlFor="status">Case status:</label>
-						<select name="status"
-								className="ui dropdown"
-								inputtype="hidden"
-								disabled={!(this.state.edit && this.props.isAdmin)}
-								onChange={this.onChange}
-								value={this.state.status}
-								>
-		 				</select>
+
+					<Form.Field width={4}>
+						<label htmlFor="dateCreated">Date Created:</label>
+						<input type="text"
+								name="dateCreated"
+								disabled={true}
+								value={this.state.dateCreated}/>
+					</Form.Field>
+
+					<Form.Field width={4}>
+						<label htmlFor="dateUpdated">Date Updated:</label>
+						<input type="text"
+								name="dateUpdated"
+								disabled={true}
+								value={this.state.dateUpdated || ''}/>
 					</Form.Field>
 
 				</Form.Group>
@@ -243,24 +248,6 @@ export default class CaseView extends React.Component {
 					</Form.Field>
 				</Form.Group>
 
-				<Form.Group widths='equal'>
-					<Form.Field>
-						<label htmlFor="dateCreated">Date Created:</label>
-						<input type="text"
-								name="dateCreated"
-								disabled={true}
-								value={this.state.dateCreated}/>
-					</Form.Field>
-
-					<Form.Field>
-						<label htmlFor="dateUpdated">Date Updated:</label>
-						<input type="text"
-								name="dateUpdated"
-								disabled={true}
-								value={this.state.dateUpdated || ''}/>
-					</Form.Field>
-				</Form.Group>
-
 				<label style={{fontWeight: "bold"}}>Case Description:</label>
 				<Form.Field 
 					control={TextArea}
@@ -280,6 +267,18 @@ export default class CaseView extends React.Component {
 					onChange={this.onChange}
 					value={this.state.adminComment}
 				/>
+				
+				<Form.Field width={3}>
+						<label htmlFor="status">Case status:</label>
+						<select name="status"
+								className="ui dropdown"
+								inputtype="hidden"
+								disabled={!(this.state.edit && this.props.isAdmin)}
+								onChange={this.onChange}
+								value={this.state.status}
+								>
+		 				</select>
+				</Form.Field>
 
 				<br/>
 				<Grid>

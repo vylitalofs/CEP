@@ -163,7 +163,7 @@ export default class CaseForm extends React.Component {
 
 				<Grid>
 					<Grid.Column textAlign="center">
-				<Button type="submit">Create</Button>
+				<Button type="submit"><Icon name="plus"/>Create</Button>
 				</Grid.Column>
 				</Grid>
 			</Form>
