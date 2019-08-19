@@ -135,6 +135,7 @@ export default class CaseView extends React.Component {
             adminComment:"",
             edit:false
         })
+        
         this.getCase();
 	}
 	
@@ -273,7 +274,7 @@ export default class CaseView extends React.Component {
 				<label style={{fontWeight: "bold"}}>Handler Comment:</label>
 				<Form.Field
 					control={TextArea}
-                    disabled={!this.state.edit}
+                    disabled={!(this.state.edit && this.props.isAdmin)}
 					inputtype="text"
 					name="adminComment"
 					onChange={this.onChange}
