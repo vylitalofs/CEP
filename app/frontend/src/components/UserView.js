@@ -71,6 +71,7 @@ export default class UserView extends React.Component {
 		state[event.target.name] = event.target.value;
 		this.setState(state);
 	}
+
 	//EDIT
 	onEdit = () => {
 		let state = {};
@@ -86,6 +87,7 @@ export default class UserView extends React.Component {
 	
 	onSubmit = (event) => {
 		event.preventDefault();
+
 		//Errors after accepting editing
 		if(this.state.edit === true){
 			if (this.state.firstName === "") {
@@ -108,6 +110,7 @@ export default class UserView extends React.Component {
 				return;
 			}
 		}
+
 		// Convert back to boolean
 		let isAdmin = this.state.isAdmin === "true"
 
@@ -130,6 +133,7 @@ export default class UserView extends React.Component {
             confirmPassword:"",
             edit:false
 		})
+
 		this.getUser();
 	}
 
@@ -145,34 +149,31 @@ export default class UserView extends React.Component {
 		this.setState(state);
 	}
 
+	onSubmitRemove = () => {
+        let request = {
+            method:"DELETE",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", token:this.props.token},
+        }
 
+        fetch("/api/user/" + this.props.id, request).then(response => {
+            if (response.ok) {
+                alert("User removed successfully!")
+            }
+            else {
+                console.log("Server responded with status: " + response.status);
+            }
+        }).catch(error => {
+        	console.log(error);
+        })
+    }
 
-	onSubmitRemove = (event) => {
-		this.props.onRemove(event.target.name);
-		let request = {
-			method:"DELETE",
-			mode:"cors",
-			headers:{"Content-Type":"application/json",
-					  "token":this.state.token}
-		}
-		fetch("/api/user/"+this.props.id,request).then(response => {
-			  if(response.ok) {
-				  console.log("User removed successfully");
-				  this.getUser();
-			  } else {
-				  console.log("Server responded with status:"+response.statusText);
-				  this.handleStatus(response.status);
-			  }
-		}).catch(error => {
-			  console.log(error);
-		})
-
-	}
 	render() {
 		let edit = !this.state.edit ? {display:'none'} : {};
 		let noedit = this.state.edit ? {display:'none'} : {};
 		let remove = !this.state.remove ? {display:'none'} : {};
-		let noremove = this.state.remove ? {display:'none'} : {};
+		let noremove = (this.state.remove || !this.props.isAdmin) ? {display:'none'} : {};
+
 		return (
 			<Form>
 
@@ -211,18 +212,18 @@ export default class UserView extends React.Component {
 
 				<Form.Group>
 					<Form.Field>
-					<label htmlFor="isAdmin">Access Rights:</label>
-					<select name="isAdmin"
-							className="ui dropdown"
-	                        onChange={this.onChange}
-	                        disabled={!(this.state.edit || this.props.isAdmin)}
-	                        inputtype="hidden" 
-							value={this.state.isAdmin}
-							>
-							
-							<option value="false">Basic user</option>				 		
-	  				 		<option value="true">Admin</option>
-	 				</select>
+						<label htmlFor="isAdmin">Access Rights:</label>
+						<select name="isAdmin"
+								className="ui dropdown"
+		                        onChange={this.onChange}
+		                        disabled={!(this.state.edit && this.props.isAdmin)}
+		                        inputtype="hidden" 
+								value={this.state.isAdmin}
+								>
+								
+								<option value="false">Basic user</option>				 		
+		  				 		<option value="true">Admin</option>
+		 				</select>
 					</Form.Field>
 				</Form.Group>
 
@@ -250,16 +251,14 @@ export default class UserView extends React.Component {
 
 				<br/>
 				<Grid>
-					<Grid.Column >
+					<Grid.Column>
 						<Button onClick={this.onEdit} floated='left' style={noedit}>Edit</Button>
 						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
 						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>		
-						<Button onClick={this.onRemove} floated= 'right' style={noremove}>Remove</Button>
-						<Button onClick={this.onCancelRemove} floated= 'right' style={remove}>Cancel</Button>
-						<Button onClick={this.onSubmitRemove} floated= 'right' style={remove}>Submit</Button>
-
+						<Button onClick={this.onRemove} floated='right' style={noremove}>Remove</Button>
+						<Button onClick={this.onCancelRemove} floated='right' style={remove}>Cancel</Button>
+						<Button onClick={this.onSubmitRemove} floated='right' style={remove}>Submit</Button>
 					</Grid.Column>
-
 				</Grid>
 			</Form>
 
