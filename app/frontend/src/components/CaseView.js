@@ -20,37 +20,6 @@ export default class CaseView extends React.Component {
 			dateUpdated:"",
 			creator:"",
 			edit:false
-            /*
-              {
-			    "_id": "5d498b14f8ec341c2c9f2ab3",
-			    "title": "Fire Hazard",
-			    "description": "Safety hazard due to possible fire",
-			    "adminComment": "asd",
-			    "dateCreated": "1932-11-07T22:00:00.000Z",
-			    "dateUpdated": "2019-11-07T22:00:00.000Z",
-			    "creator": {
-			      "_id": "5d495cb0cb4ac80db8d58d32",
-			      "firstName": "Ismo",
-			      "lastName": "Alanko"
-			    },
-			    "location": {
-			      "_id": "5d496aec68ef870a34eafe0d",
-			      "name": "Halli A",
-			      "__v": 0
-			    },
-			    "status": {
-			      "_id": "5d496f1ab0b5cf07c8789ba7",
-			      "name": "Confirmed",
-			      "__v": 0
-			    },
-			    "type": {
-			      "_id": "5d4973e07378d4168c0e9219",
-			      "name": "Safety Hazard",
-			      "__v": 0
-			    },
-			    "__v": 0
-			  }
-			 */
 		}
 	}
 
@@ -135,8 +104,9 @@ export default class CaseView extends React.Component {
 	
 	onSubmit = (event) => {
 		event.preventDefault();
+        
         //Errors after accepting editing
-        if(this.state.edit === true){
+        if (this.state.edit === true){
             if (this.state.title === "") {
                 alert("Case Title required");
                 return;
@@ -180,29 +150,24 @@ export default class CaseView extends React.Component {
 		this.setState(state);
 	}
 
+	onSubmitRemove = () => {
+        let request = {
+            method:"DELETE",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", token:this.props.token},
+        }
 
-
-	onSubmitRemove = (event) => {
-		this.props.onRemove(event.target.name);
-		let request = {
-			method:"DELETE",
-			mode:"cors",
-			headers:{"Content-Type":"application/json",
-					  "token":this.state.token}
-		}
-		fetch("/api/case/"+this.props.id,request).then(response => {
-			  if(response.ok) {
-				  console.log("User removed successfully");
-				  this.getCase();
-			  } else {
-				  console.log("Server responded with status:"+response.statusText);
-				  this.handleStatus(response.status);
-			  }
-		}).catch(error => {
-			  console.log(error);
-		})
-
-	}
+        fetch("/api/case/" + this.props.id, request).then(response => {
+            if (response.ok) {
+                alert("Case removed successfully!")
+            }
+            else {
+                console.log("Server responded with status: " + response.status);
+            }
+        }).catch(error => {
+        	console.log(error);
+        })
+    }
 
 	render() {
 
@@ -240,7 +205,7 @@ export default class CaseView extends React.Component {
 					<select name="status"
 							className="ui dropdown"
 							inputtype="hidden"
-							disabled={!(this.state.edit || this.props.isAdmin)}
+							disabled={!(this.state.edit && this.props.isAdmin)}
 							onChange={this.onChange}
 							value={0}
 							data={data}>
@@ -328,9 +293,7 @@ export default class CaseView extends React.Component {
 						<Button onClick={this.onRemove}  floated= 'right' style={noremove}>Remove</Button>
 						<Button onClick={this.onCancelRemove} floated= 'right' style={remove}>Cancel</Button>
 						<Button onClick={this.onSubmitRemove} floated= 'right' style={remove}>Submit</Button>
-
 					</Grid.Column>
-
 				</Grid>
 			</Form>
 		
