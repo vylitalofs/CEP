@@ -17,13 +17,10 @@ export default class CaseForm extends React.Component {
             type:"",
             location:"",
 			caseInfo:"",
-			superInfo:""
 		}
 	}
 
 	componentDidMount() {
-		//let tempState = {};
-		//this.setState(tempState)
 	}
 
 	getLocation = () => {
@@ -59,11 +56,11 @@ export default class CaseForm extends React.Component {
 		event.preventDefault();
 		
 		if (this.state.title === "") {
-			alert("Add a title");
+			alert("Case Title required.");
 			return;
 		}
 		if (this.state.caseInfo === "") {
-			alert("Add a description about the case");
+			alert("Case Description required.");
 			return;
 		}
 
@@ -82,7 +79,6 @@ export default class CaseForm extends React.Component {
 			type:"",
             location:"",
 			caseInfo:"",
-			superInfo:""
 		})
 	}
 
@@ -162,39 +158,8 @@ export default class CaseForm extends React.Component {
 						   onChange={this.onChange}
 						   value={this.state.caseInfo}
 				/>
-				<br/>
-				<Form.Group grouped>
-				<Grid>
-					<Grid.Column floated= 'right' textAlign='right'>
-				<Popup content='Handler comment and case status will be added later by the handler.'
-							trigger={<Icon circular name='info' 
-							/>} position='bottom'  />
-					</Grid.Column>
-				</Grid>
-					<Form.Field>
-					<label htmlFor="status">Handler Comment:</label>
-					<input control={TextArea}
-							placeholder='What is this case about?'
-							inputtype="text"
-							name="superInfo"
-							onChange={this.onChange}
-							disabled= 'true'
-							value={this.state.superInfo}/>
-					</Form.Field>
 
-					<Form.Field  style={{width:90}}>
-					<label htmlFor="status">Case status:</label>
-					<select name="status"
-							className="ui dropdown"
-							inputtype="hidden"
-							disabled= 'true'
-							onChange={this.onChange}
-							value={this.state.status}>
-							<option value='0'>New</option>				 		
-							<option value='1'>Closed</option>
-					</select>
-					</Form.Field>
-				</Form.Group >
+				<br/>
 
 				<Grid>
 					<Grid.Column textAlign="center">
