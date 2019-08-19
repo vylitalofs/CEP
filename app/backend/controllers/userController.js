@@ -104,7 +104,7 @@ exports.user_update = [
 
     body('email').isLength({ min: 3 }).trim().isEmail().normalizeEmail().withMessage('Email-address must be specified.'),
 
-    body('password').isLength({ min: 3 }).trim().withMessage('Password must be specified.'),
+    //body('password').isLength({ min: 3 }).trim().withMessage('Password must be specified.'),
 
     // Sanitize fields.
     sanitizeBody('firstName').escape(),
@@ -138,11 +138,16 @@ exports.user_update = [
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     email: req.body.email,
-                    password: req.body.password,
+                    hash: user.hash,
+                    salt: user.salt,
                     isAdmin: req.body.isAdmin,
                     isDisabled: req.body.isDisabled,
                     _id: req.params.id
                 });
+
+                if (req.body.password && req.body.password.Length < 5) {
+                    newuser.setPassword(req.body.password)
+                }
 
                 user.update(newuser, function (err) {
                     if (err) { return next(err); }
