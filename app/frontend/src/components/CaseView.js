@@ -175,7 +175,6 @@ export default class CaseView extends React.Component {
 		let noedit = this.state.edit ? {display:'none'} : {};
 		let remove = !this.state.remove ? {display:'none'} : {};
 		let noremove = this.state.remove ? {display:'none'} : {};
-        let data = {0: this.state.status}
 
 		return (
 			<Form style={{width:600}}>
@@ -201,15 +200,15 @@ export default class CaseView extends React.Component {
 					</Form.Field>
 
 					<Form.Field>
-					<label htmlFor="status">Case status:</label>
-					<select name="status"
-							className="ui dropdown"
-							inputtype="hidden"
-							disabled={!(this.state.edit && this.props.isAdmin)}
-							onChange={this.onChange}
-							value={0}
-							data={data}>
-	 				</select>
+						<label htmlFor="status">Case status:</label>
+						<select name="status"
+								className="ui dropdown"
+								inputtype="hidden"
+								disabled={!(this.state.edit && this.props.isAdmin)}
+								onChange={this.onChange}
+								value={this.state.status}
+								>
+		 				</select>
 					</Form.Field>
 
 				</Form.Group>
@@ -241,11 +240,9 @@ export default class CaseView extends React.Component {
 							>			 		
 	 				</select>
 					</Form.Field>
-
 				</Form.Group>
 
 				<Form.Group widths='equal'>
-
 					<Form.Field>
 						<label htmlFor="dateCreated">Date Created:</label>
 						<input type="text"
@@ -261,7 +258,6 @@ export default class CaseView extends React.Component {
 								disabled={true}
 								value={this.state.dateUpdated || ''}/>
 					</Form.Field>
-
 				</Form.Group>
 
 				<label style={{fontWeight: "bold"}}>Case Description:</label>
@@ -290,9 +286,9 @@ export default class CaseView extends React.Component {
 						<Button onClick={this.onEdit} floated='left' style={noedit}>Edit</Button>
 						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
 						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>		
-						<Button onClick={this.onRemove}  floated= 'right' style={noremove}>Remove</Button>
-						<Button onClick={this.onCancelRemove} floated= 'right' style={remove}>Cancel</Button>
-						<Button onClick={this.onSubmitRemove} floated= 'right' style={remove}>Submit</Button>
+						<Button onClick={this.onRemove} floated='right' style={noremove}>Remove</Button>
+						<Button onClick={this.onCancelRemove} floated='right' style={remove}>Cancel</Button>
+						<Button onClick={this.onSubmitRemove} floated='right' style={remove}>Submit</Button>
 					</Grid.Column>
 				</Grid>
 			</Form>
