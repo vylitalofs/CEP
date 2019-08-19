@@ -100,8 +100,8 @@ export default class UserView extends React.Component {
 				return;
 			}
 
-			if ((this.state.email.length < 4 || this.state.password.length < 8)) {
-				alert("Email must be atleast four characters and password eight characters long.");
+			if (this.state.email === "") {
+				alert("Email required.");
 				return;
 			}
 

@@ -12,7 +12,6 @@ export default class LoginForm extends React.Component {
 	}
 
 	onChange = (event) => {
-		//console.log(event.target)
 		let state = {}
 		state[event.target.name] = event.target.value;
 		this.setState(state);
@@ -20,15 +19,17 @@ export default class LoginForm extends React.Component {
 
 	login = (event) => {
 		event.preventDefault();
+
 		let user = {
 			email:this.state.email,
 			password:this.state.password,
 		}
 
-		if (user.email.length < 4 || user.password.length < 8) {
-			alert("Email must be atleast four characters and password eight characters long.");
+		if (user.email === "" || user.password === "") {
+			alert("Credentials required.");
 			return;
 		}
+
 		this.props.login(user);
 	}
 
