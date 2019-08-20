@@ -1,6 +1,7 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import Moment from 'moment';
 
 export default class CaseList extends React.Component {
 
@@ -52,7 +53,7 @@ export default class CaseList extends React.Component {
 					<Table.Cell>{thiscase.type.name}</Table.Cell>
 					<Table.Cell>{thiscase.location.name}</Table.Cell>
 					<Table.Cell>{thiscase.status.name}</Table.Cell>
-					<Table.Cell>{thiscase.dateCreated}</Table.Cell>
+					<Table.Cell>{Moment(thiscase.dateCreated).format('DD.MM.YYYY')}</Table.Cell>
 					<Table.Cell>{thiscase.creator.firstName} {thiscase.creator.lastName}</Table.Cell>
 				</Table.Row>	
 				)

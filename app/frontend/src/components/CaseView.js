@@ -1,5 +1,6 @@
 import React from 'react';
-import {Form,Button, Header, TextArea, Grid} from 'semantic-ui-react';
+import Moment from 'moment';
+import {Form, Button, Header, TextArea, Grid} from 'semantic-ui-react';
 
 export default class CaseView extends React.Component {
 	
@@ -177,22 +178,41 @@ export default class CaseView extends React.Component {
 		let remove = !this.state.remove ? {display:'none'} : {};
 		let noremove = this.state.remove ? {display:'none'} : {};
 
+		let dateUpdated = ''
+
+		if (this.state.dateUpdated) {
+			dateUpdated = Moment(this.state.dateUpdated).format('DD.MM.YYYY hh:mm')
+		}
+
 		return (
 			<Form style={{width:600}}>
 				<Header textAlign='center'>CASE OVERVIEW</Header>
 
-				<Form.Field>
-					<label htmlFor="title">Case Title:</label>
-					<input type="text"
-                           name="title"
-                           disabled={!this.state.edit}
-						   onChange={this.onChange}
-						   value={this.state.title}/>
-				</Form.Field>
+				<Form.Group>
+					<Form.Field width={13}>
+						<label htmlFor="title">Case Title:</label>
+						<input type="text"
+	                           name="title"
+	                           disabled={!this.state.edit}
+							   onChange={this.onChange}
+							   value={this.state.title}/>
+					</Form.Field>
 
-				<Form.Group >
+					<Form.Field width={5}>
+						<label htmlFor="status">Case status:</label>
+						<select name="status"
+								className="ui dropdown"
+								inputtype="hidden"
+								disabled={!(this.state.edit && this.props.isAdmin)}
+								onChange={this.onChange}
+								value={this.state.status}
+								>
+		 				</select>
+					</Form.Field>
+				</Form.Group>
 
-					<Form.Field width={10}>
+				<Form.Group>
+					<Form.Field width={8}>
 						<label htmlFor="creator">Case creator:</label>
 						<input type="text"
 								name="creator"
@@ -201,50 +221,48 @@ export default class CaseView extends React.Component {
 					</Form.Field>
 
 
-					<Form.Field width={4}>
+					<Form.Field width={5}>
 						<label htmlFor="dateCreated">Date Created:</label>
 						<input type="text"
 								name="dateCreated"
 								disabled={true}
-								value={this.state.dateCreated}/>
+								value={Moment(this.state.dateCreated).format('DD.MM.YYYY hh:mm')}/>
 					</Form.Field>
 
-					<Form.Field width={4}>
+					<Form.Field width={5}>
 						<label htmlFor="dateUpdated">Date Updated:</label>
 						<input type="text"
 								name="dateUpdated"
 								disabled={true}
-								value={this.state.dateUpdated || ''}/>
+								value={dateUpdated}/>
 					</Form.Field>
-
 				</Form.Group>
 
 				<Form.Group widths='equal'>
-
 					<Form.Field>
-					<label htmlFor="type">Case type:</label>
-					<select name="type"
-							className="ui dropdown"
-	                        inputtype="hidden"
-	                        disabled={!this.state.edit}
-							onChange={this.onChange}
-							value={this.state.type}
-							options={this.state.types}
-							>
-	 				</select>
+						<label htmlFor="type">Case type:</label>
+						<select name="type"
+								className="ui dropdown"
+		                        inputtype="hidden"
+		                        disabled={!this.state.edit}
+								onChange={this.onChange}
+								value={this.state.type}
+								options={this.state.types}
+								>
+		 				</select>
 					</Form.Field>
 					
 					<Form.Field>
-					<label htmlFor="location">Location:</label>
-					<select name="location"
-							className="ui dropdown"
-	                        inputtype="hidden"
-	                        disabled={!this.state.edit} 
-							onChange={this.onChange}
-							value={this.state.location}
-							options={this.state.location}
-							>			 		
-	 				</select>
+						<label htmlFor="location">Location:</label>
+						<select name="location"
+								className="ui dropdown"
+		                        inputtype="hidden"
+		                        disabled={!this.state.edit} 
+								onChange={this.onChange}
+								value={this.state.location}
+								options={this.state.location}
+								>			 		
+		 				</select>
 					</Form.Field>
 				</Form.Group>
 
@@ -267,18 +285,6 @@ export default class CaseView extends React.Component {
 					onChange={this.onChange}
 					value={this.state.adminComment}
 				/>
-				
-				<Form.Field width={3}>
-						<label htmlFor="status">Case status:</label>
-						<select name="status"
-								className="ui dropdown"
-								inputtype="hidden"
-								disabled={!(this.state.edit && this.props.isAdmin)}
-								onChange={this.onChange}
-								value={this.state.status}
-								>
-		 				</select>
-				</Form.Field>
 
 				<br/>
 				<Grid>
