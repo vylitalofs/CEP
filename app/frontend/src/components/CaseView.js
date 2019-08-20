@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Button, Popup, Icon, Header, TextArea, Grid} from 'semantic-ui-react';
+import {Form,Button, Header, TextArea, Grid} from 'semantic-ui-react';
 
 export default class CaseView extends React.Component {
 	

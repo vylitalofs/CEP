@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {Button, Menu, Grid} from 'semantic-ui-react';
+import React, {Component } from 'react';
+import {Button, Menu} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import logo from '../CEPlogo.png';
 
@@ -7,23 +7,12 @@ import logo from '../CEPlogo.png';
 export default class TopMenu extends Component {
 
   render() {
-		//lisää elementit jos logattu sisään
-		//if(this.props.isLogged) {
+
       let userlink = "/user/"+this.props.user._id
+      let topmenu
 
-      let iconmenu = <Menu></Menu>
-      
-      
-          iconmenu = <Menu secondary>
-          <Menu.Item header position='left'> 
-            <img src={logo} alt="Logo" style={{width: 205, height: 89, marginLeft: 30}}/>
-          </Menu.Item>
-          </Menu>
-
-      let topmenu = <Menu></Menu>
-      
       if (this.props.isLogged) {
-      topmenu = <Menu secondary>
+        topmenu = <Menu secondary>
             <Menu.Item position='right'>
             <Menu.Item >Company</Menu.Item>
 
@@ -35,9 +24,14 @@ export default class TopMenu extends Component {
             </Menu.Item>
         </Menu>
       }
+
     return (
       <Menu>
-        {iconmenu}
+        <Menu secondary>
+          <Menu.Item header position='left'> 
+            <img src={logo} alt="Logo" style={{width: 205, height: 89, marginLeft: 30}}/>
+          </Menu.Item>
+          </Menu>
         <Menu.Menu position='right'>
           {topmenu}
         </Menu.Menu>

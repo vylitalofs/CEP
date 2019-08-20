@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Header, Button, Popup, Icon, Grid, GridRow} from 'semantic-ui-react';
+import {Form, Header, Button, Popup, Icon, Grid} from 'semantic-ui-react';
 
 export default class UserForm extends React.Component {
 	
