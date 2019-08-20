@@ -104,7 +104,7 @@ export default class UserForm extends React.Component {
 						   value={this.state.lastName}/>
 
 				</Form.Field>
-				<Popup content='Insert firstName and lastName into the text field' 
+				<Popup content='Insert your name into the text fields' 
 							trigger={<Icon circular name='info' />} 
 							position='bottom'/>
 				</Form.Group>

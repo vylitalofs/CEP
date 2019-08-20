@@ -100,15 +100,15 @@ class App extends React.Component {
         return (
             <div className="App" style={{width:900, margin:"auto"}}>
                   
-                <Menu isLogged={this.state.isLogged} logout={this.logout} user={this.state.user}/>
+                <Menu isLogged={this.state.isLogged} logout={this.logout} user={this.state.user}style={{maxHeight: "80px"}}/>
 
                 <Segment.Group horizontal>
                     <NavBar 
                         isLogged={this.state.isLogged} 
-                        user={this.state.user}/>
+                        user={this.state.user}
+                        />
 
                     <Segment id="login" style={{right: "0px"}}>
-
                         <Switch>
 
                             <Route exact path="/" render={() =>

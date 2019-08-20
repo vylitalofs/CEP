@@ -11,7 +11,7 @@ export default class SideNavbar extends React.Component {
 			if (this.props.user.isAdmin) {
 				navbar = 
 					<Segment id="nav" style={{left: "auto", 
-					maxWidth: "200px"}}>
+					maxWidth: "200px", minHeight: "500px"}}>
 						<br/>
 						<Menu text vertical>
 							<List>
