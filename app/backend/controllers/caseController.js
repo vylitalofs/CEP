@@ -60,7 +60,6 @@ exports.case_create = [
     // Validate fields.
     body('title').isLength({ min: 1 }).trim().withMessage('Title must be specified.'),
     body('description').isLength({ min: 1 }).trim().withMessage('Description required.'),
-    body('dateCreated', 'Date created must not be empty.').optional({ checkFalsy: true }).isISO8601(),
     body('creator', 'Creator must not be empty.').isLength({ min: 1 }).trim(),
     body('location', 'Location must not be empty.').isLength({ min: 1 }).trim(),
     body('status', 'Status must not be empty.').isLength({ min: 1 }).trim(),
@@ -70,7 +69,6 @@ exports.case_create = [
     sanitizeBody('title').escape(),
     sanitizeBody('description').escape(),
     sanitizeBody('adminComment').escape(),
-    sanitizeBody('dateCreated').toDate(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -88,7 +86,7 @@ exports.case_create = [
                     title: req.body.title,
                     description: req.body.description,
                     adminComment: req.body.adminComment,
-                    dateCreated: req.body.dateCreated,
+                    dateCreated: new Date(),
                     dateUpdated: "",
                     creator: req.body.creator,
                     location: req.body.location,
@@ -110,7 +108,6 @@ exports.case_update = [
     // Validate fields.
     body('title').isLength({ min: 1 }).trim().withMessage('Title must be specified.'),
     body('description').isLength({ min: 1 }).trim().withMessage('Description required.'),
-    body('dateUpdated', 'Date updated must not be empty.').optional({ checkFalsy: true }).isISO8601(),
     body('location', 'Location must not be empty.').isLength({ min: 1 }).trim(),
     body('status', 'Status must not be empty.').isLength({ min: 1 }).trim(),
     body('type', 'Type must not be empty.').isLength({ min: 1 }).trim(),
@@ -119,7 +116,6 @@ exports.case_update = [
     sanitizeBody('title').escape(),
     sanitizeBody('description').escape(),
     sanitizeBody('adminComment').escape(),
-    sanitizeBody('dateUpdated').toDate(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -146,7 +142,7 @@ exports.case_update = [
                     description: req.body.description,
                     adminComment: req.body.adminComment,
                     dateCreated: thiscase.dateCreated,
-                    dateUpdated: req.body.dateUpdated,
+                    dateUpdated: new Date(),
                     creator: thiscase.creator,
                     location: req.body.location,
                     status: req.body.status,
