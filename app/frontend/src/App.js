@@ -1,13 +1,13 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import { Segment } from 'semantic-ui-react';
-import LoginForm from './components//LoginForm';
-import Menu from './components//Menu';
+import {Segment} from 'semantic-ui-react';
+import Menu from './components/Menu';
 import NavBar from './components//NavBar';
+import LoginForm from './components/LoginForm';
 import UserList from './components/UserList';
 import UserView from './components/UserView';
 import UserForm from './components/UserForm';
-import CaseList from './components//CaseList';
+import CaseList from './components/CaseList';
 import CaseForm from './components/CaseForm';
 import CaseView from './components/CaseView';
 
@@ -45,34 +45,15 @@ class App extends React.Component {
         }
     }
     
-    login = (user) => {
-        let request = {
-            method:"POST",
-            mode:"cors",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(user)
-        }
-
-        fetch("/login", request).then(response => {
-            if(response.ok) {
-                response.json().then(data => {
-                    this.setState({
-                        isLogged:true,
-                        token:data.token,
-                        user:data.user
-                    }, () => {
-                        this.saveToStorage();
-                    })
-                }).catch(error => {
-                    console.log("Error parsing JSON");
-                })
-            } else {
-                console.log("Server responded with status:"+response.status);
-            }
-        }).catch(error => {
-            console.log(error);
+    onLogin = (data) => {
+        this.setState({
+            isLogged:true,
+            token:data.token,
+            user:data.user
+        }, () => {
+            this.saveToStorage();
         })
-    }  
+    }   
       
     logout = () => {
         let request = {
@@ -113,7 +94,7 @@ class App extends React.Component {
 
                             <Route exact path="/" render={() =>
                                 !this.state.isLogged ?
-                                    <LoginForm login={this.login}/> :
+                                    <LoginForm onLogin={this.onLogin}/> :
                                     <Redirect to="/cases"/>
                             }/>
 
