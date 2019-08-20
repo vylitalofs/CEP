@@ -181,7 +181,7 @@ export default class CaseView extends React.Component {
 		let dateUpdated = ''
 
 		if (this.state.dateUpdated) {
-			dateUpdated = Moment(this.state.dateUpdated).format('DD.MM.YYYY hh:mm')
+			dateUpdated = Moment(this.state.dateUpdated).format('DD.MM.YYYY HH:mm')
 		}
 
 		return (
@@ -226,7 +226,7 @@ export default class CaseView extends React.Component {
 						<input type="text"
 								name="dateCreated"
 								disabled={true}
-								value={Moment(this.state.dateCreated).format('DD.MM.YYYY hh:mm')}/>
+								value={Moment(this.state.dateCreated).format('DD.MM.YYYY HH:mm')}/>
 					</Form.Field>
 
 					<Form.Field width={5}>
