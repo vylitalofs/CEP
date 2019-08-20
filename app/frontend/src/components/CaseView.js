@@ -107,13 +107,15 @@ export default class CaseView extends React.Component {
 		event.preventDefault();
         
         //Errors after accepting editing
-        if (this.state.edit === true){
+        if (this.state.edit === true) {
+
             if (this.state.title === "") {
-                alert("Case Title required");
+                alert("Case Title required.");
                 return;
             }
-            if (this.state.adminComment === "") {
-                alert("Add handler comments");
+
+            if (this.state.description === "") {
+                alert("Description required.");
                 return;
             }
         }
