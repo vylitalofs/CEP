@@ -103,6 +103,7 @@ export default class UserForm extends React.Component {
 								onChange={this.onChange}
 								value={this.state.firstName}/>
 					</Form.Field>
+					
 					<Form.Field>
 						<label htmlFor="lastName">Last name:</label>
 						<input type="text"
@@ -111,6 +112,7 @@ export default class UserForm extends React.Component {
 								value={this.state.lastName}/>
 
 					</Form.Field>
+
 					<Popup content='Insert your name into the text fields' 
 								trigger={<Icon circular name='info' />} 
 								position='bottom'/>
@@ -124,6 +126,7 @@ export default class UserForm extends React.Component {
 								onChange={this.onChange}
 								value={this.state.email}/>
 					</Form.Field>
+
 					<Popup content='Insert a valid email address' 
 								trigger={<Icon circular name='info' />} 
 								position='bottom'/>
@@ -143,6 +146,7 @@ export default class UserForm extends React.Component {
 								<option value="true">Admin</option>
 						</select>
 					</Form.Field>
+
 					<Popup content='Select users access rights' 
 								trigger={<Icon circular name='info' />} 
 								position='bottom'/>
@@ -150,7 +154,7 @@ export default class UserForm extends React.Component {
 
 				<Grid>
 						<Grid.Column floated= 'right' textAlign='right'>
-					<Popup content='Password must be atleast 8 characters long.'
+							<Popup content='Password must be atleast 8 characters long.'
 								trigger={<Icon circular name='info' 
 								/>} position='bottom'  />
 						</Grid.Column>
