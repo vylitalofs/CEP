@@ -3,13 +3,15 @@ const Session = require("../models/session");
 let ttl_diff = 1000*60*60;
 
 generateToken = function() {
-  let token = ""
-  let letters = '^_!#$%&*+-0123456789<=>?@ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz'
-  for(let i=0;i<1024;i++) {
-    let temp = Math.floor(Math.random()*75);
-    token = token + letters[temp]
-  }
-  return token;
+	let token = ""
+	let letters = '^_!#$%&*+-0123456789<=>?@ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz'
+	
+	for (let i=0; i < 1024; i++) {
+		let temp = Math.floor(Math.random()*75);
+		token = token + letters[temp]
+	}
+
+	return token;
 }
 
 exports.generateSession = function(user) {
