@@ -133,10 +133,13 @@ export default class CaseView extends React.Component {
 		this.setState({
 			title:"",
 			type:"",
-            location:"",
+			location:"",
 			description:"",
-            adminComment:"",
-            edit:false
+			adminComment:"",
+			dateCreated:"",
+			dateUpdated:"",
+			creator:"",
+			edit:false
         })
         
         this.getCase();

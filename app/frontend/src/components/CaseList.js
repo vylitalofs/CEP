@@ -46,7 +46,9 @@ export default class CaseList extends React.Component {
 
 	render() {
 		let listitems = this.state.list.map((thiscase, index) => {
+
 			let link = "/case/"+thiscase._id
+			
 			return (
 				<Table.Row key={thiscase._id}>
 					<Table.Cell><Link to={link}>{thiscase.title}</Link></Table.Cell>
@@ -56,7 +58,7 @@ export default class CaseList extends React.Component {
 					<Table.Cell>{Moment(thiscase.dateCreated).format('DD.MM.YYYY')}</Table.Cell>
 					<Table.Cell>{thiscase.creator.firstName} {thiscase.creator.lastName}</Table.Cell>
 				</Table.Row>	
-				)
+			)
 		})	
 	
 		return(
