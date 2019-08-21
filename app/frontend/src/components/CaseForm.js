@@ -9,7 +9,7 @@ export default class CaseForm extends React.Component {
 			title:"",
             type:"",
             location:"",
-			caseInfo:"",
+			description:"",
 		}
 	}
 
@@ -30,60 +30,82 @@ export default class CaseForm extends React.Component {
 			return;
 		}
 
-		if (this.state.caseInfo === "") {
+		if (this.state.description === "") {
 			alert("Case Description required.");
 			return;
 		}
 
-		let thisCase = {
+		if (this.state.location === "") {
+			alert("Case Location required.");
+			return;
+		}
+
+		if (this.state.type === "") {
+			alert("Case Type required.");
+			return;
+		}
+
+		let newcase = {
 			title:this.state.title,
 			type:this.state.type,
             location:this.state.location,
-			caseInfo:this.state.caseInfo,
+			description:this.state.description,
 		}
 
-		this.createCase(thisCase);
+		this.createCase(newcase);
 
 		this.setState({
 			title:"",
 			type:"",
             location:"",
-			caseInfo:"",
+			description:"",
 		})
 	}
 
-	createCase = (item) => {
+	createCase = (newcase) => {
 		let request = {
 			method:"POST",
 			mode:"cors",
 			headers:{"Content-Type":"application/json", "token":this.props.token},
-			body:JSON.stringify(item)
+			body:JSON.stringify(newcase)
 		}
 
 		fetch("/api/case/create", request).then(response => {
 			if (response.ok) {
 				alert("Case Created!")
-			} else {
-				console.log("Server responded with status:"+response.statusText);
-		}
+			} 
+			else {
+				console.log("Server responded with status: "+response.status);
+			}
 		}).catch(error => {
 			console.log(error);
 		})
 	}
 
 	render() {
+
+		// Map case types and locations
+		let types = this.props.types.map((item) => {
+			return <option key={item._id} value={item._id}>{item.name}</option>
+		})
+
+		let locations = this.props.locations.map((item) => {
+			return <option key={item._id} value={item._id}>{item.name}</option>
+		})
+
 		return (
 			
 			<Form onSubmit={this.onSubmit}  style={{width:600}}>
+
 				<Header textAlign='center'>CREATE A CASE</Header>
 
 				<Form.Field>
 					<label htmlFor="title">Title:</label>
 					<input type="text"
-						   name="title"
-						   placeholder='Case title'
-						   onChange={this.onChange}
-						   value={this.state.title}/>
+							name="title"
+							placeholder='Case title'
+							onChange={this.onChange}
+							value={this.state.title}/>
 				</Form.Field>
 
 				<Form.Group widths='equal'>
@@ -93,10 +115,9 @@ export default class CaseForm extends React.Component {
 								className="ui dropdown"
 								inputtype="hidden" 
 								onChange={this.onChange}
-								   value={this.state.type}>
-								<option value='0'>Other</option>				 		
-		  				 		<option value='1'>Service advice</option>
-								<option value='2'>Development plan</option>
+								value={this.state.type}>
+								<option value=''>Select Case Type</option>
+								{types}
 		 				</select>
 					</Form.Field>
 				
@@ -106,17 +127,15 @@ export default class CaseForm extends React.Component {
 								className="ui dropdown"
 								inputtype="hidden" 
 								onChange={this.onChange}
-								   value={this.state.location}>
-								<option value='0'>Other</option>				 		
-		  				 		<option value='1'>Office</option>
-								<option value='2'>Storage</option>
-								<option value='3'>Common space</option>				 		
+								value={this.state.location}>
+								<option value=''>Select Location</option>
+								{locations}
 		 				</select>
 					</Form.Field>
 
 					<Popup content='Select the type and location of the case' 
-								trigger={<Icon circular name='info' />} 
-								position='bottom center'/>
+						trigger={<Icon circular name='info' />} 
+						position='bottom center'/>
 				</Form.Group>
 
 				<Form.Field 
@@ -124,9 +143,9 @@ export default class CaseForm extends React.Component {
 					label= 'Description:'
 					placeholder='What is this case about?'
 					inputtype="text"
-						   name="caseInfo"
+						   name="description"
 						   onChange={this.onChange}
-						   value={this.state.caseInfo}
+						   value={this.state.description}
 				/>
 
 				<br/>

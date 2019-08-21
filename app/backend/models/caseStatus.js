@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var CaseStatusSchema = new Schema(
   {
   	name: {type: String, required: true, min: 3, max: 100},
+  	defaultStatus: Boolean
   }
 );
 

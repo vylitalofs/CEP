@@ -45,9 +45,11 @@ exports.caseStatus_create = [
 
     // Validate fields.
     body('name').isLength({ min: 1 }).trim().withMessage('CaseStatus name must be specified.'),
+    body('defaultStatus').isLength({ min: 1 }).trim().withMessage('defaultStatus field must be specified.'),
 
     // Sanitize fields.
     sanitizeBody('name').escape(),
+    sanitizeBody('defaultStatus').toBoolean(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -63,6 +65,7 @@ exports.caseStatus_create = [
             var status = new CaseStatus(
                 {
                     name: req.body.name,
+                    defaultStatus:req.body.defaultStatus
                 });
 
             status.save(function (err) {
@@ -78,9 +81,11 @@ exports.caseStatus_update = [
 
     // Validate fields.
     body('name').isLength({ min: 1 }).trim().withMessage('CaseStatus name must be specified.'),
+    body('defaultStatus').isLength({ min: 1 }).trim().withMessage('defaultStatus field must be specified.'),
 
     // Sanitize fields.
     sanitizeBody('name').escape(),
+    sanitizeBody('defaultStatus').toBoolean(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -104,6 +109,7 @@ exports.caseStatus_update = [
                 var newStatus = new CaseStatus(
                 {
                     name: req.body.name,
+                    defaultStatus:req.body.defaultStatus,
                     _id: req.params.id
                 });
 

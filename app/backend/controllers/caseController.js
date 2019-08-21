@@ -3,6 +3,7 @@ const { sanitizeBody } = require('express-validator');
 
 var Case = require('../models/case');
 var User = require('../models/user');
+var Session = require('../models/session');
 var Location = require('../models/location')
 var CaseType = require('../models/caseType')
 var CaseStatus = require('../models/caseStatus')
@@ -60,9 +61,7 @@ exports.case_create = [
     // Validate fields.
     body('title').isLength({ min: 1 }).trim().withMessage('Title must be specified.'),
     body('description').isLength({ min: 1 }).trim().withMessage('Description required.'),
-    body('creator', 'Creator must not be empty.').isLength({ min: 1 }).trim(),
     body('location', 'Location must not be empty.').isLength({ min: 1 }).trim(),
-    body('status', 'Status must not be empty.').isLength({ min: 1 }).trim(),
     body('type', 'Type must not be empty.').isLength({ min: 1 }).trim(),
 
     // Sanitize fields.
@@ -75,30 +74,56 @@ exports.case_create = [
 
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-
+        
         if (!errors.isEmpty()) {
+            console.log(errors)
             res.status(500).json(errors);
-            return;
+            return
         }
-        else {
-            var newcase = new Case(
-                {
+
+        // Get token
+        let token = req.headers.token;
+
+        if (!token) {
+            return res.status(403).json({"message":"forbidden"});
+        }
+
+        // Find session and userId
+        Session.findOne({"token":token}, function(err, session) {
+            if (err || !session) {
+                return res.status(403).json({"message":"forbidden"});
+            }
+
+            if (!session.userId) {
+                console.log("userid not found")
+                return res.status(403).json({"message":"forbidden"});
+            }
+
+            // Get the default Status
+            CaseStatus.findOne({"defaultStatus":true}, function(err, thisStatus) {
+                if (err || !thisStatus) {
+                    console.log(err)
+                    return res.status(403).json({"message":"forbidden"});
+                }
+
+                var newcase = new Case({
                     title: req.body.title,
                     description: req.body.description,
                     adminComment: req.body.adminComment,
                     dateCreated: new Date(),
                     dateUpdated: "",
-                    creator: req.body.creator,
+                    creator: session.userId,
                     location: req.body.location,
-                    status: req.body.status,
+                    status: thisStatus,
                     type: req.body.type,
                 });
 
-            newcase.save(function (err) {
-                if (err) { return next(err); }
-                res.status(200).json({"message":"success"});
-            });
-        }
+                newcase.save(function (err) {
+                    if (err) { return next(err); }
+                    res.status(200).json({"message":"success"});
+                });
+            })
+        })
     }
 ];
 
