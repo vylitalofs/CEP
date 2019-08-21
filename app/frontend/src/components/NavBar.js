@@ -30,8 +30,8 @@ export default class SideNavbar extends React.Component {
 					<Segment id="nav" style={{left: "auto"}}>
 						<Menu text vertical>
 							<List>
-								<List.Item><Link to="/caseList">Cases</Link></List.Item>
-								<List.Item><Link to="/caseForm">Create a new Case</Link></List.Item>
+								<List.Item><Link to="/cases">Cases</Link></List.Item>
+								<List.Item><Link to="/newcase">Create a new Case</Link></List.Item>
 							</List>
 						</Menu>
 					</Segment>
