@@ -6,12 +6,8 @@ export default class CaseView extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			types:[],
-			statuses:[],
-			locations:[],
-			thisCase:[],
 
+		this.state = {
 			title:"",
 			type:"",
 			location:"",
@@ -41,9 +37,9 @@ export default class CaseView extends React.Component {
 
 					let tempState = {
 						title:data.title,
-						type:data.type.name,
-						status:data.status.name,
-						location:data.location.name,
+						type:data.type._id,
+						status:data.status._id,
+						location:data.location._id,
 						description:data.description,
 						adminComment:data.adminComment,
 						dateCreated:data.dateCreated,
@@ -106,23 +102,21 @@ export default class CaseView extends React.Component {
 	onSubmit = (event) => {
 		event.preventDefault();
         
-        //Errors after accepting editing
-        if (this.state.edit === true) {
+        // Validate input
+		if (this.state.title === "") {
+            alert("Case Title required.");
+            return;
+        }
 
-            if (this.state.title === "") {
-                alert("Case Title required.");
-                return;
-            }
-
-            if (this.state.description === "") {
-                alert("Description required.");
-                return;
-            }
+        if (this.state.description === "") {
+            alert("Description required.");
+            return;
         }
         
 		let thisCase = {
 			title:this.state.title,
 			type:this.state.type,
+			status:this.state.status,
 			location:this.state.location,
 			description:this.state.description,
 			adminComment:this.state.adminComment,
@@ -133,6 +127,7 @@ export default class CaseView extends React.Component {
 		this.setState({
 			title:"",
 			type:"",
+			status:"",
 			location:"",
 			description:"",
 			adminComment:"",
@@ -151,6 +146,7 @@ export default class CaseView extends React.Component {
 		state.remove = true
 		this.setState(state);
 	}
+
 	onCancelRemove = () => {
 		let state = {};
 		state.remove = false
@@ -176,13 +172,29 @@ export default class CaseView extends React.Component {
         })
     }
 
+
 	render() {
 
+		// Map case types, statuses and locations
+		let types = this.props.types.map((item) => {
+			return <option key={item._id} value={item._id}>{item.name}</option>
+		})
+		
+		let statuses = this.props.statuses.map((item) => {
+			return <option key={item._id} value={item._id}>{item.name}</option>
+		})
+
+		let locations = this.props.locations.map((item) => {
+			return <option key={item._id} value={item._id}>{item.name}</option>
+		})		
+
+		// Define styles for dynamic show/hide of confirm buttons
 		let edit = !this.state.edit ? {display:'none'} : {};
 		let noedit = this.state.edit ? {display:'none'} : {};
 		let remove = !this.state.remove ? {display:'none'} : {};
 		let noremove = this.state.remove ? {display:'none'} : {};
 
+		// Format date updated if its set
 		let dateUpdated = ''
 
 		if (this.state.dateUpdated) {
@@ -212,6 +224,7 @@ export default class CaseView extends React.Component {
 								onChange={this.onChange}
 								value={this.state.status}
 								>
+								{statuses}
 		 				</select>
 					</Form.Field>
 				</Form.Group>
@@ -224,7 +237,6 @@ export default class CaseView extends React.Component {
 								disabled={true}
 								value={this.state.creator}/>
 					</Form.Field>
-
 
 					<Form.Field width={5}>
 						<label htmlFor="dateCreated">Date Created:</label>
@@ -252,8 +264,8 @@ export default class CaseView extends React.Component {
 		                        disabled={!this.state.edit}
 								onChange={this.onChange}
 								value={this.state.type}
-								options={this.state.types}
 								>
+								{types}
 		 				</select>
 					</Form.Field>
 					
@@ -265,8 +277,8 @@ export default class CaseView extends React.Component {
 		                        disabled={!this.state.edit} 
 								onChange={this.onChange}
 								value={this.state.location}
-								options={this.state.location}
-								>			 		
+								>
+								{locations}	 		
 		 				</select>
 					</Form.Field>
 				</Form.Group>

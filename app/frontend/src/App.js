@@ -15,10 +15,14 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
+            token:"",
             isLogged:false,
             user:[],
-            token:""
+            types:[],
+            statuses:[],
+            locations:[]
         }
     }
 
@@ -29,8 +33,112 @@ class App extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+
+        // Get case location, type, status lists on update if we don't have them
+
+        if (!this.state.isLogged) {
+            console.log("not logged - componentDidUpdate")
+            return
+        }
+        
+        if (this.state.types.length < 1) {
+            this.getTypes()
+        }
+
+        if (this.state.locations.length < 1) {
+            this.getLocations()
+        }
+
+        if (this.state.statuses.length < 1) {
+            this.getStatuses()
+        }
+    }
+
     saveToStorage = () => {
         sessionStorage.setItem("state", JSON.stringify(this.state));
+    }
+
+    getLocations = () => {
+        let request = {
+            method:"GET",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", "token":this.state.token}
+        }
+
+        let locations
+
+        fetch("/api/locations", request).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    console.log(data)
+                    this.setState({locations:data})
+                }).catch(error => {
+                    console.log("Error in parsing response json")
+                });
+            }
+            else {
+                console.log("Server responded with status: " + response.statusText);
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+
+        return locations
+    }
+
+    getTypes = () => {
+        let request = {
+            method:"GET",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", "token":this.state.token}
+        }
+
+        let types
+
+        fetch("/api/casetypes", request).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    this.setState({types:data})
+                }).catch(error => {
+                    console.log("Error in parsing response json")
+                });
+            }
+            else {
+                console.log("Server responded with status: " + response.statusText);
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+
+        return types
+    }
+
+    getStatuses = () => {
+        let request = {
+            method:"GET",
+            mode:"cors",
+            headers:{"Content-Type":"application/json", "token":this.state.token}
+        }
+
+        let statuses
+
+        fetch("/api/casestatuses", request).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    this.setState({statuses:data})
+                }).catch(error => {
+                    console.log("Error in parsing response json")
+                });
+            }
+            else {
+                console.log("Server responded with status: " + response.statusText);
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+
+        return statuses
     }
 
     //LOGIN API
@@ -81,15 +189,18 @@ class App extends React.Component {
         return (
             <div className="App" style={{width:900, margin:"auto"}}>
                   
-                <Menu isLogged={this.state.isLogged} logout={this.logout} user={this.state.user}style={{maxHeight: "80px"}}/>
+                <Menu isLogged={this.state.isLogged} logout={this.logout} 
+                        user={this.state.user} style={{maxHeight: "80px"}}/>
 
                 <Segment.Group horizontal>
+
                     <NavBar 
                         isLogged={this.state.isLogged} 
                         user={this.state.user}
                         />
 
                     <Segment id="login" style={{right: "0px"}}>
+
                         <Switch>
 
                             <Route exact path="/" render={() =>
@@ -112,7 +223,8 @@ class App extends React.Component {
 
                             <Route path="/user/:id" render={({match}) =>
                                 this.state.isLogged ?
-                                    <UserView token={this.state.token} 
+                                    <UserView 
+                                        token={this.state.token} 
                                         id={match.params.id}
                                         isAdmin={this.state.user.isAdmin}/> :
                                     <Redirect to="/"/>
@@ -126,14 +238,22 @@ class App extends React.Component {
 
                             <Route path="/newcase" render={() =>
                                 this.state.isLogged ?
-                                    <CaseForm token={this.state.token}/> :
+                                    <CaseForm
+                                        token={this.state.token}
+                                        types={this.state.types}
+                                        locations={this.state.locations}
+                                        statuses={this.state.statuses}/> :
                                     <Redirect to="/"/>
                             }/>
 
                             <Route path="/case/:id" render={({match}) =>
                                 this.state.isLogged ?
-                                    <CaseView token={this.state.token} 
+                                    <CaseView 
+                                        token={this.state.token} 
                                         id={match.params.id}
+                                        types={this.state.types}
+                                        locations={this.state.locations}
+                                        statuses={this.state.statuses}
                                         isAdmin={this.state.user.isAdmin}/> :
                                     <Redirect to="/"/>
                             }/>
@@ -147,6 +267,6 @@ class App extends React.Component {
           </div>
         );
     }
-  }
+}
 
 export default App;
