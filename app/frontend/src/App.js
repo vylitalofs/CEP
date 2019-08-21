@@ -38,7 +38,6 @@ class App extends React.Component {
         // Get case location, type, status lists on update if we don't have them
 
         if (!this.state.isLogged) {
-            console.log("not logged - componentDidUpdate")
             return
         }
         
@@ -71,7 +70,6 @@ class App extends React.Component {
         fetch("/api/locations", request).then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data)
                     this.setState({locations:data})
                 }).catch(error => {
                     console.log("Error in parsing response json")

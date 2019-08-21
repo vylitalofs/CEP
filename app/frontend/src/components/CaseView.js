@@ -186,7 +186,7 @@ export default class CaseView extends React.Component {
 
 		let locations = this.props.locations.map((item) => {
 			return <option key={item._id} value={item._id}>{item.name}</option>
-		})		
+		})
 
 		// Define styles for dynamic show/hide of confirm buttons
 		let edit = !this.state.edit ? {display:'none'} : {};

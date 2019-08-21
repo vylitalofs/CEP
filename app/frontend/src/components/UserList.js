@@ -27,7 +27,6 @@ export default class UserList extends React.Component {
 		fetch("/api/users", request).then(response => {
 			if (response.ok) {
 				response.json().then(data => {
-					console.log(data)
 					this.setState({
 						list:data
 					})

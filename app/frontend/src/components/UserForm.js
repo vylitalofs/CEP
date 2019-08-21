@@ -136,7 +136,7 @@ export default class UserForm extends React.Component {
 					<Form.Field>
 						<label htmlFor="isAdmin">Access Rights:</label>
 						<select name="isAdmin"
-								class="ui dropdown"
+								className="ui dropdown"
 								input type="hidden" 
 								onChange={this.onChange}
 								value={this.state.isAdmin}
