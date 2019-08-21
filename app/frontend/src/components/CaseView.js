@@ -170,6 +170,19 @@ export default class CaseView extends React.Component {
         }).catch(error => {
         	console.log(error);
         })
+
+        this.setState({
+			title:"",
+			type:"",
+			status:"",
+			location:"",
+			description:"",
+			adminComment:"",
+			dateCreated:"",
+			dateUpdated:"",
+			creator:"",
+			edit:false
+        })
     }
 
 
