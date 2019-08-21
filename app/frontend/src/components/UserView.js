@@ -88,27 +88,25 @@ export default class UserView extends React.Component {
 	onSubmit = (event) => {
 		event.preventDefault();
 
-		//Errors after accepting editing
-		if(this.state.edit === true){
-			if (this.state.firstName === "") {
-				alert("First name required.");
-				return;
-			}
+		// Validate input
+		if (this.state.firstName === "") {
+			alert("First name required.");
+			return;
+		}
 
-			if (this.state.lastName === "") {
-				alert("Last name required.");
-				return;
-			}
+		if (this.state.lastName === "") {
+			alert("Last name required.");
+			return;
+		}
 
-			if (this.state.email === "") {
-				alert("Email required.");
-				return;
-			}
+		if (this.state.email === "") {
+			alert("Email required.");
+			return;
+		}
 
-			if (this.state.confirmPassword !== this.state.password) {
-				alert("Passwords don't match.");
-				return;
-			}
+		if (this.state.confirmPassword !== this.state.password) {
+			alert("Passwords don't match.");
+			return;
 		}
 
 		// Convert back to boolean
@@ -143,6 +141,7 @@ export default class UserView extends React.Component {
 		state.remove = true
 		this.setState(state);
 	}
+
 	onCancelRemove = () => {
 		let state = {};
 		state.remove = false
@@ -218,8 +217,7 @@ export default class UserView extends React.Component {
 		                        onChange={this.onChange}
 		                        disabled={!(this.state.edit && this.props.isAdmin)}
 		                        inputtype="hidden" 
-								value={this.state.isAdmin}
-								>
+								value={this.state.isAdmin}>
 								
 								<option value="false">Basic user</option>				 		
 		  				 		<option value="true">Admin</option>
@@ -235,7 +233,6 @@ export default class UserView extends React.Component {
 	                           disabled={!this.state.edit}
 							   onChange={this.onChange}
 							   value={this.state.password}/>
-							   
 					</Form.Field>
 					
 	                <Form.Field style={edit}>

@@ -40,7 +40,6 @@ export default class CaseForm extends React.Component {
 			type:this.state.type,
             location:this.state.location,
 			caseInfo:this.state.caseInfo,
-			superInfo:this.state.superInfo,
 		}
 
 		this.createCase(thisCase);
@@ -62,7 +61,7 @@ export default class CaseForm extends React.Component {
 		}
 
 		fetch("/api/case/create", request).then(response => {
-			if(response.ok) {
+			if (response.ok) {
 				alert("Case Created!")
 			} else {
 				console.log("Server responded with status:"+response.statusText);

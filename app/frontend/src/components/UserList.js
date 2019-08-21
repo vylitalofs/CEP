@@ -45,10 +45,10 @@ export default class UserList extends React.Component {
 	
 
 	render() {
-		
 		let listitems = this.state.list.map((user, index) => {
 			let link = "/user/"+user._id
 			let usertype = user.isAdmin ? "Admin" : "User"
+			
 			return (
 				<Table.Row key={user._id}>
 					<Table.Cell><Link to={link}>{user.firstName} {user.lastName}</Link></Table.Cell>
@@ -58,21 +58,19 @@ export default class UserList extends React.Component {
 			)	
 		})
 
-		
-	
-	return(
-		<Table celled>
-			<Table.Header>
-				<Table.Row>
-					<Table.HeaderCell>Name</Table.HeaderCell>
-					<Table.HeaderCell>Email</Table.HeaderCell>
-					<Table.HeaderCell>Access rights</Table.HeaderCell>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				{listitems}
-			</Table.Body>
-		</Table>
-	)
+		return (
+			<Table celled>
+				<Table.Header>
+					<Table.Row>
+						<Table.HeaderCell>Name</Table.HeaderCell>
+						<Table.HeaderCell>Email</Table.HeaderCell>
+						<Table.HeaderCell>Access rights</Table.HeaderCell>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{listitems}
+				</Table.Body>
+			</Table>
+		)
 	}
 }
