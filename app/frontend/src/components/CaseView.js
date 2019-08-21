@@ -306,10 +306,10 @@ export default class CaseView extends React.Component {
 				<br/>
 				<Grid>
 					<Grid.Column >
-						<Button onClick={this.onEdit} floated='left' style={noedit}>Edit</Button>
+						<Button onClick={this.onEdit} disabled={this.state.remove} floated='left' style={noedit}>Edit</Button>
 						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
 						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>		
-						<Button onClick={this.onRemove} floated='right' style={noremove}>Remove</Button>
+						<Button onClick={this.onRemove} disabled={this.state.edit} floated='right' style={noremove}>Remove</Button>
 						<Button onClick={this.onCancelRemove} floated='right' style={remove}>Cancel</Button>
 						<Button onClick={this.onSubmitRemove} floated='right' style={remove}>Submit</Button>
 					</Grid.Column>
