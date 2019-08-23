@@ -150,9 +150,22 @@ exports.case_update = [
 
         if (!errors.isEmpty()) {
             res.status(500).json(errors);
-            return;
+            return
         }
-        else {
+
+        // Get token
+        let token = req.headers.token;
+
+        if (!token) {
+            return res.status(403).json({"message":"forbidden"});
+        }
+
+        // Find session and userId
+        Session.findOne({"token":token}, function(err, session) {
+            if (err || !session || !session.userId) {
+                return res.status(403).json({"message":"forbidden"});
+            }
+
             Case.findById(req.params.id, function (err, thiscase) {
                 if (err) { return next(err); }
                 if (thiscase == null) {
@@ -160,9 +173,13 @@ exports.case_update = [
                     err.status = 404;
                     return next(err);
                 }
+
+                // Allow access only if own case or user is admin
+                if (!session.isAdmin && session.userId != thiscase.creator._id) {
+                    return res.status(403).json({"message":"forbidden"});
+                }
                 
-                var newcase = new Case(
-                {
+                var newcase = new Case({
                     title: req.body.title,
                     description: req.body.description,
                     adminComment: req.body.adminComment,
@@ -180,6 +197,6 @@ exports.case_update = [
                     res.status(200).json({"message":"success"});
                 });
             });
-        }
+        });
     }
 ];
