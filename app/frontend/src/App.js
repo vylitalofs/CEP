@@ -247,6 +247,7 @@ class App extends React.Component {
                             <Route path="/case/:id" render={({match}) =>
                                 this.state.isLogged ?
                                     <CaseView 
+                                        user={this.state.user}
                                         token={this.state.token} 
                                         id={match.params.id}
                                         types={this.state.types}
