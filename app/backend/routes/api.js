@@ -44,7 +44,7 @@ router.get('/case/:id', caseController.case_detail);
 router.put('/case/:id/', caseController.case_update);
 
 // DELETE request for removing Case.
-router.delete('/case/:id/', authController.isUserAdmin, caseController.case_delete);
+router.delete('/case/:id/', caseController.case_delete);
 
 
 // LOCATION

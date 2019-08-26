@@ -43,15 +43,35 @@ exports.case_list = function(req, res, next) {
 
 // DELETE Case
 exports.case_delete = function(req, res, next) {
-    Case.findById(req.params.id, function (err, thiscase) {
-        if (err) { return next(err); }
-        if (thiscase == null) {
-            var err = new Error('Case not found');
-            err.status = 404;
-            return next(err);
+    // Get token
+    let token = req.headers.token;
+
+    if (!token) {
+        return res.status(403).json({"message":"forbidden"});
+    }
+
+    // Find session and userId
+    Session.findOne({"token":token}, function(err, session) {
+        if (err || !session || !session.userId) {
+            return res.status(403).json({"message":"forbidden"});
         }
-        thiscase.remove();
-        res.status(200).json({"message":"success"});
+
+        Case.findById(req.params.id, function (err, thiscase) {
+            if (err) { return next(err); }
+            if (thiscase == null) {
+                var err = new Error('Case not found');
+                err.status = 404;
+                return next(err);
+            }
+
+            // Allow access only if own case or user is admin
+            if (!session.isAdmin && session.userId != thiscase.creator._id) {
+                return res.status(403).json({"message":"forbidden"});
+            }
+            
+            thiscase.remove();
+            res.status(200).json({"message":"success"});
+        });
     });
 };
 
