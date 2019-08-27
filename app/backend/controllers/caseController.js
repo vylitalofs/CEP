@@ -29,8 +29,7 @@ exports.case_detail = function(req, res, next) {
 // GET Case List
 exports.case_list = function(req, res, next) {
   Case.find()
-    // TODO: Sort by date created?
-    //.sort([['lastName', 'ascending']])
+    .sort([['dateCreated', 'descending']])
     .populate('type')
     .populate('status')
     .populate('creator', 'firstName lastName')
