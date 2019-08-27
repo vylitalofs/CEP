@@ -99,9 +99,16 @@ export default class CaseForm extends React.Component {
 
 		return (
 			
-			<Form onSubmit={this.onSubmit}  style={{width:600}}>
+			<Form onSubmit={this.onSubmit}  style={{width:700}}>
 
-				<Header textAlign='center'>CREATE A CASE</Header>
+				<Header textAlign='center'>CREATE A CASE </Header>
+				<Grid>
+					<Grid.Column floated= 'right' textAlign='right' >
+						<Popup content='Enter all the required information and press Create.' 
+								trigger={<Icon circular name='info'/>} 
+								position='bottom center'/>
+					</Grid.Column>
+				</Grid>
 
 				<Form.Field>
 					<label htmlFor="title">Title:</label>
@@ -136,10 +143,6 @@ export default class CaseForm extends React.Component {
 								{locations}
 		 				</select>
 					</Form.Field>
-
-					<Popup content='Select the type and location of the case' 
-						trigger={<Icon circular name='info' />} 
-						position='bottom center'/>
 				</Form.Group>
 
 				<Form.Field 

@@ -98,6 +98,13 @@ export default class UserForm extends React.Component {
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<Header textAlign='center'>CREATE A NEW USER</Header>
+				<Grid>
+					<Grid.Column floated= 'right' textAlign='right' >
+						<Popup content='Enter all the required information and press Create.' 
+								trigger={<Icon circular name='info'/>} 
+								position='bottom center'/>
+					</Grid.Column>
+				</Grid>
 
 				<Form.Group widths='equal'>
 					<Form.Field>
@@ -116,10 +123,6 @@ export default class UserForm extends React.Component {
 								value={this.state.lastName}/>
 
 					</Form.Field>
-
-					<Popup content='Insert your name into the text fields' 
-								trigger={<Icon circular name='info' />} 
-								position='bottom'/>
 				</Form.Group>
 
 				<Form.Group widths='equal'>
@@ -130,10 +133,6 @@ export default class UserForm extends React.Component {
 								onChange={this.onChange}
 								value={this.state.email}/>
 					</Form.Field>
-
-					<Popup content='Insert a valid email address' 
-								trigger={<Icon circular name='info' />} 
-								position='bottom'/>
 				</Form.Group>
 
 				<Form.Group>
@@ -143,26 +142,13 @@ export default class UserForm extends React.Component {
 								className="ui dropdown"
 								input type="hidden" 
 								onChange={this.onChange}
-								value={this.state.isAdmin}
-								>
+								value={this.state.isAdmin}>
 								
 								<option value="false">Basic user</option>
 								<option value="true">Admin</option>
 						</select>
 					</Form.Field>
-
-					<Popup content='Select users access rights' 
-								trigger={<Icon circular name='info' />} 
-								position='bottom'/>
-					</Form.Group>
-
-				<Grid>
-						<Grid.Column floated= 'right' textAlign='right'>
-							<Popup content='Password must be atleast 8 characters long.'
-								trigger={<Icon circular name='info' 
-								/>} position='bottom'  />
-						</Grid.Column>
-				</Grid>
+				</Form.Group>
 
 				<Form.Group grouped>
 					<Form.Field>
