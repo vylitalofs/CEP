@@ -83,11 +83,6 @@ exports.case_create = [
     body('location', 'Location must not be empty.').isLength({ min: 1 }).trim(),
     body('type', 'Type must not be empty.').isLength({ min: 1 }).trim(),
 
-    // Sanitize fields.
-    sanitizeBody('title').escape(),
-    sanitizeBody('description').escape(),
-    sanitizeBody('adminComment').escape(),
-
     // Process request after validation and sanitization.
     (req, res, next) => {
 
@@ -155,11 +150,6 @@ exports.case_update = [
     body('location', 'Location must not be empty.').isLength({ min: 1 }).trim(),
     body('status', 'Status must not be empty.').isLength({ min: 1 }).trim(),
     body('type', 'Type must not be empty.').isLength({ min: 1 }).trim(),
-
-    // Sanitize fields.
-    sanitizeBody('title').escape(),
-    sanitizeBody('description').escape(),
-    sanitizeBody('adminComment').escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {

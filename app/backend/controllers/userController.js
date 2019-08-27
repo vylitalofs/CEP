@@ -44,11 +44,9 @@ exports.user_delete = function(req, res, next) {
 exports.user_create = [
 
     // Validate fields.
-    body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-        .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
 
-    body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.')
-        .isAlphanumeric().withMessage('Last name has non-alphanumeric characters.'),
+    body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.'),
 
     body('email').isLength({ min: 3 }).trim().isEmail().normalizeEmail().withMessage('Email-address must be specified.'),
 
@@ -96,11 +94,9 @@ exports.user_create = [
 exports.user_update = [
 
      // Validate fields.
-    body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-        .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
 
-    body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.')
-        .isAlphanumeric().withMessage('Last name has non-alphanumeric characters.'),
+    body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.'),
 
     body('email').isLength({ min: 3 }).trim().isEmail().normalizeEmail().withMessage('Email-address must be specified.'),
 
