@@ -96,7 +96,7 @@ export default class UserForm extends React.Component {
 	
 	render() {
 		return (
-			<Form onSubmit={this.onSubmit}>
+			<Form onSubmit={this.onSubmit} style={{padding:"10px"}}>
 				<Header textAlign='center'>CREATE A NEW USER</Header>
 				<Grid>
 					<Grid.Column floated= 'right' textAlign='right' >

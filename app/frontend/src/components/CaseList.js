@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from 'semantic-ui-react';
+import {Table, Grid, Header} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import Moment from 'moment';
 
@@ -62,21 +62,24 @@ export default class CaseList extends React.Component {
 		})	
 	
 		return(
-			<Table celled>
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>Title</Table.HeaderCell>
-						<Table.HeaderCell>Type</Table.HeaderCell>
-						<Table.HeaderCell>Location</Table.HeaderCell>
-						<Table.HeaderCell>Status</Table.HeaderCell>
-						<Table.HeaderCell>Date</Table.HeaderCell>
-						<Table.HeaderCell>Creator</Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{listitems}
-				</Table.Body>
-			</Table>
+			<div style={{padding:"10px"}}>
+				<Header textAlign='center'>CASES</Header>
+				<Table celled>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Title</Table.HeaderCell>
+							<Table.HeaderCell>Type</Table.HeaderCell>
+							<Table.HeaderCell>Location</Table.HeaderCell>
+							<Table.HeaderCell>Status</Table.HeaderCell>
+							<Table.HeaderCell>Date</Table.HeaderCell>
+							<Table.HeaderCell>Creator</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{listitems}
+					</Table.Body>
+				</Table>
+			</div>
 		)
 	}
 }

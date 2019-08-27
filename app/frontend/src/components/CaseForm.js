@@ -99,9 +99,9 @@ export default class CaseForm extends React.Component {
 
 		return (
 			
-			<Form onSubmit={this.onSubmit}  style={{width:700}}>
+			<Form onSubmit={this.onSubmit} style={{padding:"10px"}}>
 
-				<Header textAlign='center'>CREATE A CASE </Header>
+				<Header textAlign='center'>CREATE A CASE</Header>
 				<Grid>
 					<Grid.Column floated= 'right' textAlign='right' >
 						<Popup content='Enter all the required information and press Create.' 

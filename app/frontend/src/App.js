@@ -197,7 +197,7 @@ class App extends React.Component {
                         user={this.state.user}
                         />
 
-                    <Segment id="login" style={{right: "0px"}}>
+                    <Segment id="login">
 
                         <Switch>
 

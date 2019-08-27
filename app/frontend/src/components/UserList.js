@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from 'semantic-ui-react';
+import {Table, Header} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
 export default class UserList extends React.Component {
@@ -58,18 +58,21 @@ export default class UserList extends React.Component {
 		})
 
 		return (
-			<Table celled>
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell>Name</Table.HeaderCell>
-						<Table.HeaderCell>Email</Table.HeaderCell>
-						<Table.HeaderCell>Access rights</Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{listitems}
-				</Table.Body>
-			</Table>
+			<div style={{padding:"10px"}}>
+				<Header textAlign='center'>USERS</Header>
+				<Table celled>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Name</Table.HeaderCell>
+							<Table.HeaderCell>Email</Table.HeaderCell>
+							<Table.HeaderCell>Access rights</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{listitems}
+					</Table.Body>
+				</Table>
+			</div>
 		)
 	}
 }

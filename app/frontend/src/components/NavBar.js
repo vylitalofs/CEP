@@ -10,7 +10,7 @@ export default class SideNavbar extends React.Component {
 		if (this.props.isLogged) {
 			if (this.props.user.isAdmin) {
 				navbar = 
-					<Segment id="nav" style={{left: "auto", maxWidth: "200px", minHeight: "400px"}}>
+					<Segment id="nav" style={{left: "auto", minWidth:"200px", maxWidth: "200px", minHeight: "400px"}}>
 						<br/>
 						<Menu text vertical>
 							<List>
@@ -26,7 +26,7 @@ export default class SideNavbar extends React.Component {
 					</Segment>
 			} else {
 				navbar = 
-					<Segment id="nav" style={{left: "auto"}}>
+					<Segment id="nav" style={{left: "auto", minWidth:"200px", maxWidth: "200px", minHeight: "400px"}}>
 						<Menu text vertical>
 							<List>
 								<List.Item><Link to="/cases"><Icon name="folder outline"  size='large'/> &nbsp;Cases</Link></List.Item>
