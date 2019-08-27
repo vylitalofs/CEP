@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {Segment} from 'semantic-ui-react';
 import Menu from './components/Menu';
 import NavBar from './components//NavBar';
@@ -215,7 +215,8 @@ class App extends React.Component {
 
                             <Route path="/newuser" render={() =>
                                 (this.state.isLogged && this.state.user.isAdmin) ?
-                                    <UserForm token={this.state.token}/> :
+                                    <UserForm token={this.state.token}
+                                        history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
 
@@ -224,7 +225,8 @@ class App extends React.Component {
                                     <UserView 
                                         token={this.state.token} 
                                         id={match.params.id}
-                                        isAdmin={this.state.user.isAdmin}/> :
+                                        isAdmin={this.state.user.isAdmin}
+                                        history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
 
@@ -240,7 +242,8 @@ class App extends React.Component {
                                         token={this.state.token}
                                         types={this.state.types}
                                         locations={this.state.locations}
-                                        statuses={this.state.statuses}/> :
+                                        statuses={this.state.statuses}
+                                        history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
 
@@ -253,7 +256,8 @@ class App extends React.Component {
                                         types={this.state.types}
                                         locations={this.state.locations}
                                         statuses={this.state.statuses}
-                                        isAdmin={this.state.user.isAdmin}/> :
+                                        isAdmin={this.state.user.isAdmin} 
+                                        history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
 
@@ -268,4 +272,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default withRouter(App);

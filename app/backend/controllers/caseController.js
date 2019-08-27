@@ -134,7 +134,10 @@ exports.case_create = [
 
                 newcase.save(function (err) {
                     if (err) { return next(err); }
-                    res.status(200).json({"message":"success"});
+                    res.status(200).json({
+                        "message":"success",
+                        "caseId":newcase._id
+                    });
                 });
             })
         })

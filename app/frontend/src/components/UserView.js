@@ -157,7 +157,7 @@ export default class UserView extends React.Component {
 
         fetch("/api/user/" + this.props.id, request).then(response => {
             if (response.ok) {
-                alert("User removed successfully!")
+                this.props.history.push("/users");
             }
             else {
                 console.log("Server responded with status: " + response.status);

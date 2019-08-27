@@ -59,7 +59,7 @@ export default class UserForm extends React.Component {
             password:this.state.password,
 		}
 
-		this.register(user)
+		this.createUser(user)
 
 		this.setState({
 			firstName:"",
@@ -71,7 +71,7 @@ export default class UserForm extends React.Component {
 		})
 	}
 
-	register = (user) => {
+	createUser = (user) => {
         let request = {
             method:"POST",
             mode:"cors",
@@ -81,12 +81,16 @@ export default class UserForm extends React.Component {
 
         fetch("/api/user/create", request).then(response => {
             if (response.ok) {
-                alert("Register successful!")
+                response.json().then(data => {
+                	this.props.history.push("/user/"+data.userId);
+				})
             } else {
+            	alert("User creation failed.")
                 console.log("Server responded with status: " + response.status);
             }
         }).catch(error => {
-
+        	alert("User creation failed.")
+			console.log(error);
         })
     }
 	

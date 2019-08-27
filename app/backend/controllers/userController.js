@@ -84,7 +84,10 @@ exports.user_create = [
 
             user.save(function (err) {
                 if (err) { return next(err); }
-                res.status(200).json({"message":"success"});
+                res.status(200).json({
+                    "message":"success",
+                    "userId":user._id
+                });
             })
         }
     }

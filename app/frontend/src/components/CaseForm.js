@@ -72,12 +72,16 @@ export default class CaseForm extends React.Component {
 
 		fetch("/api/case/create", request).then(response => {
 			if (response.ok) {
-				alert("Case Created!")
-			} 
+				response.json().then(data => {
+					this.props.history.push("/case/"+data.caseId);
+				})
+			}
 			else {
+				alert("Case creation failed.")
 				console.log("Server responded with status: "+response.status);
 			}
 		}).catch(error => {
+			alert("Case creation failed.")
 			console.log(error);
 		})
 	}

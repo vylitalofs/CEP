@@ -164,7 +164,7 @@ export default class CaseView extends React.Component {
 
         fetch("/api/case/" + this.props.id, request).then(response => {
             if (response.ok) {
-                alert("Case removed successfully!")
+                this.props.history.push("/cases");
             }
             else {
                 console.log("Server responded with status: " + response.status);
