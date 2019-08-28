@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, Grid, Header} from 'semantic-ui-react';
+import {Table, Header} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import Moment from 'moment';
 
