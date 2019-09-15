@@ -4,7 +4,7 @@ let Schema = mongoose.Schema({
 	ttl:Number,
 	token:String,
 	userId:String,
-	isAdmin:Boolean,
+	accessLevel:Number,
 });
 
 module.exports = mongoose.model("Session", Schema);

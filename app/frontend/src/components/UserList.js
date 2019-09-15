@@ -7,8 +7,6 @@ export default class UserList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			removeIndex:-1,
-			editIndex:-1,
 			list:[],
 		}
 	}
@@ -46,7 +44,24 @@ export default class UserList extends React.Component {
 	render() {
 		let listitems = this.state.list.map((user, index) => {
 			let link = "/user/"+user._id
-			let usertype = user.isAdmin ? "Admin" : "User"
+			let usertype
+
+			switch (user.accessLevel) {
+				case 0:
+					usertype = "Disabled";
+					break;
+				case 1:
+					usertype = "Basic User";
+					break;
+				case 2:
+					usertype = "Manager";
+					break;
+				case 3:
+					usertype = "Admin";
+					break;
+				case 4:
+					usertype = "Super";
+			}
 			
 			return (
 				<Table.Row key={user._id}>

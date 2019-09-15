@@ -9,7 +9,7 @@ export default class UserForm extends React.Component {
 			firstName:"",
 			lastName:"",
 			email:"",
-			isAdmin:"false",
+			accessLevel:"1",
             password:"",
             confirmPassword:""
 		}
@@ -39,6 +39,11 @@ export default class UserForm extends React.Component {
 			return;
 		}
 
+		if (this.state.accessLevel === "") {
+			alert("AccessLevel required.");
+			return;
+		}
+
 		if (this.state.password.length < 8) {
 			alert("Password must be at least eight characters long.");
 			return;
@@ -49,13 +54,11 @@ export default class UserForm extends React.Component {
 			return;
 		}
 
-		let isAdmin = this.state.isAdmin === "true"
-
 		let user = {
 			firstName:this.state.firstName,
 			lastName:this.state.lastName,
 			email:this.state.email,
-			isAdmin:isAdmin,
+			accessLevel:this.state.accessLevel,
             password:this.state.password,
 		}
 
@@ -65,7 +68,7 @@ export default class UserForm extends React.Component {
 			firstName:"",
 			lastName:"",
 			email:"",
-			isAdmin:"false",
+			accessLevel:"1",
             password:"",
             confirmPassword:""
 		})
@@ -137,15 +140,17 @@ export default class UserForm extends React.Component {
 
 				<Form.Group>
 					<Form.Field>
-						<label htmlFor="isAdmin">Access Rights:</label>
-						<select name="isAdmin"
+						<label htmlFor="accessLevel">Access Rights:</label>
+						<select name="accessLevel"
 								className="ui dropdown"
 								input type="hidden" 
 								onChange={this.onChange}
-								value={this.state.isAdmin}>
+								value={this.state.accessLevel}>
 								
-								<option value="false">Basic user</option>
-								<option value="true">Admin</option>
+								<option value="0">Disabled</option>
+								<option value="1">Basic user</option>
+								<option value="2">Manager</option>
+								<option value="3">Admin</option>
 						</select>
 					</Form.Field>
 				</Form.Group>

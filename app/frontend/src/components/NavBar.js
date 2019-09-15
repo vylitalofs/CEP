@@ -8,7 +8,7 @@ export default class SideNavbar extends React.Component {
 		let navbar = null
 
 		if (this.props.isLogged) {
-			if (this.props.user.isAdmin) {
+			if (this.props.user.accessLevel > 2) {
 				navbar = 
 					<Segment id="nav" style={{left: "auto", minWidth:"200px", maxWidth: "200px", minHeight: "400px"}}>
 						<br/>

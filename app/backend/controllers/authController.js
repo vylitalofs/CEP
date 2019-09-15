@@ -21,7 +21,7 @@ exports.generateSession = function(user) {
 		"userId":user._id,
 		"ttl":ttl,
 		"token":token,
-		"isAdmin":user.isAdmin,
+		"accessLevel":user.accessLevel,
 	})
 	return session
 }
@@ -35,23 +35,23 @@ exports.isOwnDataOrAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
+
 		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
 
-		if (session.isAdmin) {
+		// Allow if accessing own data
+		if (req.method == "GET" && req.params.id === session.userId) {
 			return next();
 		}
 
-		if (req.params.id === session.userId && req.method == "GET") {
-			return next();
+		// Don't let anyone increase anyones AccessLevel above their own
+		if (req.method == "PUT" && req.body.accessLevel > session.accessLevel) {
+			req.body.accessLevel = session.accessLevel
 		}
 
-		// In case of user info update on non-admin account
-		// always make sure user does not attempt to change admin status
-		if (req.params.id === session.userId && req.method == "PUT") {
-			req.body.isAdmin = false
-
+		// Allow if admin or super
+		if (session.accessLevel >= 3) {
 			return next();
 		}
 
@@ -67,11 +67,12 @@ exports.isUserAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
+
 		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
 
-		if (session.isAdmin) {
+		if (session.accessLevel >= 3) {
 			return next();
 		}
 
@@ -99,7 +100,8 @@ exports.isUserLogged = (req, res, next) => {
 			Session.deleteOne({"_id":session._id}, function(err) {
 				return res.status(403).json({"message":"forbidden"});
 			});
-		} else {
+		}
+		else {
 			req.session = {};
 			req.session.email = session.email;
 			session.ttl = now + ttl_diff;

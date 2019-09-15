@@ -9,7 +9,7 @@ export default class UserView extends React.Component {
 			firstName:"",
 			lastName:"",
 			email:"",
-			isAdmin:"false",
+			accessLevel:"1",
             password:"",
             confirmPassword:"",
 			edit:false,
@@ -31,8 +31,6 @@ export default class UserView extends React.Component {
 		fetch("/api/user/" + this.props.id, request).then(response => {
 			if (response.ok) {
 				response.json().then(data => {
-					// convert to string for easier handling in form
-					data.isAdmin = data.isAdmin ? "true" : "false"
 					this.setState(data)
 				}).catch(error => {
 					console.log("Error in parsing response json")
@@ -109,14 +107,11 @@ export default class UserView extends React.Component {
 			return;
 		}
 
-		// Convert back to boolean
-		let isAdmin = this.state.isAdmin === "true"
-
 		let user = {
 			firstName:this.state.firstName,
 			lastName:this.state.lastName,
 			email:this.state.email,
-			isAdmin:isAdmin,
+			accessLevel:this.state.accessLevel,
             password:this.state.password,
 		}
 
@@ -126,7 +121,7 @@ export default class UserView extends React.Component {
 			firstName:"",
 			lastName:"",
 			email:"",
-			isAdmin:"false",
+			accessLevel:"1",
             password:"",
             confirmPassword:"",
             edit:false
@@ -171,7 +166,7 @@ export default class UserView extends React.Component {
 		let edit = !this.state.edit ? {display:'none'} : {};
 		let noedit = this.state.edit ? {display:'none'} : {};
 		let remove = !this.state.remove ? {display:'none'} : {};
-		let noremove = (this.state.remove || !this.props.isAdmin) ? {display:'none'} : {};
+		let noremove = (this.state.remove || !this.props.accessLevel > 2) ? {display:'none'} : {};
 
 		return (
 			<Form>
@@ -211,16 +206,18 @@ export default class UserView extends React.Component {
 
 				<Form.Group>
 					<Form.Field>
-						<label htmlFor="isAdmin">Access Rights:</label>
-						<select name="isAdmin"
+						<label htmlFor="accessLevel">Access Rights:</label>
+						<select name="accessLevel"
 								className="ui dropdown"
 		                        onChange={this.onChange}
-		                        disabled={!(this.state.edit && this.props.isAdmin)}
+		                        disabled={!(this.state.edit && this.props.accessLevel > 2)}
 		                        inputtype="hidden" 
-								value={this.state.isAdmin}>
-								
-								<option value="false">Basic user</option>				 		
-		  				 		<option value="true">Admin</option>
+								value={this.state.accessLevel}>
+
+								<option value="0">Disabled</option>
+								<option value="1">Basic user</option>
+								<option value="2">Manager</option>
+								<option value="3">Admin</option>
 		 				</select>
 					</Form.Field>
 				</Form.Group>

@@ -225,7 +225,7 @@ export default class CaseView extends React.Component {
 						<label htmlFor="title">Case Title:</label>
 						<input type="text"
 	                           name="title"
-	                           disabled={!this.state.edit}
+	                           disabled={!(this.state.edit && (this.props.accessLevel > 2 || this.state.creatorId == this.props.user._id))}
 							   onChange={this.onChange}
 							   value={this.state.title}/>
 					</Form.Field>
@@ -235,7 +235,7 @@ export default class CaseView extends React.Component {
 						<select name="status"
 								className="ui dropdown"
 								inputtype="hidden"
-								disabled={!(this.state.edit && this.props.isAdmin)}
+								disabled={!(this.state.edit && this.props.accessLevel > 1)}
 								onChange={this.onChange}
 								value={this.state.status}
 								>
@@ -301,7 +301,7 @@ export default class CaseView extends React.Component {
 				<label style={{fontWeight: "bold"}}>Case Description:</label>
 				<Form.Field 
 					control={TextArea}
-                    disabled={!this.state.edit}
+                    disabled={!(this.state.edit && (this.props.accessLevel > 2 || this.state.creatorId == this.props.user._id))}
 					inputtype="text"
 					name="description"
 					onChange={this.onChange}
@@ -311,7 +311,7 @@ export default class CaseView extends React.Component {
 				<label style={{fontWeight: "bold"}}>Handler Comment:</label>
 				<Form.Field
 					control={TextArea}
-                    disabled={!(this.state.edit && this.props.isAdmin)}
+                    disabled={!(this.state.edit && (this.props.accessLevel > 1))}
 					inputtype="text"
 					name="adminComment"
 					onChange={this.onChange}
@@ -322,11 +322,11 @@ export default class CaseView extends React.Component {
 				<Grid>
 					<Grid.Column>
 						{/* eslint-disable-next-line */}
-						<Button onClick={this.onEdit} disabled={this.state.remove || (this.state.creatorId != this.props.user._id && !this.props.isAdmin)} floated='left' style={noedit}>Edit</Button>
+						<Button onClick={this.onEdit} disabled={this.state.remove || (this.state.creatorId != this.props.user._id && !this.props.accessLevel > 2)} floated='left' style={noedit}>Edit</Button>
 						<Button onClick={this.onCancel} floated='left' style={edit}>Cancel</Button>
 						<Button onClick={this.onSubmit} floated='left' style={edit}>Submit</Button>
 						{/* eslint-disable-next-line */}
-						<Button onClick={this.onRemove} disabled={this.state.edit || (this.state.creatorId != this.props.user._id && !this.props.isAdmin)} floated='right' style={noremove}>Remove</Button>
+						<Button onClick={this.onRemove} disabled={this.state.edit || (this.state.creatorId != this.props.user._id && !this.props.accessLevel > 2)} floated='right' style={noremove}>Remove</Button>
 						<Button onClick={this.onCancelRemove} floated='right' style={remove}>Cancel</Button>
 						<Button onClick={this.onSubmitRemove} floated='right' style={remove}>Submit</Button>
 					</Grid.Column>

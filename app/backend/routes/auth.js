@@ -35,11 +35,11 @@ router.post("/login", function(req, res) {
 			return res.status(422).json({"error":"wrong credentials"});			
 		}
 
-		if (user.isDisabled) {
-			return res.status(403).json({"error":"useraccount disabled"});			
-		}
-
 		if (user.validatePassword(req.body.password)) {
+
+			if (user.accessLevel == 0) {
+				return res.status(403).json({"error":"useraccount disabled"});			
+			}
 
 			let session = authController.generateSession(user);
 
@@ -50,7 +50,7 @@ router.post("/login", function(req, res) {
 				return res.status(200).json({
 					"token":session.token,
 					"user": {
-						"isAdmin":user.isAdmin,
+						"accessLevel":user.accessLevel,
 						"email":user.email,
 						"firstName":user.firstName,
 						"lastName":user.lastName,

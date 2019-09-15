@@ -142,7 +142,7 @@ class App extends React.Component {
     //LOGIN API
   
     handleStatus = (status) => {
-        if(status === 403) {
+        if (status === 403) {
             this.setState({
                 token:"",
                 isLogged:false,
@@ -208,13 +208,13 @@ class App extends React.Component {
                             }/>
 
                             <Route path="/users" render={() =>
-                                (this.state.isLogged && this.state.user.isAdmin) ?
+                                (this.state.isLogged && this.state.user.accessLevel > 2) ?
                                     <UserList token={this.state.token}/> :
                                     <Redirect to="/"/>
                             }/>
 
                             <Route path="/newuser" render={() =>
-                                (this.state.isLogged && this.state.user.isAdmin) ?
+                                (this.state.isLogged && this.state.user.accessLevel > 2) ?
                                     <UserForm token={this.state.token}
                                         history={this.props.history}/> :
                                     <Redirect to="/"/>
@@ -225,7 +225,7 @@ class App extends React.Component {
                                     <UserView 
                                         token={this.state.token} 
                                         id={match.params.id}
-                                        isAdmin={this.state.user.isAdmin}
+                                        accessLevel={this.state.user.accessLevel}
                                         history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
@@ -256,7 +256,7 @@ class App extends React.Component {
                                         types={this.state.types}
                                         locations={this.state.locations}
                                         statuses={this.state.statuses}
-                                        isAdmin={this.state.user.isAdmin} 
+                                        accessLevel={this.state.user.accessLevel} 
                                         history={this.props.history}/> :
                                     <Redirect to="/"/>
                             }/>
