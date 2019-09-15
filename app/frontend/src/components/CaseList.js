@@ -8,8 +8,6 @@ export default class CaseList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			removeIndex:-1,
-			editIndex:-1,
 			list:[]
 		}
 	}
