@@ -7,12 +7,11 @@ var apiRouter = require('./routes/api');
 var authRouter = require('./routes/auth');
 const Session = require("./models/session");
 
-var authController = require('./controllers/authController'); 
+var authController = require('./controllers/authController');
 
 var app = express();
 
 const config = require('./config.json')
-
 
 // MongoDB with Mongoose
 var mongoose = require('mongoose');
@@ -21,7 +20,6 @@ mongoose.connect(config.mongo).then(
 	error => {console.log("Error in connecting Mongodb:"+error)}
 );
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api", authController.isUserLogged, apiRouter);
-app.use('/', authRouter);
+app.use('/login', authController.login);
+app.use('/logout', authController.logout);
 
 module.exports = app;
