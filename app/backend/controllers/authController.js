@@ -29,7 +29,6 @@ generateSession = function(user) {
 	return session
 }
 
-//router.post("/logout", function(req, res) {
 exports.logout = (req, res, next) => {
 
 	let token = req.headers.token;
@@ -49,7 +48,6 @@ exports.logout = (req, res, next) => {
 
 }
 
-//router.post("/login", function(req, res) {
 exports.login = (req, res, next) => {
 
 	if (!req.body || !req.body.email || !req.body.password) {

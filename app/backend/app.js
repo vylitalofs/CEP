@@ -4,7 +4,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var apiRouter = require('./routes/api');
-var authRouter = require('./routes/auth');
 const Session = require("./models/session");
 
 var authController = require('./controllers/authController');
