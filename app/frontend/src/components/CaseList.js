@@ -32,34 +32,31 @@ export default class CaseList extends React.Component {
 				}).catch(error => {
 					console.log("Error in parsing response json")
 				});
-			}
-			else {
+			} else {
 				console.log("Server responded with status: " + response.statusText);
 			}
 		}).catch(error => {
 			console.log(error);
 		})
 	}
-	
 
 	render() {
-		let listitems = this.state.list.map((thiscase, index) => {
 
-			let link = "/case/"+thiscase._id
+		let listitems = this.state.list.map((thiscase, index) => {
 			
 			return (
 				<Table.Row key={thiscase._id}>
-					<Table.Cell><Link to={link}>{thiscase.title}</Link></Table.Cell>
+					<Table.Cell><Link to={"/case/"+thiscase._id}>{thiscase.title}</Link></Table.Cell>
 					<Table.Cell>{thiscase.type.name}</Table.Cell>
 					<Table.Cell>{thiscase.location.name}</Table.Cell>
 					<Table.Cell>{thiscase.status.name}</Table.Cell>
 					<Table.Cell>{Moment(thiscase.dateCreated).format('DD.MM.YYYY')}</Table.Cell>
-					<Table.Cell>{thiscase.creator.firstName} {thiscase.creator.lastName}</Table.Cell>
-				</Table.Row>	
+					<Table.Cell>{thiscase.creator.lastName}</Table.Cell>
+				</Table.Row>
 			)
-		})	
+		});
 	
-		return(
+		return (
 			<div style={{padding:"10px"}}>
 				<Header textAlign='center'>CASES</Header>
 				<Table celled>
@@ -78,6 +75,6 @@ export default class CaseList extends React.Component {
 					</Table.Body>
 				</Table>
 			</div>
-		)
+		);
 	}
 }
