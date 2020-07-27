@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var Session = require('../models/session');
 const { body, validationResult } = require('express-validator');
 const { sanitizeBody } = require('express-validator');
 
@@ -16,13 +17,13 @@ exports.user_detail = function(req, res, next) {
 
 // GET User List
 exports.user_list = function(req, res, next) {
-  User.find({}, '_id firstName lastName email accessLevel')
+	User.find({}, '_id firstName lastName email accessLevel')
 	.sort([['lastName', 'ascending']])
 	.exec(function (err, list_users) {
-		if (err) { 
-			return next(err); 
+		if (err) {
+			return next(err);
 		}
-		res.json(list_users)
+		res.json(list_users);
 	});
 };
 
@@ -39,7 +40,7 @@ exports.user_delete = function(req, res, next) {
 	});
 };
 
-// POST, User Create 
+// POST, User Create
 exports.user_create = [
 
 	// Validate fields.
@@ -56,8 +57,6 @@ exports.user_create = [
 	sanitizeBody('password').escape(),
 	sanitizeBody('accessLevel').toInt(),
 
-	// TODO: Make sure admin does not attempt to create a super user
-
 	// Process request after validation and sanitization.
 	(req, res, next) => {
 
@@ -68,7 +67,25 @@ exports.user_create = [
 			res.status(500).json(errors);
 			return;
 		}
-		else {
+
+		// Get token
+		let token = req.headers.token;
+
+		if (!token) {
+			return res.status(403).json({"message":"forbidden"});
+		}
+
+		// Find session
+		Session.findOne({"token":token}, function(err, session) {
+			if (err || !session) {
+				return res.status(403).json({"message":"forbidden"});
+			}
+
+			// Don't let anyone create a user with an AccessLevel above their own
+			if (req.body.accessLevel > session.accessLevel) {
+				req.body.accessLevel = session.accessLevel;
+			}
+
 			var user = new User({
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
@@ -79,33 +96,34 @@ exports.user_create = [
 			user.setPassword(req.body.password);
 
 			user.save(function (err) {
-				if (err) { 
-					return next(err); 
+				if (err) {
+					return next(err);
 				}
 				res.status(200).json({
 					"message":"success",
 					"userId":user._id
 				});
 			})
-		}
+		})
 	}
 ];
 
-// PUT, User Update 
+// PUT, User Update
 exports.user_update = [
 
-	 // Validate fields.
+	// Validate fields.
 	body('firstName').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
 	body('lastName').isLength({ min: 1 }).trim().withMessage('Last name must be specified.'),
 	body('email').isLength({ min: 3 }).trim().isEmail().normalizeEmail().withMessage('Email-address must be specified.'),
 	body('accessLevel').isLength({ min: 1 }).trim().withMessage('AccessLevel must be specified.'),
+	body('password').trim(),
 
 	// Sanitize fields.
 	sanitizeBody('firstName').escape(),
 	sanitizeBody('lastName').escape(),
 	sanitizeBody('email').escape(),
-	sanitizeBody('password').escape(),
 	sanitizeBody('accessLevel').toInt(),
+	sanitizeBody('password').escape(),
 
 	// Process request after validation and sanitization.
 	(req, res, next) => {
@@ -119,7 +137,6 @@ exports.user_update = [
 		}
 		else {
 			User.findById(req.params.id, function (err, user) {
-
 				if (err || user == null) {
 					var err = new Error('User not found');
 					err.status = 404;
@@ -136,13 +153,19 @@ exports.user_update = [
 					_id: req.params.id
 				});
 
-				if (req.body.password && req.body.password.Length < 5) {
-					newuser.setPassword(req.body.password)
+				// Update password if we got a new one
+				if (req.body.password) {
+					if (req.body.password.length > 4) {
+						newuser.setPassword(req.body.password);
+					} else {
+						res.status(422).json({"message":"Password is too short!"});
+						return;
+					}
 				}
 
 				user.update(newuser, function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({"message":"success"});
 				});

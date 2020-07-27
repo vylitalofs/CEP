@@ -24,13 +24,12 @@ generateSession = function(user) {
 		"ttl":ttl,
 		"token":token,
 		"accessLevel":user.accessLevel,
-	})
+	});
 	
-	return session
+	return session;
 }
 
 exports.logout = (req, res, next) => {
-
 	let token = req.headers.token;
 
 	if (token) {
@@ -39,43 +38,36 @@ exports.logout = (req, res, next) => {
 				console.log("Find session failed. Still logging out");
 			}
 			if (session) {
-				session.remove()
+				session.remove();
 			}
 		});
 	}
 
 	return res.status(200).json({"message":"session closed"});
-
 }
 
 exports.login = (req, res, next) => {
-
 	if (!req.body || !req.body.email || !req.body.password) {
-		return res.status(422).json({"error":"wrong credentials"});		
-	}
-
-	if (req.body.email.length < 4 || req.body.password.length < 8) {
-		return res.status(422).json({"error":"wrong credentials"});		
+		return res.status(422).json({"error":"wrong credentials"});
 	}
 
 	User.findOne({"email":req.body.email}, function(err, user) {
 
 		if (err || !user) {
-			return res.status(422).json({"error":"wrong credentials"});			
+			return res.status(422).json({"error":"wrong credentials"});
 		}
 
 		if (user.validatePassword(req.body.password)) {
-
 			if (user.accessLevel == 0) {
-				return res.status(403).json({"error":"useraccount disabled"});			
+				return res.status(403).json({"error":"useraccount disabled"});
 			}
 
 			let session = generateSession(user);
 
 			session.save(function(err, session) {
 				if (err) {
-					return res.status(422).json({"error":"wrong credentials"});						
-				} 
+					return res.status(422).json({"error":"wrong credentials"});
+				}
 				return res.status(200).json({
 					"token":session.token,
 					"user": {
@@ -87,9 +79,8 @@ exports.login = (req, res, next) => {
 					}
 				});
 			});
-		} 
-		else {
-			return res.status(422).json({"error":"wrong credentials"});				
+		} else {
+			return res.status(422).json({"error":"wrong credentials"});
 		}
 	});
 }
@@ -103,22 +94,21 @@ exports.isOwnDataOrAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
-
 		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
 
-		// Allow if accessing own data
-		if (req.method == "GET" && req.params.id === session.userId) {
+		// Don't let anyone increase anyones AccessLevel above their own
+		if (req.method == "PUT" && req.body.accessLevel > session.accessLevel) {
+			req.body.accessLevel = session.accessLevel;
+		}
+
+		// Allow if accessing own data, for view and update
+		if ((req.method == "PUT" || req.method == "GET") && req.params.id === session.userId) {
 			return next();
 		}
 
-		// Don't let anyone increase anyones AccessLevel above their own
-		if (req.method == "PUT" && req.body.accessLevel > session.accessLevel) {
-			req.body.accessLevel = session.accessLevel
-		}
-
-		// Allow if admin or super
+		// Allow all access if admin or super
 		if (session.accessLevel >= 3) {
 			return next();
 		}
@@ -135,7 +125,6 @@ exports.isUserAdmin = (req, res, next) => {
 	}
 
 	Session.findOne({"token":token}, function(err, session) {
-
 		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
@@ -157,7 +146,6 @@ exports.isUserLogged = (req, res, next) => {
 	}
 	
 	Session.findOne({"token":token}, function(err, session) {
-
 		if (err || !session) {
 			return res.status(403).json({"message":"forbidden"});
 		}
@@ -168,8 +156,7 @@ exports.isUserLogged = (req, res, next) => {
 			Session.deleteOne({"_id":session._id}, function(err) {
 				return res.status(403).json({"message":"forbidden"});
 			});
-		}
-		else {
+		} else {
 			req.session = {};
 			req.session.email = session.email;
 			session.ttl = now + ttl_diff;
