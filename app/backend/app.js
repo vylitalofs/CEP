@@ -4,7 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var apiRouter = require('./routes/api');
-const Session = require("./models/session");
+//const Session = require("./models/session");
 
 var authController = require('./controllers/authController');
 
@@ -15,8 +15,8 @@ const config = require('./config.json')
 // MongoDB with Mongoose
 var mongoose = require('mongoose');
 mongoose.connect(config.mongo).then(
-	() => {console.log("Success in connecting Mongodb")},
-	error => {console.log("Error in connecting Mongodb:"+error)}
+	() => {console.log("Success in connecting with Mongodb")},
+	error => {console.log("Error in connecting with Mongodb:" + error)}
 );
 
 app.use(logger('dev'));

@@ -12,7 +12,7 @@ export default class LoginForm extends React.Component {
 	}
 
 	onChange = (event) => {
-		let state = {}
+		let state = {};
 		state[event.target.name] = event.target.value;
 		this.setState(state);
 	}
@@ -31,72 +31,67 @@ export default class LoginForm extends React.Component {
 		}
 
 		let request = {
-            method:"POST",
-            mode:"cors",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(user)
-        }
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-Type":"application/json"},
+			body:JSON.stringify(user)
+		}
 
 		fetch("/login", request).then(response => {
+			if (response.ok) {
+				response.json().then(data => {
+					this.props.onLogin(data);
+					return;
+				}).catch(error => {
+					console.log("Error parsing JSON");
+					alert("Login failed.");
+				})
+			} else {
+				if (response.status === 403) {
+					alert("User Account disabled.");
+					return;
+				}
 
-            if (response.ok) {
-                response.json().then(data => {
-                	this.props.onLogin(data)
-                	return
-                }).catch(error => {
-                    console.log("Error parsing JSON");
-                	alert("Login failed.")
-                })
-            } 
-            else {
+				if (response.status === 422) {
+					alert("Incorrect credentials.");
+					return;
+				}
 
-            	if (response.status === 403) {
-            		alert("User Account disabled.")
-            		return
-            	}
+				console.log("Server responded with status: "+response.status);
+				alert("Login failed.");
+			}
 
-            	if (response.status === 422) {
-            		alert("Incorrect credentials.")
-            		return
-            	}
-
-                console.log("Server responded with status: "+response.status);
-                alert("Login failed.")
-            }
-
-        }).catch(error => {
-        	alert("Login failed.")
-            console.log(error);
-        })
+		}).catch(error => {
+			alert("Login failed.");
+			console.log(error);
+		});
 	}
 
 	render() {
 		return (
-
 			<Form onSubmit={this.onSubmit} style={{maxWidth:350, margin:'auto'}}>
-
 				<Form.Field>
-					<div className="ui left icon input">		
+					<div className="ui left icon input">
 						<input type="text"
-							name="email"
-							placeholder="Email"
-							required="required"
-							maxLength="40"
-							onChange={this.onChange}
-							value={this.state.email}/>
+							   name="email"
+							   placeholder="Email"
+							   required="required"
+							   maxLength="40"
+							   onChange={this.onChange}
+							   value={this.state.email}/>
 						<i className="mail icon"></i>
 					</div>
 				</Form.Field>
 
 				<Form.Field>
-					<div className="ui left icon input">	
+					<div className="ui left icon input">
 						<input type="password"
-							name="password"
-							placeholder="Password"
-							required="required"
-							maxLength="40"
-							onChange={this.onChange}
-							value={this.state.password}/>
+							   name="password"
+							   placeholder="Password"
+							   required="required"
+							   maxLength="40"
+							   onChange={this.onChange}
+							   value={this.state.password}/>
 						<i className="lock icon"></i>
 					</div>
 				</Form.Field>
@@ -107,8 +102,6 @@ export default class LoginForm extends React.Component {
 					</Grid.Column>
 				</Grid>
 			</Form>
-
-		)
+		);
 	}
-
 }

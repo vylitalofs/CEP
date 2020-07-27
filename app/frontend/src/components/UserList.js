@@ -7,7 +7,7 @@ export default class UserList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			list:[],
+			list:[]
 		}
 	}
 
@@ -29,7 +29,7 @@ export default class UserList extends React.Component {
 						list:data
 					})
 				}).catch(error => {
-					console.log("Error in parsing response json")
+					console.log("Error in parsing response json");
 				});
 			}
 			else {
@@ -37,14 +37,14 @@ export default class UserList extends React.Component {
 			}
 		}).catch(error => {
 			console.log(error);
-		})
+		});
 	}
 	
 
 	render() {
 		let listitems = this.state.list.map((user, index) => {
-			let link = "/user/"+user._id
-			let usertype
+			let link = "/user/"+user._id;
+			let usertype;
 
 			switch (user.accessLevel) {
 				case 0:
@@ -68,8 +68,8 @@ export default class UserList extends React.Component {
 					<Table.Cell><Link to={link}>{user.firstName} {user.lastName}</Link></Table.Cell>
 					<Table.Cell>{user.email}</Table.Cell>
 					<Table.Cell>{usertype}</Table.Cell>
-				</Table.Row>		
-			)	
+				</Table.Row>
+			);
 		})
 
 		return (
@@ -88,6 +88,6 @@ export default class UserList extends React.Component {
 					</Table.Body>
 				</Table>
 			</div>
-		)
+		);
 	}
 }

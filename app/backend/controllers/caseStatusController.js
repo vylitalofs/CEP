@@ -16,13 +16,13 @@ exports.caseStatus_detail = function(req, res, next) {
 
 // GET caseStatus List
 exports.caseStatus_list = function(req, res, next) {
-  CaseStatus.find()
+	CaseStatus.find()
 	.sort([['index', 'ascending']])
 	.exec(function (err, list_caseStatuses) {
-		if (err) { 
-			return next(err); 
+		if (err) {
+			return next(err);
 		}
-		res.json(list_caseStatuses)
+		res.json(list_caseStatuses);
 	});
 };
 
@@ -39,7 +39,7 @@ exports.caseStatus_delete = function(req, res, next) {
 	});
 };
 
-// POST, caseStatus Create 
+// POST, caseStatus Create
 exports.caseStatus_create = [
 
 	// Validate fields.
@@ -70,8 +70,8 @@ exports.caseStatus_create = [
 			});
 
 			status.save(function (err) {
-				if (err) { 
-					return next(err); 
+				if (err) {
+					return next(err);
 				}
 				res.status(200).json({"message":"success"});
 			});
@@ -79,7 +79,7 @@ exports.caseStatus_create = [
 	}
 ];
 
-// PUT, caseStatus Update 
+// PUT, caseStatus Update
 exports.caseStatus_update = [
 
 	// Validate fields.
@@ -104,7 +104,6 @@ exports.caseStatus_update = [
 		}
 		else {
 			CaseStatus.findById(req.params.id, function (err, thisStatus) {
-
 				if (err || caseStatus == null) {
 					var err = new Error('CaseStatus not found');
 					err.status = 404;
@@ -119,8 +118,8 @@ exports.caseStatus_update = [
 				});
 
 				thisStatus.update(newStatus, function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({"message":"success"});
 				});
