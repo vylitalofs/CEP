@@ -16,13 +16,13 @@ exports.location_detail = function(req, res, next) {
 
 // GET Location List
 exports.location_list = function(req, res, next) {
-  Location.find()
+	Location.find()
 	.sort([['index', 'ascending']])
 	.exec(function (err, list_locations) {
-		if (err) { 
-			return next(err); 
+		if (err) {
+			return next(err);
 		}
-		res.json(list_locations)
+		res.json(list_locations);
 	});
 };
 
@@ -39,7 +39,7 @@ exports.location_delete = function(req, res, next) {
 	});
 };
 
-// POST, Location Create 
+// POST, Location Create
 exports.location_create = [
 
 	// Validate fields.
@@ -61,15 +61,14 @@ exports.location_create = [
 			return;
 		}
 		else {
-			var location = new Location(
-				{
-					name: req.body.name,
-					index: req.body.index,
-				});
+			var location = new Location({
+				name: req.body.name,
+				index: req.body.index,
+			});
 
 			location.save(function (err) {
-				if (err) { 
-					return next(err); 
+				if (err) {
+					return next(err);
 				}
 				res.status(200).json({"message":"success"});
 			});
@@ -77,7 +76,7 @@ exports.location_create = [
 	}
 ];
 
-// PUT, Location Update 
+// PUT, Location Update
 exports.location_update = [
 
 	// Validate fields.
@@ -107,16 +106,15 @@ exports.location_update = [
 					return next(err);
 				}
 				
-				var newlocation = new Location(
-				{
+				var newlocation = new Location({
 					name: req.body.name,
 					index: req.body.index,
 					_id: req.params.id
 				});
 
 				location.update(newlocation, function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({"message":"success"});
 				});

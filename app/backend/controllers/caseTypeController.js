@@ -16,13 +16,13 @@ exports.caseType_detail = function(req, res, next) {
 
 // GET caseType List
 exports.caseType_list = function(req, res, next) {
-  CaseType.find()
+	CaseType.find()
 	.sort([['index', 'ascending']])
 	.exec(function (err, list_caseTypes) {
 		if (err) {
-			return next(err); 
+			return next(err);
 		}
-		res.json(list_caseTypes)
+		res.json(list_caseTypes);
 	});
 };
 
@@ -67,8 +67,8 @@ exports.caseType_create = [
 			});
 
 			caseType.save(function (err) {
-				if (err) { 
-					return next(err); 
+				if (err) {
+					return next(err);
 				}
 				res.status(200).json({"message":"success"});
 			});
@@ -89,7 +89,6 @@ exports.caseType_update = [
 
 	// Process request after validation and sanitization.
 	(req, res, next) => {
-
 		// Extract the validation errors from a request.
 		const errors = validationResult(req);
 
@@ -113,8 +112,8 @@ exports.caseType_update = [
 				});
 
 				thisType.update(newcaseType, function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({"message":"success"});
 				});

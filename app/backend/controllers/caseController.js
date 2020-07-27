@@ -1,12 +1,8 @@
 const { body, validationResult } = require('express-validator');
-const { sanitizeBody } = require('express-validator');
 
 var Case = require('../models/case');
-var User = require('../models/user');
 var Session = require('../models/session');
-var Location = require('../models/location')
-var CaseType = require('../models/caseType')
-var CaseStatus = require('../models/caseStatus')
+var CaseStatus = require('../models/caseStatus');
 
 // GET Case
 exports.case_detail = function(req, res, next) {
@@ -34,15 +30,16 @@ exports.case_list = function(req, res, next) {
 	.populate('creator', 'firstName lastName')
 	.populate('location')
 	.exec(function (err, list_cases) {
-		if (err) { 
-			return next(err); 
+		if (err) {
+			return next(err);
 		}
-		res.json(list_cases)
+		res.json(list_cases);
 	});
 };
 
 // DELETE Case
 exports.case_delete = function(req, res, next) {
+	
 	// Get token
 	let token = req.headers.token;
 
@@ -52,13 +49,11 @@ exports.case_delete = function(req, res, next) {
 
 	// Find session and userId
 	Session.findOne({"token":token}, function(err, session) {
-		
 		if (err || !session || !session.userId) {
 			return res.status(403).json({"message":"forbidden"});
 		}
 
 		Case.findById(req.params.id, function (err, thiscase) {
-
 			if (err || thiscase == null) {
 				var err = new Error('Case not found');
 				err.status = 404;
@@ -76,9 +71,8 @@ exports.case_delete = function(req, res, next) {
 	});
 };
 
-// POST, Case Create 
+// POST, Case Create
 exports.case_create = [
-
 	// Validate fields.
 	body('title').isLength({ min: 1 }).trim().withMessage('Title must be specified.'),
 	body('description').isLength({ min: 1 }).trim().withMessage('Description required.'),
@@ -87,14 +81,13 @@ exports.case_create = [
 
 	// Process request after validation and sanitization.
 	(req, res, next) => {
-
 		// Extract the validation errors from a request.
 		const errors = validationResult(req);
 		
 		if (!errors.isEmpty()) {
-			console.log(errors)
+			console.log(errors);
 			res.status(500).json(errors);
-			return
+			return;
 		}
 
 		// Get token
@@ -106,13 +99,12 @@ exports.case_create = [
 
 		// Find session and userId
 		Session.findOne({"token":token}, function(err, session) {
-
 			if (err || !session) {
 				return res.status(403).json({"message":"forbidden"});
 			}
 
 			if (!session.userId) {
-				console.log("userid not found")
+				console.log("userid not found");
 				return res.status(403).json({"message":"forbidden"});
 			}
 
@@ -120,7 +112,7 @@ exports.case_create = [
 			CaseStatus.findOne({"defaultStatus":true}, function(err, thisStatus) {
 
 				if (err || !thisStatus) {
-					console.log(err)
+					console.log(err);
 					return res.status(403).json({"message":"forbidden"});
 				}
 
@@ -137,16 +129,16 @@ exports.case_create = [
 				});
 
 				newcase.save(function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({
 						"message":"success",
 						"caseId":newcase._id
 					});
 				});
-			})
-		})
+			});
+		});
 	}
 ];
 
@@ -168,7 +160,7 @@ exports.case_update = [
 
 		if (!errors.isEmpty()) {
 			res.status(500).json(errors);
-			return
+			return;
 		}
 
 		// Get token
@@ -180,13 +172,11 @@ exports.case_update = [
 
 		// Find session and userId
 		Session.findOne({"token":token}, function(err, session) {
-
 			if (err || !session || !session.userId) {
 				return res.status(403).json({"message":"forbidden"});
 			}
 
 			Case.findById(req.params.id, function (err, thiscase) {
-
 				if (err || thiscase == null) {
 					var err = new Error('Case not found');
 					err.status = 404;
@@ -200,13 +190,13 @@ exports.case_update = [
 
 				// Allow only an admin or case creator to update description and title
 				if (session.accessLevel < 3 && session.userId != thiscase.creator._id) {
-					req.body.title = thiscase.title
-					req.body.description = thiscase.description
+					req.body.title = thiscase.title;
+					req.body.description = thiscase.description;
 				}
 
 				// Allow only manager or higher to update status
 				if (session.accessLevel < 2) {
-					req.body.status = thiscase.status
+					req.body.status = thiscase.status;
 				}
 				
 				var newcase = new Case({
@@ -223,8 +213,8 @@ exports.case_update = [
 				});
 
 				thiscase.update(newcase, function (err) {
-					if (err) { 
-						return next(err); 
+					if (err) {
+						return next(err);
 					}
 					res.status(200).json({"message":"success"});
 				});

@@ -12,23 +12,23 @@ var UserSchema = new Schema({
 });
 
 UserSchema.methods.isDisabled = function() {
-	return this.accessLevel == 0
+	return this.accessLevel == 0;
 };
 
 UserSchema.methods.isBasicUser = function() {
-	return this.accessLevel == 1
+	return this.accessLevel == 1;
 };
 
 UserSchema.methods.isManager = function() {
-	return this.accessLevel == 2
+	return this.accessLevel == 2;
 };
 
 UserSchema.methods.isAdmin = function() {
-	return this.accessLevel == 3
+	return this.accessLevel == 3;
 };
 
 UserSchema.methods.isSuper = function() {
-	return this.accessLevel == 4
+	return this.accessLevel == 4;
 };
 
 UserSchema.methods.setPassword = function(password) {

@@ -3,13 +3,13 @@ import {Link} from 'react-router-dom';
 import {List, Menu, Segment, Icon} from 'semantic-ui-react';
 
 export default class SideNavbar extends React.Component {
-    
+
 	render() {
 		let navbar = null
 
 		if (this.props.isLogged) {
 			if (this.props.user.accessLevel > 2) {
-				navbar = 
+				navbar =
 					<Segment id="nav" style={{left: "auto", minWidth:"200px", maxWidth: "200px", minHeight: "400px"}}>
 						<br/>
 						<Menu text vertical>
@@ -24,8 +24,9 @@ export default class SideNavbar extends React.Component {
 							</List>
 						</Menu>
 					</Segment>
-			} else {
-				navbar = 
+			}
+			else {
+				navbar =
 					<Segment id="nav" style={{left: "auto", minWidth:"200px", maxWidth: "200px", minHeight: "400px"}}>
 						<Menu text vertical>
 							<List>

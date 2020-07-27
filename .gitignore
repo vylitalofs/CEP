@@ -89,3 +89,4 @@ typings/
 
 # app config file
 /app/backend/config.json
+app/.vscode/

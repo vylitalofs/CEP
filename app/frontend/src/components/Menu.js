@@ -32,7 +32,7 @@ export default class TopMenu extends Component {
 		return (
 			<Menu style={{marginTop: '10px'}}>
 				<Menu secondary>
-					<Menu.Item header position='left'> 
+					<Menu.Item header position='left'>
 						<img src={logo} alt="Logo" style={{width: 56, height: 50, marginLeft: 30}}/>
 						&nbsp; &nbsp; &nbsp; Company Enhancement Platform
 					</Menu.Item>
