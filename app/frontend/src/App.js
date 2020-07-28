@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {Segment} from 'semantic-ui-react';
 import TopBar from './components/TopBar';
-import NavBar from './components//NavBar';
+import SideNav from './components/SideNav';
 import LoginForm from './components/LoginForm';
 import UserList from './components/UserList';
 import UserForm from './components/UserForm';
@@ -191,10 +191,9 @@ class App extends React.Component {
 
 				<Segment.Group horizontal>
 
-					<NavBar
-						isLogged={this.state.isLogged}
-						user={this.state.user}
-						/>
+					<SideNav isLogged={this.state.isLogged}
+							user={this.state.user}
+					/>
 
 					<Segment id="main">
 						<Switch>
