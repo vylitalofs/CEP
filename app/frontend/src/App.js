@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {Segment} from 'semantic-ui-react';
-import Menu from './components/Menu';
+import TopBar from './components/TopBar';
 import NavBar from './components//NavBar';
 import LoginForm from './components/LoginForm';
 import UserList from './components/UserList';
@@ -77,7 +77,7 @@ class App extends React.Component {
 			}
 		}).catch(error => {
 			console.log(error);
-		})
+		});
 	}
 
 	getTypes = () => {
@@ -105,7 +105,7 @@ class App extends React.Component {
 			}
 		}).catch(error => {
 			console.log(error);
-		})
+		});
 
 		return types;
 	}
@@ -133,7 +133,7 @@ class App extends React.Component {
 			}
 		}).catch(error => {
 			console.log(error);
-		})
+		});
 	}
 
 	handleStatus = (status) => {
@@ -183,10 +183,10 @@ class App extends React.Component {
 		return (
 			<div className="App" style={{width:900, margin:"auto"}}>
 
-				<Menu isLogged={this.state.isLogged}
-					  logout={this.logout}
-					  user={this.state.user}
-					  style={{maxHeight: "80px"}}
+				<TopBar isLogged={this.state.isLogged}
+						logout={this.logout}
+						user={this.state.user}
+						style={{maxHeight: "80px"}}
 				/>
 
 				<Segment.Group horizontal>
